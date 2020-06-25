@@ -1,32 +1,36 @@
 <template>
-<div>
-    <div class="page-title">
-        Phase de placement
+    <div>
+        <div class="page-title">
+            Phase de placements
+        </div>
+        <MapVue></MapVue>
+        <Fleet></Fleet>
+
+        <!--<pre>{{$game}}</pre>-->
     </div>
-    <Map></Map>
-    <Fleet></Fleet>
-</div>
-
-
 </template>
 
 <script>
-import Map from '@/components/Placement/Map.vue'
-import Fleet from '@/components/Placement/Fleet.vue'
+    import MapVue from '@/components/Placement/Map.vue'
+    import Fleet from '@/components/Placement/Fleet.vue'
+    import {Map} from "@/classes/Map.js";
 
-export default {
-  name: "Placement",
-  components: {
-      Map,
-      Fleet
-  },
-  props: ['game'],
-    data: function(){
-      return{
-          player : this.game.player
-      }
-    }
-};
+    export default {
+        name: "Placement",
+        components: {
+            MapVue,
+            Fleet
+        },
+        data: function () {
+            return {
+                player: this.$game.player
+            }
+        },
+        created: function () {
+            this.$game.player.map = new Map();
+        }
+
+    };
 
 </script>
 
