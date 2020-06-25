@@ -12,12 +12,13 @@ export class Fleet {
   }
 
   selectBoat(target) {
-    console.log("selectBoat");
     if (this.selectedBoat !== null) {
       this.selectedBoat.unselect();
     }
-
     this.selectedBoat = target;
-    target.select();
+
+    if (target !== null) {
+      target.select();
+    }
   }
 }

@@ -10,9 +10,11 @@
           :key="m"
           @mouseover="hoverSquare"
           @click="clickSquare"
-          v-bind:class="{ hovered: map.hoverMap[n - 1][m - 1], placed : map.boatMap[n - 1][m - 1]}"
-        >
-        </div>
+          v-bind:class="{
+            hovered: map.hoverMap[n - 1][m - 1],
+            placed: map.boatMap[n - 1][m - 1]
+          }"
+        ></div>
       </div>
     </div>
   </v-row>
@@ -24,16 +26,15 @@ export default {
   data: function() {
     return {
       game: this.$game,
-      player: this.$game.player,
       map: this.$game.player.map
     };
   },
   methods: {
     hoverSquare: function(event) {
-      this.map.hoverSquare(event.target, this.$game.player.fleet.selectedBoat);
+      this.map.hoverSquare(event.target, this.$game.player.fleet);
     },
     clickSquare: function(event) {
-      this.map.placeBoat(event.target, this.$game.player.fleet.selectedBoat);
+      this.map.placeBoat(event.target, this.$game.player.fleet);
     }
   }
 };
@@ -62,7 +63,7 @@ export default {
   &.hovered {
     background: mediumvioletred;
   }
-  &.placed{
+  &.placed {
     background: green;
   }
 }

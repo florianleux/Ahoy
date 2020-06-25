@@ -13,7 +13,7 @@ export class Boat {
   }
 
   select() {
-    if(!this.disabled){
+    if (!this.disabled) {
       this.selected = true;
     }
   }
@@ -22,7 +22,7 @@ export class Boat {
     this.selected = false;
   }
 
-  disable(){
-    this.disabled=true;
+  disable() {
+    this.disabled = true;
   }
 }

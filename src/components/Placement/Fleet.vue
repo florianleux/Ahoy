@@ -45,16 +45,12 @@ export default {
     background: grey;
   }
 
-  &.disabled{
-    color:grey;
-    &:hover{
+  &.disabled {
+    color: grey;
+    &:hover {
       background: initial;
       cursor: not-allowed;
     }
   }
-
-
-
 }
-
 </style>
