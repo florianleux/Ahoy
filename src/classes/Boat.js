@@ -3,6 +3,7 @@ export class Boat {
   coord = [];
   horizontal = true;
   selected = false;
+  disabled = false;
 
   constructor(size) {
     this.size = size;
@@ -12,10 +13,16 @@ export class Boat {
   }
 
   select() {
-    this.selected = true;
+    if(!this.disabled){
+      this.selected = true;
+    }
   }
 
   unselect() {
     this.selected = false;
+  }
+
+  disable(){
+    this.disabled=true;
   }
 }

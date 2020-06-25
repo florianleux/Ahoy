@@ -5,7 +5,7 @@
       <v-col cols="12" v-for="(boat, index) in fleet.boats" :key="index">
         <div
           class="boat"
-          :class="{ selected: boat.selected }"
+          :class="{ selected: boat.selected, disabled: boat.disabled }"
           @click="selectBoat(boat)"
         >
           <div class="name">Bateau n°{{ index + 1 }}</div>
@@ -35,11 +35,26 @@ export default {
 </script>
 
 <style lang="less">
-.boat:hover {
-  background: grey;
+.boat {
+  &.selected {
+    background: red;
+  }
+
+  &:hover {
+    cursor: pointer;
+    background: grey;
+  }
+
+  &.disabled{
+    color:grey;
+    &:hover{
+      background: initial;
+      cursor: not-allowed;
+    }
+  }
+
+
+
 }
 
-.boat.selected {
-  background: red;
-}
 </style>

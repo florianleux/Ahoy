@@ -9,10 +9,9 @@
           v-for="m in 10"
           :key="m"
           @mouseover="hoverSquare"
-          v-bind:class="{ hovered: map.hoverMap[n - 1][m - 1] }"
+          @click="clickSquare"
+          v-bind:class="{ hovered: map.hoverMap[n - 1][m - 1], placed : map.boatMap[n - 1][m - 1]}"
         >
-          {{ n }},{{ m }}
-          {{ map.hoverMap[n - 1][m - 1] }}
         </div>
       </div>
     </div>
@@ -32,6 +31,9 @@ export default {
   methods: {
     hoverSquare: function(event) {
       this.map.hoverSquare(event.target, this.$game.player.fleet.selectedBoat);
+    },
+    clickSquare: function(event) {
+      this.map.placeBoat(event.target, this.$game.player.fleet.selectedBoat);
     }
   }
 };
@@ -57,9 +59,11 @@ export default {
   border: 1px solid red;
   height: 100%;
 
-  &:hover,
   &.hovered {
     background: mediumvioletred;
+  }
+  &.placed{
+    background: green;
   }
 }
 </style>
