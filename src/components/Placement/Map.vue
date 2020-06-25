@@ -1,54 +1,65 @@
 <template>
-    <v-row id="map">
-        <div class="canvas">
-            <div class="line" v-for="n in 10" :key="n">
-                <div class="square" :data-y="n" :data-x="m" v-for="m in 10" :key="m" @mouseover="hoverSquare">
-
-                </div>
-            </div>
+  <v-row id="map" v-if="map.hoverMap[9]">
+    <div class="canvas">
+      <div class="line" v-for="n in 10" :key="n">
+        <div
+          class="square"
+          :data-y="n"
+          :data-x="m"
+          v-for="m in 10"
+          :key="m"
+          @mouseover="hoverSquare"
+          v-bind:class="{ hovered: map.hoverMap[n - 1][m - 1] }"
+        >
+          {{ n }},{{ m }}
+          {{ map.hoverMap[n - 1][m - 1] }}
         </div>
-    </v-row>
+      </div>
+    </div>
+  </v-row>
 </template>
 
 <script>
-    export default {
-        name: "MapVue",
-        methods: {
-            hoverSquare: function (event) {
-                this.map.hoverSquare(event);
-            }
-        },
-        data: function () {
-            return {
-                map: this.$game.player.map
-            }
-        }
+export default {
+  name: "MapVue",
+  data: function() {
+    return {
+      game: this.$game,
+      player: this.$game.player,
+      map: this.$game.player.map
     };
-
+  },
+  methods: {
+    hoverSquare: function(event) {
+      this.map.hoverSquare(event.target, this.$game.player.fleet.selectedBoat);
+    }
+  }
+};
 </script>
 
-
 <style scoped lang="less">
+@grid-size: 500px;
 
-    @grid-size: 600px;
+.canvas {
+  margin: auto;
+  width: @grid-size;
+  height: @grid-size;
+  border: 1px solid red;
+}
 
-    .canvas {
-        margin: auto;
-        width: @grid-size;
-        height: @grid-size;
-        border: 1px solid red;
-    }
+.line {
+  height: @grid-size / 10;
+}
 
-    .line {
-        height: @grid-size/10;
-    }
+.square {
+  float: left;
+  width: 10%;
+  border: 1px solid red;
+  height: 100%;
 
-    .square {
-        float: right;
-        width: 10%;
-        border: 1px solid red;
-        height: 100%;
-    }
-
+  &:hover,
+  &.hovered {
+    background: mediumvioletred;
+  }
+}
 </style>
-

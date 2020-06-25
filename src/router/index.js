@@ -10,14 +10,14 @@ const routes = [
     path: "/",
     name: "Home",
     component: Home,
-    props: true,
+    props: true
   },
-    {
-        path: "/",
-        name: "Placement",
-        component: Placement,
-        props: true,
-    },
+  {
+    path: "/",
+    name: "Placement",
+    component: Placement,
+    props: true
+  }
 ];
 
 const router = new VueRouter({

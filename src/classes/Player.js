@@ -1,9 +1,14 @@
-import {Fleet} from '@/classes/Fleet.js';
-export class Player {
+import { Fleet } from "@/classes/Fleet.js";
+import { Map } from "@/classes/Map.js";
 
-  constructor(name){
+export class Player {
+  constructor(name) {
     this.name = name;
+    this.map = new Map();
     this.fleet = new Fleet();
   }
 
+  setName(name) {
+    this.name = name;
+  }
 }

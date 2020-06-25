@@ -1,3 +1,3 @@
 export class Game {
-    player = null;
+  player = null;
 }

@@ -1,14 +1,21 @@
-export class Boat{
+export class Boat {
+  size = 0;
+  coord = [];
+  horizontal = true;
+  selected = false;
 
-    size =0;
-    coord = [];
-    horizontal = true;
-    selected = false;
-
-    constructor(size){
-        this.size = size;
-        for (let i=0; i<size; i++){
-            this.coord.push([0,0]);
-        }
+  constructor(size) {
+    this.size = size;
+    for (let i = 0; i < size; i++) {
+      this.coord.push([0, 0]);
     }
+  }
+
+  select() {
+    this.selected = true;
+  }
+
+  unselect() {
+    this.selected = false;
+  }
 }

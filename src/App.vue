@@ -1,15 +1,17 @@
 <template>
   <div id="app">
-    <router-view/>
-
+    <router-view />
+    <pre>{{ game }}</pre>
   </div>
 </template>
 
 <script>
-
 export default {
   name: "App",
-  data: () => ({
-    })
+  data: function() {
+    return {
+      game: this.$game
+    };
+  }
 };
 </script>
