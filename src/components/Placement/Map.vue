@@ -1,5 +1,9 @@
 <template>
-  <v-row id="map" v-if="map.hoverMap[9]" @wheel.prevent="throttledRotateBoat">
+  <v-row
+    id="map"
+    v-if="playerMap.hoverMap[9]"
+    @wheel.prevent="throttledRotateBoat"
+  >
     <div class="canvas">
       <div class="line" v-for="n in 10" :key="n">
         <div
@@ -11,9 +15,9 @@
           @mouseover="hoverSquare"
           @click="clickSquare"
           v-bind:class="{
-            hovered: map.hoverMap[n - 1][m - 1],
-            placed: map.boatMap[n - 1][m - 1],
-            koClick: !map.okClick
+            hovered: playerMap.hoverMap[n - 1][m - 1],
+            placed: playerMap.boatMap[n - 1][m - 1],
+            koClick: !playerMap.okClick
           }"
         ></div>
       </div>
@@ -29,24 +33,26 @@ export default {
   data: function() {
     return {
       game: this.$game,
-      fleet: this.$game.player.fleet,
-      map: this.$game.player.map,
-      target: null,
+      playerFleet: this.$game.player.fleet,
+      playerMap: this.$game.player.map,
+      enemyMap: this.$game.player.enemy.map,
+      enemyFleet: this.$game.player.enemy.fleet,
+      target: null
     };
   },
   methods: {
     hoverSquare: function(event) {
       this.target = event.target;
-      this.map.hoverSquare(event.target, this.$game.player.fleet);
+      this.playerMap.hoverSquare(event.target, this.$game.player.fleet);
     },
     clickSquare: function(event) {
-      this.map.putBoat(event.target, this.$game.player.fleet);
+      this.playerMap.putBoat(event.target, this.$game.player.fleet);
     },
     rotateBoat: function() {
-      if (this.fleet.selectedBoat) {
-        this.fleet.selectedBoat.horizontal = !this.fleet.selectedBoat
-          .horizontal;
-        this.map.hoverSquare(this.target, this.$game.player.fleet);
+      if (this.playerFleet.selectedBoat) {
+        this.playerFleet.selectedBoat.horizontal = !this.playerFleet
+          .selectedBoat.horizontal;
+        this.playerMap.hoverSquare(this.target, this.$game.player.fleet);
       }
     }
   },
@@ -55,6 +61,8 @@ export default {
       leading: true,
       trailing: false
     });
+
+    this.enemyMap.generateRandomMap(this.enemyFleet);
   }
 };
 </script>

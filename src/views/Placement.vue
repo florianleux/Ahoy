@@ -13,10 +13,10 @@
     </v-row>
     <v-row>
       <v-btn
-              :disabled="fleet.size != fleet.putBoats"
-              color="success"
-              class="mr-4 "
-              @click="startFight"
+        :disabled="playerFleet.size != playerFleet.putBoats"
+        color="success"
+        class="mr-4 "
+        @click="startFight"
       >
         FIGHT !
       </v-btn>
@@ -37,12 +37,12 @@ export default {
   data: function() {
     return {
       player: this.$game.player,
-      fleet: this.$game.player.fleet
+      playerFleet: this.$game.player.fleet
     };
   },
   methods: {
-    startFight: function(){
-      console.log("fight started");
+    startFight: function() {
+      this.$router.push({ name: "Fight" });
     }
   }
 };

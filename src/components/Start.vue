@@ -24,6 +24,7 @@
 
 <script>
 import { Player } from "@/classes/Player.js";
+import { Enemy } from "@/classes/Enemy.js";
 
 export default {
   data() {
@@ -38,7 +39,9 @@ export default {
   methods: {
     newGame() {
       this.$game.player = new Player(this.playerName);
+      this.$game.player.enemy = new Enemy("Adversaire");
       this.$router.push({ name: "Placement" });
+      console.log(this.$game.player);
     }
   }
 };

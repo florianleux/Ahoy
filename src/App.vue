@@ -2,10 +2,9 @@
   <v-app>
     <div id="app">
       <router-view />
-<!--      <pre>{{ game }}</pre>-->
+      <!--      <pre>{{ game }}</pre>-->
     </div>
   </v-app>
-
 </template>
 
 <script>

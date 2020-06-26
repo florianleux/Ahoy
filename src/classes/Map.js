@@ -87,7 +87,7 @@ export class Map {
           max = posX + half + remain <= 9 ? posX + half + remain : 9;
 
         for (let i = min; i <= max; i++) {
-          this.boatMap[posY].splice(i, 1, true);
+          this.boatMap[posY].splice(i, 1, selectedBoat.id);
           selectedBoat.coords.push([i, posY]);
         }
       } else {
@@ -95,12 +95,12 @@ export class Map {
           (max = posY + half + remain <= 9 ? posY + half + remain : 9);
 
         for (let i = min; i <= max; i++) {
-          this.boatMap[i].splice(posX, 1, true);
+          this.boatMap[i].splice(posX, 1, selectedBoat.id);
           selectedBoat.coords.push([posX, i]);
         }
       }
 
-      //Unselect the boat and add the boat in the fleet counter
+      //Unselect the boat and add the boat in the playerFleet counter
       selectedBoat.unselect();
       selectedBoat.disable();
       fleet.putBoats++;
@@ -122,5 +122,82 @@ export class Map {
     }
 
     return array;
+  }
+
+  generateRandomMap(fleet) {
+    var _this = this;
+    fleet.boats.reverse().forEach(function(boat) {
+      var boatCoords = _this._getRandomBoatCoords(boat);
+
+      boatCoords.forEach(function(boatCoord) {
+        var posX = boatCoord[0],
+          posY = boatCoord[1];
+
+        _this.boatMap[posY][posX] = boat.id;
+      });
+
+      boat.coords = boatCoords;
+    });
+  }
+
+  _getRandomInt(min, max) {
+    return Math.floor(Math.random() * Math.floor(max) + min);
+  }
+
+  _getRandomBoatCoords(boat) {
+    var _this = this,
+      centerX = -1000,
+      centerY = -1000,
+      boatSize = Number(boat.size - 1),
+      half = Math.floor(boatSize / 2),
+      remain = boatSize % 2,
+      coords = [],
+      tryCount = 1,
+      conflict = false;
+
+    while (!conflict) {
+      coords = [];
+      conflict = true;
+
+      boat.horizontal = Math.random() > 0.5 ? true : false;
+
+      if (boat.horizontal) {
+        (centerX = this._getRandomInt(half, this.width - 1 - half - remain)),
+          (centerY = this._getRandomInt(0, this.height - 1));
+
+        var min = centerX - half >= 0 ? centerX - half : 0,
+          max = centerX + half + remain <= 9 ? centerX + half + remain : 9;
+
+        for (let i = min; i <= max; i++) {
+          coords.push([i, centerY]);
+        }
+      } else {
+        (centerY = this._getRandomInt(half, this.height - 1 - half - remain)),
+          (centerX = this._getRandomInt(0, this.width - 1));
+
+        (min = centerY - half >= 0 ? centerY - half : 0),
+          (max = centerY + half + remain <= 9 ? centerY + half + remain : 9);
+
+        for (let i = min; i <= max; i++) {
+          coords.push([centerX, i]);
+        }
+      }
+
+      coords.forEach(function(coord) {
+        var posX = coord[0],
+          posY = coord[1];
+
+        if (_this.boatMap[posY][posX]) {
+          conflict = false;
+        }
+      });
+      tryCount++;
+      if (tryCount > 2000) {
+        alert("ERREUR MEMOIRE");
+        break;
+      }
+    }
+
+    return coords;
   }
 }
