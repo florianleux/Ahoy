@@ -1,3 +1,5 @@
+// Map Class
+
 export class Map {
   name = "default";
   height = 10;
@@ -12,12 +14,15 @@ export class Map {
   }
 
   hoverSquare(square, fleet) {
+    //Check if a boat is selected
     var selectedBoat = fleet.selectedBoat;
     if (selectedBoat === null) {
       return false;
     } else {
+      //Reset hover map
       this.hoverMap = this.resetMap();
       this.okClick = true;
+
       var posX = Number(square.dataset.x) - 1,
         posY = Number(square.dataset.y) - 1,
         boatSize = Number(selectedBoat.size) - 1,
@@ -28,13 +33,17 @@ export class Map {
         var min = posX - half >= 0 ? posX - half : 0,
           max = posX + half + remain <= 9 ? posX + half + remain : 9;
 
+        //Going through the boat (horizontal : posY is constant)
         for (let i = min; i <= max; i++) {
+          //Add all squares from the boat on the hoverMap
           this.hoverMap[posY].splice(i, 1, true);
+          // Block click if the hovered square has a bot put on
           if (this.boatMap[posY][i]) {
             this.okClick = false;
           }
         }
 
+        //Block click if a part of the boat is offlimit
         if (posX + half + remain > 9 || posX - half < 0) {
           this.okClick = false;
         }
@@ -42,13 +51,17 @@ export class Map {
         (min = posY - half >= 0 ? posY - half : 0),
           (max = posY + half + remain <= 9 ? posY + half + remain : 9);
 
+        //Going through the boat (vertical : posX is constant)
         for (let i = min; i <= max; i++) {
+          //Add all squares from the boat on the hoverMap
           this.hoverMap[i].splice(posX, 1, true);
+          // Block click if the hovered square has a bot put on
           if (this.boatMap[i][posX]) {
             this.okClick = false;
           }
         }
 
+        //Block click if a part of the boat is offlimit
         if (posY + half + remain > 9 || posY - half < 0) {
           this.okClick = false;
         }
@@ -56,6 +69,8 @@ export class Map {
     }
   }
 
+  // Add the boat to the boatMap (ie put the boat in the map)
+  // Mostly same logic as the hover function
   putBoat(square, fleet) {
     var selectedBoat = fleet.selectedBoat;
     if (selectedBoat === null || !this.okClick) {
@@ -83,12 +98,14 @@ export class Map {
         }
       }
 
+      //Unselect the boat and add the boat in the fleet counter
       selectedBoat.unselect();
       selectedBoat.disable();
       fleet.selectBoat(null);
     }
   }
 
+  //Reset function to generate a height*width 2d array
   resetMap() {
     var array = [];
 
