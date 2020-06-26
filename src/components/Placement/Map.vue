@@ -12,7 +12,8 @@
           @click="clickSquare"
           v-bind:class="{
             hovered: map.hoverMap[n - 1][m - 1],
-            placed: map.boatMap[n - 1][m - 1]
+            placed: map.boatMap[n - 1][m - 1],
+            koClick: !map.okClick
           }"
         ></div>
       </div>
@@ -39,7 +40,7 @@ export default {
       this.map.hoverSquare(event.target, this.$game.player.fleet);
     },
     clickSquare: function(event) {
-      this.map.placeBoat(event.target, this.$game.player.fleet);
+      this.map.putBoat(event.target, this.$game.player.fleet);
     },
     rotateBoat: function() {
       if (this.fleet.selectedBoat) {
@@ -79,7 +80,10 @@ export default {
   height: 100%;
 
   &.hovered {
-    background: mediumvioletred;
+    background: lightgreen;
+    &.koClick {
+      background: orangered;
+    }
   }
   &.placed {
     background: green;
