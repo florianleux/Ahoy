@@ -11,6 +11,7 @@
           <div class="name">Bateau n°{{ index + 1 }}</div>
           <div class="size">
             <span v-for="n in boat.size" :key="n">X</span>
+            <div>{{boat.coords}}</div>
           </div>
         </div>
       </v-col>

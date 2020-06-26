@@ -31,7 +31,7 @@ export default {
       game: this.$game,
       fleet: this.$game.player.fleet,
       map: this.$game.player.map,
-      target: null
+      target: null,
     };
   },
   methods: {

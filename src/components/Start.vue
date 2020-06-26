@@ -10,7 +10,7 @@
         <v-col cols="6">
           <v-btn
             :disabled="!valid"
-            color="success"
+            color="primary"
             class="mr-4"
             @click="newGame"
           >

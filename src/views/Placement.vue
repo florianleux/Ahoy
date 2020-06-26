@@ -11,6 +11,16 @@
         <Fleet></Fleet>
       </v-col>
     </v-row>
+    <v-row>
+      <v-btn
+              :disabled="fleet.size != fleet.putBoats"
+              color="success"
+              class="mr-4 "
+              @click="startFight"
+      >
+        FIGHT !
+      </v-btn>
+    </v-row>
   </div>
 </template>
 
@@ -26,8 +36,14 @@ export default {
   },
   data: function() {
     return {
-      player: this.$game.player
+      player: this.$game.player,
+      fleet: this.$game.player.fleet
     };
+  },
+  methods: {
+    startFight: function(){
+      console.log("fight started");
+    }
   }
 };
 </script>

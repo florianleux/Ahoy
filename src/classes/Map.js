@@ -9,8 +9,8 @@ export class Map {
   okClick = false;
 
   constructor() {
-    this.hoverMap = this.resetMap();
-    this.boatMap = this.resetMap();
+    this.hoverMap = this._resetMap();
+    this.boatMap = this._resetMap();
   }
 
   hoverSquare(square, fleet) {
@@ -20,7 +20,7 @@ export class Map {
       return false;
     } else {
       //Reset hover map
-      this.hoverMap = this.resetMap();
+      this.hoverMap = this._resetMap();
       this.okClick = true;
 
       var posX = Number(square.dataset.x) - 1,
@@ -88,6 +88,7 @@ export class Map {
 
         for (let i = min; i <= max; i++) {
           this.boatMap[posY].splice(i, 1, true);
+          selectedBoat.coords.push([i, posY]);
         }
       } else {
         (min = posY - half >= 0 ? posY - half : 0),
@@ -95,18 +96,20 @@ export class Map {
 
         for (let i = min; i <= max; i++) {
           this.boatMap[i].splice(posX, 1, true);
+          selectedBoat.coords.push([posX, i]);
         }
       }
 
       //Unselect the boat and add the boat in the fleet counter
       selectedBoat.unselect();
       selectedBoat.disable();
+      fleet.putBoats++;
       fleet.selectBoat(null);
     }
   }
 
   //Reset function to generate a height*width 2d array
-  resetMap() {
+  _resetMap() {
     var array = [];
 
     for (let i = 0; i < this.height; i++) {
