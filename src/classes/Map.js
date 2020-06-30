@@ -6,11 +6,13 @@ export class Map {
   width = 10;
   hoverMap = [];
   boatMap = [];
+  hitMap = [];
   okClick = false;
 
   constructor() {
     this.hoverMap = this._resetMap();
     this.boatMap = this._resetMap();
+    this.hitMap = this._resetMap();
   }
 
   hoverSquare(square, fleet) {

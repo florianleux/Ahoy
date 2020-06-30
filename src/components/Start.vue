@@ -41,7 +41,6 @@ export default {
       this.$game.player = new Player(this.playerName);
       this.$game.player.enemy = new Enemy("Adversaire");
       this.$router.push({ name: "Placement" });
-      console.log(this.$game.player);
     }
   }
 };

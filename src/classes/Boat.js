@@ -6,6 +6,7 @@ export class Boat {
   horizontal = true;
   selected = false;
   disabled = false;
+  destroyed = false;
 
   constructor(size, id) {
     this.id = id;
@@ -25,5 +26,12 @@ export class Boat {
 
   disable() {
     this.disabled = true;
+  }
+
+  hit() {
+    this.hp--;
+    if (this.hp === 0) {
+      this.destroyed = true;
+    }
   }
 }

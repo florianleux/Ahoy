@@ -9,7 +9,9 @@
           v-for="m in 10"
           :key="m"
           v-bind:class="{
-            placed: map.boatMap[n - 1][m - 1]
+            placed: map.boatMap[n - 1][m - 1],
+            hit: enemyMap.hitMap[n - 1][m - 1] == 'hit',
+            missed: enemyMap.hitMap[n - 1][m - 1] == 'missed'
           }"
         ></div>
       </div>
@@ -25,6 +27,7 @@ export default {
       game: this.$game,
       fleet: this.$game.player.fleet,
       map: this.$game.player.map,
+      enemyMap: this.$game.player.enemy.map,
       target: null
     };
   }
@@ -53,6 +56,13 @@ export default {
 
   &.placed {
     background: green;
+  }
+
+  &.hit {
+    background: black;
+  }
+  &.missed {
+    background: blue;
   }
 }
 </style>
