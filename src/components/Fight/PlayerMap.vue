@@ -1,5 +1,15 @@
 <template>
   <v-row id="map" v-if="map.boatMap[9]">
+    <div class="attack-result">
+      <transition
+        name="enemyAttackMessage"
+        enter-to-class="animate__animated animate__tada"
+        leave-to-class="animate__animated animate__fadeOut"
+      >
+        <div v-if="enemy.attackMessage">{{ enemy.attackMessage }}</div>
+      </transition>
+      <div v-if="!enemy.attackMessage">&nbsp;</div>
+    </div>
     <div class="canvas" :class="{ disabled: !enemy.turn }">
       <div class="line" v-for="n in 10" :key="n">
         <div
@@ -37,6 +47,21 @@ export default {
 
 <style scoped lang="less">
 @grid-size: 280px;
+
+#map {
+  float: left;
+  margin-top: @grid-size / 5 + 62px;
+  position: relative;
+}
+.attack-result {
+  position: absolute;
+  top: -25px;
+  width: 100px;
+  right: 50%;
+  text-align: center;
+  margin-right: -50px;
+  font-size: 13px;
+}
 
 .canvas {
   margin: auto;

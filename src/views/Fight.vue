@@ -3,7 +3,7 @@
     <div class="page-title">
       Phase de BAGARRE
     </div>
-    <v-row>
+    <v-row class="map-line">
       <v-col cols="6">
         <EnemyMap></EnemyMap>
       </v-col>
@@ -12,8 +12,19 @@
       </v-col>
     </v-row>
     <v-row class="turn-indication">
-      <div v-if="player.turn">C'est votre tour !</div>
-      <div v-if="enemy.turn">C'est au tour de votre adversaire !</div>
+      <transition
+        mode="out-in"
+        enter-active-class="animate__animated animate__flipInY"
+        leave-active-class="animate__animated animate__flipOutY"
+      >
+        <div class="text" v-bind:key="player.turn">
+          {{
+            player.turn
+              ? "C'est votre tour !"
+              : "C'est au tour de votre adversaire !"
+          }}
+        </div>
+      </transition>
     </v-row>
     <div v-if="player.status" class="endgame popin ">
       <div class="victory" v-if="player.status === 'VICTORY'">
@@ -50,6 +61,10 @@ export default {
 </script>
 
 <style scoped lang="less">
+.map-line {
+  margin-left: 80px;
+  position: relative;
+}
 .mask {
   display: block;
   position: absolute;
@@ -64,6 +79,11 @@ export default {
   color: white;
 }
 .turn-indication {
-  text-align: center;
+  .text {
+    margin: auto;
+    text-align: center;
+    font-size: 21px;
+    font-weight: bold;
+  }
 }
 </style>

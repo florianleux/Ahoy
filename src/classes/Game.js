@@ -8,7 +8,7 @@ export class Game {
     this.round++;
 
     if (this.player.enemy.turn) {
-      let enemyDelay = this._randomDelay(1500, 5000),
+      let enemyDelay = this._randomDelay(2000, 5000),
         _this = this;
 
       setTimeout(function() {

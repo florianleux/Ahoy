@@ -7,6 +7,12 @@ export class Enemy extends Character {
   direction = this._shuffleDirectionArray(["UP", "DOWN", "RIGHT", "LEFT"]);
   directionIndex = 0;
   hitStrike = 0;
+  attackMessage = false;
+  attackMessages = {
+    HIT: "Touché !",
+    DESTROYED: " Touché ! Coulé !",
+    MISSED: "A l'eau !"
+  };
 
   generateAttack(target) {
     // Coord Calculation
@@ -69,28 +75,17 @@ export class Enemy extends Character {
           posY = this.firstHit[1] - this.hitStrike;
           break;
       }
-      console.log("-------------------------------");
-      console.log("strategy");
-      console.log("FIRST HIT", this.firstHit);
-      console.log("HIT STRIKE", this.hitStrike);
-      console.log("DIRECTION INDEX", this.directionIndex);
-      console.log("DIRECTION", this.direction[this.directionIndex]);
-
-      console.log(posX, posY);
 
       if (posY < 1 || posY > 10 || posX < 1 || posX > 10) {
-        console.log("out of boundaries");
         this.directionIndex++;
         return false;
       } else {
         if (this.map.hitMap[posY - 1][posX - 1]) {
-          console.log("already hit");
           this.directionIndex++;
           return false;
         }
       }
 
-      console.log("good to go");
       return [posX, posY];
     }
   }
@@ -152,8 +147,15 @@ export class Enemy extends Character {
   }
 
   attack(target, posX, posY) {
-    let attackResult = super.attack(target, posX, posY);
-    console.log("result", attackResult);
+    let attackResult = super.attack(target, posX, posY),
+      _this = this;
+
+    this.attackMessage = this.attackMessages[attackResult];
+
+    setTimeout(function() {
+      _this.attackMessage = false;
+    }, 1500);
+
     this._postAttack(posX, posY, attackResult);
   }
 

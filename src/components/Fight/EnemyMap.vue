@@ -63,7 +63,7 @@ export default {
           _this.attackMessage = false;
         }, 1500);
 
-        setTimeout(function()  {
+        setTimeout(function() {
           _this.$game.nextRound();
         }, 800);
       }
@@ -78,6 +78,7 @@ export default {
 #map {
   position: relative;
   padding-top: 20px;
+  float: right;
 }
 
 .canvas {
