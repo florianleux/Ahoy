@@ -29,7 +29,9 @@ export default {
   },
   methods: {
     selectBoat: function(boat) {
-      this.$game.player.fleet.selectBoat(boat);
+      if (!boat.placed) {
+        this.$game.player.fleet.selectBoat(boat);
+      }
     }
   }
 };

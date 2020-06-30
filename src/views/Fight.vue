@@ -10,11 +10,10 @@
       <v-col cols="6">
         <PlayerMap></PlayerMap>
       </v-col>
-      <v-col>
-        <v-btn @click="randomize">
-          RANDOM
-        </v-btn>
-      </v-col>
+    </v-row>
+    <v-row class="turn-indication">
+      <div v-if="player.turn">C'est votre tour !</div>
+      <div v-if="enemy.turn">C'est au tour de votre adversaire !</div>
     </v-row>
     <div v-if="player.status" class="endgame popin ">
       <div class="victory" v-if="player.status === 'VICTORY'">
@@ -46,12 +45,6 @@ export default {
       enemy: this.$game.player.enemy,
       player: this.$game.player
     };
-  },
-  methods: {
-    randomize: function() {
-      this.enemy.map.boatMap = this.enemy.map._resetMap();
-      this.enemy.map.generateRandomMap(this.enemy.fleet);
-    }
   }
 };
 </script>
@@ -69,5 +62,8 @@ export default {
 
 .popin {
   color: white;
+}
+.turn-indication {
+  text-align: center;
 }
 </style>

@@ -1,30 +1,34 @@
 import { Character } from "@/classes/Character.js";
 
+// Enemy Class
 export class Enemy extends Character {
   turn = false;
-  lastHit = null;
   firstHit = null;
   direction = this._shuffleDirectionArray(["UP", "DOWN", "RIGHT", "LEFT"]);
   directionIndex = 0;
   hitStrike = 0;
 
   generateAttack(target) {
+    // Coord Calculation
     let coord = this._strategy();
 
+    // If the coord is out-of-bound or already hit, we generate another coord
     while (!coord) {
       coord = this._strategy();
     }
+
     let posX = coord[0],
       posY = coord[1];
+
+    //Attack with the calculated coords
     this.attack(target, posX, posY);
   }
 
-  _getRandomInt(min, max) {
-    return Math.floor(Math.random() * Math.floor(max) + min);
-  }
-
+  //Generate random coords (within map limits and not already used in attack)
   _randomHit() {
     let ok = false;
+
+    // If the coord has already been used to attack, try another random pair
     while (!ok) {
       var posX = this._getRandomInt(1, this.map.width);
       var posY = this._getRandomInt(1, this.map.height);
@@ -33,10 +37,13 @@ export class Enemy extends Character {
         ok = true;
       }
     }
+
     return [posX, posY];
   }
 
+  // Strategy function to generate next attack coords based on what happened last turn
   _strategy() {
+    // If the last attack didn't hit any boats, we generate random coords for next target
     if (!this.firstHit) {
       return this._randomHit();
     } else {
@@ -44,8 +51,7 @@ export class Enemy extends Character {
       switch (this.direction[this.directionIndex]) {
         case "DOWN":
           posX = this.firstHit[0];
-          posY = this.firstHit[1] - this.hitStrike;
-
+          posY = this.firstHit[1] + this.hitStrike;
           break;
 
         case "LEFT":
@@ -60,21 +66,31 @@ export class Enemy extends Character {
 
         case "UP":
           posX = this.firstHit[0];
-          posY = this.firstHit[1] + this.hitStrike;
+          posY = this.firstHit[1] - this.hitStrike;
           break;
       }
+      console.log("-------------------------------");
+      console.log("strategy");
+      console.log("FIRST HIT", this.firstHit);
+      console.log("HIT STRIKE", this.hitStrike);
+      console.log("DIRECTION INDEX", this.directionIndex);
+      console.log("DIRECTION", this.direction[this.directionIndex]);
 
-      if (
-        posY < 1 ||
-        posY > 10 ||
-        posX < 1 ||
-        posX > 10 ||
-        this.map.hitMap[posY - 1][posX - 1]
-      ) {
+      console.log(posX, posY);
+
+      if (posY < 1 || posY > 10 || posX < 1 || posX > 10) {
+        console.log("out of boundaries");
         this.directionIndex++;
         return false;
+      } else {
+        if (this.map.hitMap[posY - 1][posX - 1]) {
+          console.log("already hit");
+          this.directionIndex++;
+          return false;
+        }
       }
 
+      console.log("good to go");
       return [posX, posY];
     }
   }
@@ -122,8 +138,6 @@ export class Enemy extends Character {
               }
               break;
           }
-
-          this.lastHit = [posX, posY];
           this.hitStrike++;
         }
         break;
@@ -139,6 +153,7 @@ export class Enemy extends Character {
 
   attack(target, posX, posY) {
     let attackResult = super.attack(target, posX, posY);
+    console.log("result", attackResult);
     this._postAttack(posX, posY, attackResult);
   }
 
@@ -148,5 +163,9 @@ export class Enemy extends Character {
       [array[i], array[j]] = [array[j], array[i]];
     }
     return array;
+  }
+
+  _getRandomInt(min, max) {
+    return Math.floor(Math.random() * Math.floor(max) + min);
   }
 }

@@ -105,6 +105,7 @@ export class Map {
       //Unselect the boat and add the boat in the playerFleet counter
       selectedBoat.unselect();
       selectedBoat.disable();
+      selectedBoat.placed = true;
       fleet.putBoats++;
       fleet.selectBoat(null);
     }

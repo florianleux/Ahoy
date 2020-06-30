@@ -1,6 +1,6 @@
 <template>
   <v-row id="map" v-if="map.boatMap[9]">
-    <div class="canvas">
+    <div class="canvas" :class="{ disabled: !enemy.turn }">
       <div class="line" v-for="n in 10" :key="n">
         <div
           class="square"
@@ -26,6 +26,7 @@ export default {
     return {
       game: this.$game,
       fleet: this.$game.player.fleet,
+      enemy: this.$game.player.enemy,
       map: this.$game.player.map,
       enemyMap: this.$game.player.enemy.map,
       target: null
@@ -42,6 +43,10 @@ export default {
   width: @grid-size;
   height: @grid-size;
   border: 1px solid red;
+
+  &.disabled {
+    opacity: 0.5;
+  }
 }
 
 .line {

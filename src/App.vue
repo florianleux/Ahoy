@@ -12,3 +12,9 @@ export default {
   name: "App"
 };
 </script>
+
+<style lang="less">
+.v-application--wrap {
+  padding: 30px;
+}
+</style>
