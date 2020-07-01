@@ -11,6 +11,7 @@
         <PlayerMap></PlayerMap>
       </v-col>
     </v-row>
+    <PlayerProfile></PlayerProfile>
     <v-row class="turn-indication">
       <transition
         mode="out-in"
@@ -26,29 +27,68 @@
         </div>
       </transition>
     </v-row>
-    <div v-if="player.status" class="endgame popin ">
-      <div class="victory" v-if="player.status === 'VICTORY'">
-        <span>VICTORY</span>
-      </div>
 
-      <div class="defeat" v-if="player.status === 'DEFEAT'">
-        DEFEAT
-      </div>
+    <v-dialog v-model="player.victory" persistent width="500">
+      <v-card>
+        <v-card-title class="headline" primary-title>
+          VICTOIRE !
+        </v-card-title>
+        <v-card-text>
+          <div>Bravo {{ player.name }} !</div>
+          <div>Vous avez vaincu la flotte ennemie !</div>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" text @click="rerun">
+            Nouvelle partie
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 
-      <div class="mask"></div>
-    </div>
+    <v-dialog v-model="player.defeat" persistent width="500">
+      <v-card>
+        <v-card-title class="headline" primary-title>
+          DÉFAITE...
+        </v-card-title>
+        <v-card-text>
+          <div>Dommage {{ player.name }} !</div>
+          <div>
+            Votre adversaire {{ enemy.name }} a exterminé votre flotte...
+          </div>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" text @click="rerun">
+            Revanche !
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <!--    <v-btn @click="player.defeat = true">-->
+    <!--      defeat-->
+    <!--    </v-btn>-->
+    <!--    <v-btn @click="player.victory = true">-->
+    <!--      victory-->
+    <!--    </v-btn>-->
   </div>
 </template>
 
 <script>
 import PlayerMap from "@/components/Fight/PlayerMap.vue";
 import EnemyMap from "@/components/Fight/EnemyMap.vue";
+import PlayerProfile from "@/components/Fight/PlayerProfile.vue";
+import { Game } from "@/classes/Game.js";
+import { Player } from "@/classes/Player.js";
+import { Enemy } from "@/classes/Enemy.js";
 
 export default {
   name: "Fight",
   components: {
     PlayerMap,
-    EnemyMap
+    EnemyMap,
+    PlayerProfile
   },
   data: function() {
     return {
@@ -56,6 +96,15 @@ export default {
       enemy: this.$game.player.enemy,
       player: this.$game.player
     };
+  },
+  methods: {
+    rerun: function() {
+      let bufferName = this.player.name;
+      this.game = new Game();
+      this.$game.player = new Player(bufferName);
+      this.$game.player.enemy = new Enemy("Captain Bob");
+      this.$router.push({ name: "Placement" });
+    }
   }
 };
 </script>

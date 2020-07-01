@@ -7,8 +7,8 @@ export class Game {
     this.player.enemy.turn = !this.player.enemy.turn;
     this.round++;
 
-    if (this.player.enemy.turn) {
-      let enemyDelay = this._randomDelay(2000, 5000),
+    if (this.player.enemy.turn & !this.player.enemy.defeat) {
+      let enemyDelay = this._randomDelay(1000, 2500),
         _this = this;
 
       setTimeout(function() {
@@ -23,6 +23,6 @@ export class Game {
   _randomDelay(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min;
+    return Math.floor(Math.random() * (max - min)) + min;
   }
 }

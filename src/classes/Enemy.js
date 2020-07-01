@@ -78,9 +78,21 @@ export class Enemy extends Character {
 
       if (posY < 1 || posY > 10 || posX < 1 || posX > 10) {
         this.directionIndex++;
+        if(this.directionIndex>3){
+          this.firstHit = null;
+          this.hitStrike = 0;
+          this.directionIndex = 0;
+          this.direction = this._shuffleDirectionArray(this.direction);
+        }
         return false;
       } else {
         if (this.map.hitMap[posY - 1][posX - 1]) {
+          if(this.directionIndex>3){
+            this.firstHit = null;
+            this.hitStrike = 0;
+            this.directionIndex = 0;
+            this.direction = this._shuffleDirectionArray(this.direction);
+          }
           this.directionIndex++;
           return false;
         }
@@ -109,6 +121,8 @@ export class Enemy extends Character {
               if (posY === 10) {
                 this.directionIndex++;
                 this.hitStrike = 1;
+              } else {
+                this.hitStrike++;
               }
               break;
 
@@ -116,6 +130,8 @@ export class Enemy extends Character {
               if (posX === 1) {
                 this.directionIndex++;
                 this.hitStrike = 1;
+              } else {
+                this.hitStrike++;
               }
               break;
 
@@ -123,6 +139,8 @@ export class Enemy extends Character {
               if (posX === 10) {
                 this.directionIndex++;
                 this.hitStrike = 1;
+              } else {
+                this.hitStrike++;
               }
               break;
 
@@ -130,10 +148,11 @@ export class Enemy extends Character {
               if (posY === 1) {
                 this.directionIndex++;
                 this.hitStrike = 1;
+              } else {
+                this.hitStrike++;
               }
               break;
           }
-          this.hitStrike++;
         }
         break;
 
@@ -168,6 +187,8 @@ export class Enemy extends Character {
   }
 
   _getRandomInt(min, max) {
-    return Math.floor(Math.random() * Math.floor(max) + min);
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 }

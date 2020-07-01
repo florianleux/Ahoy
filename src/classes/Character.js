@@ -4,7 +4,9 @@ import _ from "lodash";
 
 export class Character {
   map = null;
-  status = false;
+  phrase = null;
+  victory = false;
+  defeat = false;
 
   constructor(name) {
     this.name = name;
@@ -30,8 +32,8 @@ export class Character {
         if (hitBoat.destroyed) {
           let aliveBoats = _.find(target.fleet.boats, { destroyed: false });
           if (!aliveBoats) {
-            this.status = "VICTORY";
-            target.status = "DEFEAT";
+            this.victory = true;
+            target.defeat = true;
             return "ENDGAME";
           } else {
             return "DESTROYED";

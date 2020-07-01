@@ -24,12 +24,16 @@
             v-bind:class="{
               hit: playerMap.hitMap[n - 1][m - 1] == 'hit',
               missed: playerMap.hitMap[n - 1][m - 1] == 'missed',
+              // placed: enemyMap.boatMap[n - 1][m - 1],
               destroyed: isDestroyed(n, m)
             }"
           ></div>
         </div>
       </div>
     </v-col>
+    <!--    <v-btn @click="randomMap">-->
+    <!--      RANDOM-->
+    <!--    </v-btn>-->
   </v-row>
 </template>
 
@@ -73,10 +77,11 @@ export default {
       } else {
         return false;
       }
+    },
+    randomMap() {
+      this.enemyMap.boatMap = this.enemyMap._resetMap();
+      this.enemyMap.generateRandomMap(this.enemy.fleet);
     }
-  },
-  created() {
-    console.log(this.enemy.fleet.boats);
   }
 };
 </script>

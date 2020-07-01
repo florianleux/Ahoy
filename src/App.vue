@@ -15,6 +15,6 @@ export default {
 
 <style lang="less">
 .v-application--wrap {
-  padding: 30px;
+  padding: 15px 30px;
 }
 </style>

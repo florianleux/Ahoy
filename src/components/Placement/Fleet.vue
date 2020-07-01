@@ -8,10 +8,11 @@
           :class="{ selected: boat.selected, disabled: boat.disabled }"
           @click="selectBoat(boat)"
         >
-          <div class="name">Bateau n°{{ index + 1 }}</div>
+          <div class="name">
+            Bateau n°{{ index + 1 }} <span v-if="boat.placed">placé !</span>
+          </div>
           <div class="size">
             <span v-for="n in boat.size" :key="n">X</span>
-            <div>{{ boat.coords }}</div>
           </div>
         </div>
       </v-col>

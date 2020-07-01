@@ -147,7 +147,9 @@ export class Map {
   }
 
   _getRandomInt(min, max) {
-    return Math.floor(Math.random() * Math.floor(max) + min);
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
   _getRandomBoatCoords(boat) {
@@ -168,7 +170,7 @@ export class Map {
       boat.horizontal = Math.random() > 0.5 ? true : false;
 
       if (boat.horizontal) {
-        (centerX = this._getRandomInt(half, this.width - 1 - half - remain)),
+        (centerX = this._getRandomInt(half, this.width - half - remain - 1)),
           (centerY = this._getRandomInt(0, this.height - 1));
 
         var min = centerX - half,
@@ -178,7 +180,7 @@ export class Map {
           coords.push([i, centerY]);
         }
       } else {
-        (centerY = this._getRandomInt(half, this.height - 1 - half - remain)),
+        (centerY = this._getRandomInt(half, this.height - half - remain - 1)),
           (centerX = this._getRandomInt(0, this.width - 1));
 
         (min = centerY - half >= 0 ? centerY - half : 0),
@@ -205,7 +207,6 @@ export class Map {
         break;
       }
     }
-    
     return coords;
   }
 }

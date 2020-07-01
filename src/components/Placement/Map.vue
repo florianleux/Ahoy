@@ -3,6 +3,7 @@
     id="map"
     v-if="playerMap.hoverMap[9]"
     @wheel.prevent="throttledRotateBoat"
+    @click.right.prevent="throttledRotateBoat"
   >
     <div class="canvas">
       <div class="line" v-for="n in 10" :key="n">

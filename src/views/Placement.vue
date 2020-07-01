@@ -12,6 +12,15 @@
       </v-col>
     </v-row>
     <v-row>
+      <v-col>
+        <div class="hint">
+          Pour faire tourner votre bateau avant de le placer, vous pouvez
+          utiliser la roulette de votre souris ou faire un clic droit sur la
+          carte !
+        </div>
+      </v-col>
+    </v-row>
+    <v-row>
       <v-btn
         :disabled="playerFleet.size != playerFleet.putBoats"
         color="success"
@@ -47,3 +56,12 @@ export default {
   }
 };
 </script>
+
+<style>
+.hint {
+  text-align: center;
+  margin: auto;
+  font-style: italic;
+  font-size: 14px;
+}
+</style>

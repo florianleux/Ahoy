@@ -5,7 +5,12 @@
     <v-form v-model="valid">
       <v-row>
         <v-col cols="6">
-          <v-text-field v-model="playerName" :rules="nameRules" required />
+          <v-text-field
+            placeholder="Votre nom de Pirate"
+            v-model="playerName"
+            :rules="nameRules"
+            required
+          />
         </v-col>
         <v-col cols="6">
           <v-btn
@@ -32,14 +37,14 @@ export default {
       valid: false,
       playerName: "",
       nameRules: [
-        v => v.length > 3 || "Votre nom doit comporter au minimum 4 caractères"
+        v => v.length > 1 || "Votre nom doit comporter au minimum 1 caractère"
       ]
     };
   },
   methods: {
     newGame() {
       this.$game.player = new Player(this.playerName);
-      this.$game.player.enemy = new Enemy("Adversaire");
+      this.$game.player.enemy = new Enemy("Captain Bob");
       this.$router.push({ name: "Placement" });
     }
   }
