@@ -1,5 +1,5 @@
 <template>
-  <v-row id="map" v-if="map.boatMap[9]">
+  <v-row id="map" v-if="playerMap.boatMap[9]">
     <div class="attack-result">
       <transition
         name="enemyAttackMessage"
@@ -19,9 +19,10 @@
           v-for="m in 10"
           :key="m"
           v-bind:class="{
-            placed: map.boatMap[n - 1][m - 1],
+            placed: playerMap.boatMap[n - 1][m - 1],
             hit: enemyMap.hitMap[n - 1][m - 1] == 'hit',
-            missed: enemyMap.hitMap[n - 1][m - 1] == 'missed'
+            missed: enemyMap.hitMap[n - 1][m - 1] == 'missed',
+            destroyed: isDestroyed(n, m)
           }"
         ></div>
       </div>
@@ -36,11 +37,22 @@ export default {
     return {
       game: this.$game,
       fleet: this.$game.player.fleet,
+      player: this.$game.player,
       enemy: this.$game.player.enemy,
-      map: this.$game.player.map,
+      playerMap: this.$game.player.map,
       enemyMap: this.$game.player.enemy.map,
       target: null
     };
+  },
+  methods: {
+    isDestroyed(n, m) {
+      if (this.playerMap.boatMap[n - 1][m - 1]) {
+        return this.player.fleet.boats[this.playerMap.boatMap[n - 1][m - 1] - 1]
+          .destroyed;
+      } else {
+        return false;
+      }
+    }
   }
 };
 </script>
@@ -89,8 +101,13 @@ export default {
   }
 
   &.hit {
-    background: black;
+    background: orangered;
+
+    &.destroyed {
+      background: black;
+    }
   }
+
   &.missed {
     background: blue;
   }

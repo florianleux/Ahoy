@@ -21,7 +21,7 @@ export class Map {
     if (selectedBoat === null) {
       return false;
     } else {
-      //Reset hover map
+      //Reset hover playerMap
       this.hoverMap = this._resetMap();
       this.okClick = true;
 
@@ -71,7 +71,7 @@ export class Map {
     }
   }
 
-  // Add the boat to the boatMap (ie put the boat in the map)
+  // Add the boat to the boatMap (ie put the boat in the playerMap)
   // Mostly same logic as the hover function
   putBoat(square, fleet) {
     var selectedBoat = fleet.selectedBoat;
@@ -141,6 +141,9 @@ export class Map {
 
       boat.coords = boatCoords;
     });
+
+    //Put boats back in order
+    fleet.boats.reverse();
   }
 
   _getRandomInt(min, max) {
@@ -156,11 +159,11 @@ export class Map {
       remain = boatSize % 2,
       coords = [],
       tryCount = 1,
-      conflict = false;
-
-    while (!conflict) {
-      coords = [];
       conflict = true;
+
+    while (conflict) {
+      coords = [];
+      conflict = false;
 
       boat.horizontal = Math.random() > 0.5 ? true : false;
 
@@ -168,8 +171,8 @@ export class Map {
         (centerX = this._getRandomInt(half, this.width - 1 - half - remain)),
           (centerY = this._getRandomInt(0, this.height - 1));
 
-        var min = centerX - half >= 0 ? centerX - half : 0,
-          max = centerX + half + remain <= 9 ? centerX + half + remain : 9;
+        var min = centerX - half,
+          max = centerX + half + remain;
 
         for (let i = min; i <= max; i++) {
           coords.push([i, centerY]);
@@ -191,16 +194,18 @@ export class Map {
           posY = coord[1];
 
         if (_this.boatMap[posY][posX]) {
-          conflict = false;
+          conflict = true;
         }
       });
+
       tryCount++;
+
       if (tryCount > 2000) {
         alert("ERREUR MEMOIRE");
         break;
       }
     }
-
+    
     return coords;
   }
 }

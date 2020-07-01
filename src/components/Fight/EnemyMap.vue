@@ -23,7 +23,8 @@
             @click="attack(m, n)"
             v-bind:class="{
               hit: playerMap.hitMap[n - 1][m - 1] == 'hit',
-              missed: playerMap.hitMap[n - 1][m - 1] == 'missed'
+              missed: playerMap.hitMap[n - 1][m - 1] == 'missed',
+              destroyed: isDestroyed(n, m)
             }"
           ></div>
         </div>
@@ -59,15 +60,23 @@ export default {
         ];
 
         let _this = this;
+        _this.$game.nextRound();
         setTimeout(function() {
           _this.attackMessage = false;
         }, 1500);
-
-        setTimeout(function() {
-          _this.$game.nextRound();
-        }, 800);
+      }
+    },
+    isDestroyed(n, m) {
+      if (this.enemyMap.boatMap[n - 1][m - 1]) {
+        return this.enemy.fleet.boats[this.enemyMap.boatMap[n - 1][m - 1] - 1]
+          .destroyed;
+      } else {
+        return false;
       }
     }
+  },
+  created() {
+    console.log(this.enemy.fleet.boats);
   }
 };
 </script>
@@ -118,8 +127,13 @@ export default {
   }
 
   &.hit {
-    background: black;
+    background: orangered;
+
+    &.destroyed {
+      background: black;
+    }
   }
+
   &.missed {
     background: blue;
   }

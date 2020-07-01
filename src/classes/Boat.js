@@ -3,7 +3,7 @@ export class Boat {
   size = 0;
   hp = 0;
   coords = [];
-  place = false;
+  placed = false;
   horizontal = true;
   selected = false;
   disabled = false;

@@ -30,7 +30,7 @@ export class Enemy extends Character {
     this.attack(target, posX, posY);
   }
 
-  //Generate random coords (within map limits and not already used in attack)
+  //Generate random coords (within playerMap limits and not already used in attack)
   _randomHit() {
     let ok = false;
 
