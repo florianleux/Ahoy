@@ -13,7 +13,7 @@
     </v-row>
     <v-row>
       <v-col>
-        <div class="hint">
+        <div class="help-placement">
           Pour faire tourner votre bateau avant de le placer, vous pouvez
           utiliser la roulette de votre souris ou faire un clic droit sur la
           carte !
@@ -24,24 +24,27 @@
       <v-btn
         :disabled="playerFleet.size != playerFleet.putBoats"
         color="success"
-        class="mr-4 "
+        class="start-fight"
         @click="startFight"
       >
-        FIGHT !
+        A L'ABORDAGE !
       </v-btn>
     </v-row>
+    <PlayerProfile></PlayerProfile>
   </div>
 </template>
 
 <script>
 import MapVue from "@/components/Placement/Map.vue";
 import Fleet from "@/components/Placement/Fleet.vue";
+import PlayerProfile from "@/components/Profiles/PlayerProfile.vue";
 
 export default {
   name: "Placement",
   components: {
     MapVue,
-    Fleet
+    Fleet,
+    PlayerProfile
   },
   data: function() {
     return {
@@ -58,10 +61,14 @@ export default {
 </script>
 
 <style>
-.hint {
+.help-placement {
   text-align: center;
   margin: auto;
   font-style: italic;
   font-size: 14px;
+}
+
+.start-fight {
+  margin: auto;
 }
 </style>

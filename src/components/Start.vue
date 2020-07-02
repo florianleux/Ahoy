@@ -37,7 +37,9 @@ export default {
       valid: false,
       playerName: "",
       nameRules: [
-        v => v.length > 1 || "Votre nom doit comporter au minimum 1 caractère"
+        v => v.length > 1 || "Votre nom doit comporter au minimum 1 caractère",
+        v =>
+          v.length < 25 || "Votre nom doit comporter au maximum 25 caractères"
       ]
     };
   },

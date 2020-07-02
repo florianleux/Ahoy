@@ -12,6 +12,7 @@
       </v-col>
     </v-row>
     <PlayerProfile></PlayerProfile>
+    <EnemyProfile></EnemyProfile>
     <v-row class="turn-indication">
       <transition
         mode="out-in"
@@ -78,7 +79,8 @@
 <script>
 import PlayerMap from "@/components/Fight/PlayerMap.vue";
 import EnemyMap from "@/components/Fight/EnemyMap.vue";
-import PlayerProfile from "@/components/Fight/PlayerProfile.vue";
+import PlayerProfile from "@/components/Profiles/PlayerProfile.vue";
+import EnemyProfile from "@/components/Profiles/EnemyProfile.vue";
 import { Game } from "@/classes/Game.js";
 import { Player } from "@/classes/Player.js";
 import { Enemy } from "@/classes/Enemy.js";
@@ -88,7 +90,8 @@ export default {
   components: {
     PlayerMap,
     EnemyMap,
-    PlayerProfile
+    PlayerProfile,
+    EnemyProfile
   },
   data: function() {
     return {

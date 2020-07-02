@@ -69,7 +69,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-@grid-size: 500px;
+@grid-size: 450px;
 
 .canvas {
   margin: auto;

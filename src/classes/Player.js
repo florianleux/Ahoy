@@ -5,13 +5,11 @@ export class Player extends Character {
   enemy = null;
   turn = true;
 
-
   profileHelper = new PlayerProfileHelper();
 
-  constructor(name){
+  constructor(name) {
     super(name);
 
     this.phrase = this.profileHelper.getPhrase();
-
   }
 }
