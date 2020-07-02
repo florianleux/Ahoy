@@ -59,7 +59,6 @@ export default {
     hoverSquare: function() {},
     attack: function(x, y) {
       if (!this.player.map.hitMap[y - 1][x - 1] && this.player.turn) {
-
         let attackResult = this.player.attack(this.enemy, x, y);
         this.attackMessage = this.attackMessages[attackResult];
 
@@ -71,7 +70,7 @@ export default {
         setTimeout(function() {
           _this.$game.nextRound();
           _this.player.enemy.mood = "default";
-          _this.attackMessage = false
+          _this.attackMessage = false;
           _this.player.mood = "default";
         }, 1200);
       }

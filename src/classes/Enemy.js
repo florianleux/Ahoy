@@ -93,7 +93,7 @@ export class Enemy extends Character {
             this.hitStrike = 0;
             this.directionIndex = 0;
             this.direction = this._shuffleDirectionArray(this.direction);
-            return false
+            return false;
           }
           this.hitStrike = 1;
           this.directionIndex++;

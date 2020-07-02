@@ -49,16 +49,16 @@ export class Character {
     }
   }
 
-  setMoodAttacking(attackResult){
+  setMoodAttacking(attackResult) {
     console.log(attackResult);
     this.mood = this.moodHelper.getMoodAttacking(attackResult);
   }
 
-  setMoodAttacked(attackResult){
+  setMoodAttacked(attackResult) {
     this.mood = this.moodHelper.getMoodAttacked(attackResult);
   }
 
-  setDefaultMood(){
+  setDefaultMood() {
     this.mood = "default";
   }
 }

@@ -11,21 +11,17 @@ export class PlayerProfileHelper {
     "AHOY !"
   ];
 
-  identitiesList = [
-      "male",
-      "female"
-  ];
+  identitiesList = ["male", "female"];
 
   getPhrase() {
     return this.phrasesList[
-      this.mathHelper.getRandomIntMax(this.phrasesList.length-1)
+      this.mathHelper.getRandomIntMax(this.phrasesList.length - 1)
     ];
   }
 
   getIdentity() {
-      return this.identitiesList[
-          this.mathHelper.getRandomIntMax(this.identitiesList.length-1)
-          ];
-    }
-
+    return this.identitiesList[
+      this.mathHelper.getRandomIntMax(this.identitiesList.length - 1)
+    ];
+  }
 }

@@ -32,7 +32,7 @@ export default {
   .name {
     font-weight: bold;
     font-size: 16px;
-    font-family : "Space Comics";
+    font-family: "Space Comics";
     text-transform: uppercase;
     text-align: right;
     float: right;

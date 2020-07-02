@@ -14,47 +14,45 @@ export default {
 </script>
 
 <style lang="less">
+@baseFontSize: 19px;
 
-  @baseFontSize : 19px;
+//Fonts Déclaration
+@font-face {
+  font-family: "Roman Antique";
+  src: url("assets/fonts/RomanAntique-Italic.ttf") format("truetype");
+}
 
-  //Fonts Déclaration
-  @font-face {
-    font-family: "Roman Antique";
-    src: url("assets/fonts/RomanAntique-Italic.ttf") format('truetype');
-  }
+@font-face {
+  font-family: "Space Comics";
+  src: url("assets/fonts/SpaceComics.ttf") format("truetype");
+}
 
-  @font-face {
-    font-family: "Space Comics";
-    src: url("assets/fonts/SpaceComics.ttf") format('truetype');
-  }
+* {
+  font-family: "Roman Antique";
+  font-size: @baseFontSize;
+}
 
-  *{
-    font-family: "Roman Antique";
-    font-size : @baseFontSize;
-  }
-
-  h1, .v-btn{
-    text-align:center;
+h1,
+.v-btn {
+  text-align: center;
+  font-family: "Space Comics";
+  text-transform: uppercase;
+  * {
     font-family: "Space Comics";
     text-transform: uppercase;
-    *{
-      font-family: "Space Comics";
-      text-transform: uppercase;
-    }
-
   }
+}
 
-  .v-btn{
-    padding: 10px 15px;
-    *{
-      font-size: 12px;
-    }
+.v-btn {
+  padding: 10px 15px;
+  * {
+    font-size: 12px;
   }
+}
 
-  h1{
-    margin: 10px auto;
-  }
-
+h1 {
+  margin: 10px auto;
+}
 
 .v-application--wrap {
   padding: 15px 30px;

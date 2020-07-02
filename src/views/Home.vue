@@ -7,8 +7,13 @@
           Oups...
         </v-card-title>
         <v-card-text>
-          <div>Malheureusement, Ahoy! est actuellement seulement jouable sur grand écran, et n'est pas (encore) responsible !</div>
-          <div>Augmentez la taille de votre fenêtre ou revenez jouer depuis un PC !</div>
+          <div>
+            Malheureusement, Ahoy! est actuellement seulement jouable sur grand
+            écran, et n'est pas (encore) responsible !
+          </div>
+          <div>
+            Augmentez la taille de votre fenêtre ou revenez jouer depuis un PC !
+          </div>
         </v-card-text>
       </v-card>
     </v-dialog>
@@ -24,10 +29,10 @@ export default {
   components: {
     Start
   },
-  data: function(){
-    return{
-      displayKO : this.onResize(),
-    }
+  data: function() {
+    return {
+      displayKO: this.onResize()
+    };
   },
   methods: {
     onResize() {
@@ -39,7 +44,7 @@ export default {
     }
   },
   created() {
-    window.addEventListener('resize', this.onResize)
-  },
+    window.addEventListener("resize", this.onResize);
+  }
 };
 </script>

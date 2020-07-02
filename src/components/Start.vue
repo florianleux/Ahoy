@@ -6,19 +6,19 @@
         <v-row>
           <v-col cols="12">
             <v-text-field
-                    placeholder="Votre nom de Pirate"
-                    v-model="playerName"
-                    :rules="nameRules"
-                    class="name-input"
-                    required
+              placeholder="Votre nom de Pirate"
+              v-model="playerName"
+              :rules="nameRules"
+              class="name-input"
+              required
             />
           </v-col>
           <v-col cols="12">
             <v-btn
-                    :disabled="!valid"
-                    color="primary"
-                    class="start-game"
-                    @click="newGame"
+              :disabled="!valid"
+              color="primary"
+              class="start-game"
+              @click="newGame"
             >
               Play!
             </v-btn>
@@ -26,7 +26,6 @@
         </v-row>
       </v-form>
     </v-col>
-
   </v-row>
 </template>
 
@@ -58,37 +57,36 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
+.start-page {
+  padding-top: 150px;
+}
+.game-title {
+  font-size: 100px;
+  color: #ffbf00;
+}
+.start-form {
+  width: 40%;
+  max-width: 500px;
+  margin: auto;
+  padding-top: 50px;
 
-  .start-page{
-    padding-top:150px;
-  }
-  .game-title{
-    font-size:100px;
-    color: #ffbf00;
-  }
-  .start-form{
-    width :40%;
-    max-width :500px;
+  .name-input {
+    max-width: 300px;
+    display: block;
     margin: auto;
-    padding-top:50px;
 
-    .name-input{
-      max-width: 300px;
-      display:block;
-      margin: auto;
-
-      &::v-deep input{
-        text-align: center;
-      }
-
-      &::v-deep .v-text-field__details *{
-        text-align : center;
-      }
+    &::v-deep input {
+      text-align: center;
     }
 
-    .v-btn{
-      margin:auto;
-      display:block;
+    &::v-deep .v-text-field__details * {
+      text-align: center;
     }
   }
+
+  .v-btn {
+    margin: auto;
+    display: block;
+  }
+}
 </style>

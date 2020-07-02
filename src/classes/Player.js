@@ -5,7 +5,6 @@ export class Player extends Character {
   enemy = null;
   turn = true;
   identity = null;
-
   profileHelper = new PlayerProfileHelper();
 
   constructor(name) {
