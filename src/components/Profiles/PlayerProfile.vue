@@ -26,7 +26,7 @@ export default {
   bottom: 25px;
   left: 0;
   padding: 10px 30px 10px 30px;
-  width: 320px;
+  width: 330px;
   background: #54cde9;
 
   .name {

@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1 class="page-title">
-      Phase de placements
+      Phase de placement
     </h1>
     <v-row>
       <v-col cols="8">

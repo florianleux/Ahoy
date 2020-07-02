@@ -77,11 +77,11 @@ export default {
       display:block;
       margin: auto;
 
-      input{
-        text-align: center !important;
+      &::v-deep input{
+        text-align: center;
       }
 
-      .v-text-field__details *{
+      &::v-deep .v-text-field__details *{
         text-align : center;
       }
     }
