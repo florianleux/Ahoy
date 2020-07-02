@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="page-title">
+    <h1 class="page-title">
       Phase de placements
-    </div>
+    </h1>
     <v-row>
       <v-col cols="8">
         <MapVue></MapVue>
@@ -65,7 +65,7 @@ export default {
   text-align: center;
   margin: auto;
   font-style: italic;
-  font-size: 14px;
+  font-size: 18px;
 }
 
 .start-fight {

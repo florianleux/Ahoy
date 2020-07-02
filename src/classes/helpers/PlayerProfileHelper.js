@@ -13,7 +13,7 @@ export class PlayerProfileHelper {
 
   getPhrase() {
     return this.phrasesList[
-      this.mathHelper.getRandomIntMax(this.phrasesList.length)
+      this.mathHelper.getRandomIntMax(this.phrasesList.length-1)
     ];
   }
 }

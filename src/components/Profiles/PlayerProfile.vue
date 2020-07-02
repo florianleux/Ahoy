@@ -31,11 +31,9 @@ export default {
 
   .name {
     font-weight: bold;
-    font-size: 18px;
-  }
-  .phrase {
-    font-style: italic;
-    font-size: 13px;
+    font-size: 16px;
+    font-family : "Space Comics";
+    text-transform: uppercase;
   }
 }
 

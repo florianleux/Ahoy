@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="page-title">
+    <h1 class="page-title">
       Phase de BAGARRE
-    </div>
+    </h1>
     <v-row class="map-line">
       <v-col cols="6">
         <EnemyMap></EnemyMap>
@@ -134,8 +134,8 @@ export default {
   .text {
     margin: auto;
     text-align: center;
-    font-size: 21px;
-    font-weight: bold;
+    font-size: 35px;
+    background: white;
   }
 }
 </style>

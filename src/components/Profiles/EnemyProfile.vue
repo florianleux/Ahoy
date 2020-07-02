@@ -31,11 +31,18 @@ export default {
 
   .name {
     font-weight: bold;
-    font-size: 18px;
+    font-size: 16px;
+    font-family : "Space Comics";
+    text-transform: uppercase;
+    text-align: right;
+    float: right;
   }
   .phrase {
-    font-style: italic;
-    font-size: 13px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-align: right;
+    float: right;
   }
 }
 .profile {
