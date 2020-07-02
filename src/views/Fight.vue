@@ -114,8 +114,9 @@ export default {
 
 <style scoped lang="less">
 .map-line {
-  margin-left: 80px;
+  margin-left: 50px;
   position: relative;
+  padding-top: 20px;
 }
 .mask {
   display: block;
@@ -133,6 +134,7 @@ export default {
 .turn-indication {
   .text {
     margin: auto;
+    margin-top: 25px;
     text-align: center;
     font-size: 35px;
     background: white;

@@ -58,12 +58,14 @@ export default {
 </script>
 
 <style scoped lang="less">
-@grid-size: 280px;
+@grid-size: 230px;
 
 #map {
+  transform: rotate(5deg);
   float: left;
   margin-top: @grid-size / 5 + 62px;
   position: relative;
+  margin-left: 10px;
 }
 .attack-result {
   position: absolute;

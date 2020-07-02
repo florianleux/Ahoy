@@ -93,12 +93,14 @@ export default {
 </script>
 
 <style scoped lang="less">
-@grid-size: 450px;
+@grid-size: 400px;
 
 #map {
   position: relative;
   padding-top: 20px;
   float: right;
+  transform: rotate(-5deg);
+  margin-right: 10px;
 }
 
 .canvas {
