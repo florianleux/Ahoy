@@ -1,5 +1,6 @@
 import { Fleet } from "@/classes/Fleet.js";
 import { Map } from "@/classes/Map.js";
+import { MoodHelper } from "@/classes/helpers/MoodHelper.js";
 import _ from "lodash";
 
 export class Character {
@@ -7,6 +8,9 @@ export class Character {
   phrase = null;
   victory = false;
   defeat = false;
+  picture = null;
+  moodHelper = new MoodHelper();
+  mood = "default";
 
   constructor(name) {
     this.name = name;
@@ -43,5 +47,18 @@ export class Character {
         }
       }
     }
+  }
+
+  setMoodAttacking(attackResult){
+    console.log(attackResult);
+    this.mood = this.moodHelper.getMoodAttacking(attackResult);
+  }
+
+  setMoodAttacked(attackResult){
+    this.mood = this.moodHelper.getMoodAttacked(attackResult);
+  }
+
+  setDefaultMood(){
+    this.mood = "default";
   }
 }

@@ -21,9 +21,9 @@ export default {
 
 <style scoped lang="less">
 .infos {
-  border-radius: 5px 0 0 5px;
+  border-radius: 5px 0 0 0;
   position: fixed;
-  bottom: 25px;
+  bottom: 0;
   right: 0;
   padding: 10px 30px 10px 30px;
   width: 330px;

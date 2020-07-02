@@ -27,7 +27,7 @@ export class Enemy extends Character {
       posY = coord[1];
 
     //Attack with the calculated coords
-    this.attack(target, posX, posY);
+    return this.attack(target, posX, posY);
   }
 
   //Generate random coords (within playerMap limits and not already used in attack)
@@ -178,6 +178,8 @@ export class Enemy extends Character {
     }, 1500);
 
     this._postAttack(posX, posY, attackResult);
+
+    return attackResult;
   }
 
   _shuffleDirectionArray(array) {

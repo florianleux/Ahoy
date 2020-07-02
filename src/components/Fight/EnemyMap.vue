@@ -59,15 +59,21 @@ export default {
     hoverSquare: function() {},
     attack: function(x, y) {
       if (!this.player.map.hitMap[y - 1][x - 1] && this.player.turn) {
-        this.attackMessage = this.attackMessages[
-          this.player.attack(this.enemy, x, y)
-        ];
+
+        let attackResult = this.player.attack(this.enemy, x, y);
+        this.attackMessage = this.attackMessages[attackResult];
+
+        this.enemy.setMoodAttacked(attackResult);
+        this.player.setMoodAttacking(attackResult);
 
         let _this = this;
-        _this.$game.nextRound();
+
         setTimeout(function() {
-          _this.attackMessage = false;
-        }, 1500);
+          _this.$game.nextRound();
+          _this.player.enemy.mood = "default";
+          _this.attackMessage = false
+          _this.player.mood = "default";
+        }, 1200);
       }
     },
     isDestroyed(n, m) {

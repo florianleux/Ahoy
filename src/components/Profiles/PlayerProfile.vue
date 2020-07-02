@@ -1,5 +1,6 @@
 <template>
   <div class="player profile" :class="{ active: player.turn }">
+    <img height="250" :src="publicPath+'players/'+player.identity+'/'+player.mood+'.png'" alt="" :class="player.identity" class="picture">
     <div class="infos">
       <div class="name">{{ player.name }}</div>
       <div class="phrase">"{{ player.phrase }}"</div>
@@ -13,18 +14,19 @@ export default {
   data: function() {
     return {
       game: this.$game,
-      player: this.$game.player
+      player: this.$game.player,
+      publicPath: process.env.BASE_URL
     };
   }
 };
 </script>
 
 <style scoped lang="less">
+
+
 .infos {
-  border-radius: 0 5px 5px 0;
-  position: fixed;
-  bottom: 25px;
-  left: 0;
+  border-radius: 0 5px 0 0;
+
   padding: 10px 30px 10px 30px;
   width: 330px;
   background: #54cde9;
@@ -38,12 +40,25 @@ export default {
 }
 
 .profile {
+  position: fixed;
+  bottom: 0;
+  left: 0;
   &.active {
     .infos {
+      position: relative;
+      z-index:100;
       background: #16afe9;
       box-shadow: 3px 0px 30px -6px rgba(0, 255, 238, 1);
       border: 1px solid rgba(0, 255, 238, 1);
     }
   }
+
+  .picture{
+    position: absolute;
+    z-index: 0;
+    bottom: 30px;
+    left: -10px;
+  }
+
 }
 </style>

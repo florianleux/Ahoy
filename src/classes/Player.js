@@ -4,6 +4,7 @@ import { PlayerProfileHelper } from "@/classes/helpers/PlayerProfileHelper";
 export class Player extends Character {
   enemy = null;
   turn = true;
+  identity = null;
 
   profileHelper = new PlayerProfileHelper();
 
@@ -11,5 +12,6 @@ export class Player extends Character {
     super(name);
 
     this.phrase = this.profileHelper.getPhrase();
+    this.identity = this.profileHelper.getIdentity();
   }
 }

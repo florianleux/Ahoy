@@ -5,6 +5,8 @@ export class Game {
   nextRound = function() {
     this.player.turn = !this.player.turn;
     this.player.enemy.turn = !this.player.enemy.turn;
+
+
     this.round++;
 
     if (this.player.enemy.turn & !this.player.enemy.defeat) {
@@ -12,10 +14,14 @@ export class Game {
         _this = this;
 
       setTimeout(function() {
-        _this.player.enemy.generateAttack(_this.player);
+        var enemyAttackResult = _this.player.enemy.generateAttack(_this.player);
+        _this.player.enemy.setMoodAttacking(enemyAttackResult);
+        _this.player.setMoodAttacked(enemyAttackResult);
         setTimeout(function() {
+          _this.player.mood = "default";
+          _this.player.enemy.mood = "default";
           _this.nextRound();
-        }, 800);
+        }, 1000);
       }, enemyDelay);
     }
   };
