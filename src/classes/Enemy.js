@@ -77,8 +77,9 @@ export class Enemy extends Character {
       }
 
       if (posY < 1 || posY > 10 || posX < 1 || posX > 10) {
+        this.hitStrike = 1;
         this.directionIndex++;
-        if (this.directionIndex > 3) {
+        if (this.directionIndex >= 3) {
           this.firstHit = null;
           this.hitStrike = 0;
           this.directionIndex = 0;
@@ -87,17 +88,18 @@ export class Enemy extends Character {
         return false;
       } else {
         if (this.map.hitMap[posY - 1][posX - 1]) {
-          if (this.directionIndex > 3) {
+          if (this.directionIndex >= 3) {
             this.firstHit = null;
             this.hitStrike = 0;
             this.directionIndex = 0;
             this.direction = this._shuffleDirectionArray(this.direction);
+            return false
           }
+          this.hitStrike = 1;
           this.directionIndex++;
           return false;
         }
       }
-
       return [posX, posY];
     }
   }
