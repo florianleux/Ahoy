@@ -18,7 +18,7 @@ export class MoodHelper {
       case "HIT":
         return "despair";
       case "DESTROYED":
-        return "default";
+        return "despair";
     }
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="player profile" :class="{ active: player.turn }">
     <img
-      height="250"
+      width="280"
       :src="
         publicPath + 'players/' + player.identity + '/' + player.mood + '.png'
       "
@@ -62,8 +62,8 @@ export default {
   .picture {
     position: absolute;
     z-index: 0;
-    bottom: 30px;
-    left: -10px;
+    bottom: 73px;
+    left: 0px;
   }
 }
 </style>

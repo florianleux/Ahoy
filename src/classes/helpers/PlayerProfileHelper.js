@@ -11,7 +11,7 @@ export class PlayerProfileHelper {
     "AHOY !"
   ];
 
-  identitiesList = ["male", "female"];
+  identitiesList = ["male"];
 
   getPhrase() {
     return this.phrasesList[
