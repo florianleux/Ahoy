@@ -1,5 +1,4 @@
 export class MoodHelper {
-
   getMoodAttacking(attackMessage) {
     switch (attackMessage) {
       case "MISSED":

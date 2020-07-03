@@ -1,6 +1,28 @@
+import {Player} from "@/classes/Player.js";
+import {SimpleSam} from "@/classes/enemies/SimpleSam/SimpleSam.js";
+
 export class Game {
   player = null;
   round = 0;
+  level = 0;
+
+  enemyList=[
+       SimpleSam
+  ];
+
+  newGame(playerName){
+    this.player = new Player(playerName);
+    this.player.enemy = new this.enemyList[0]();
+  }
+
+  nextLevel(){
+    this.level++;
+    let bufferName = this.player.name;
+    this.round = 0;
+    this.player = new Player(bufferName);
+    this.player.enemy = new this.enemyList[this.level]();
+
+  }
 
   nextRound = function() {
     this.player.turn = !this.player.turn;
@@ -9,6 +31,7 @@ export class Game {
     this.round++;
 
     if (this.player.enemy.turn & !this.player.enemy.defeat) {
+      this.round++;
       let enemyDelay = this._randomDelay(1000, 2500),
         _this = this;
 

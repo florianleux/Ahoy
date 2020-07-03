@@ -81,9 +81,6 @@ import PlayerMap from "@/components/Fight/PlayerMap.vue";
 import EnemyMap from "@/components/Fight/EnemyMap.vue";
 import PlayerProfile from "@/components/Profiles/PlayerProfile.vue";
 import EnemyProfile from "@/components/Profiles/EnemyProfile.vue";
-import { Game } from "@/classes/Game.js";
-import { Player } from "@/classes/Player.js";
-import { Enemy } from "@/classes/Enemy.js";
 
 export default {
   name: "Fight",
@@ -102,11 +99,8 @@ export default {
   },
   methods: {
     rerun: function() {
-      let bufferName = this.player.name;
-      this.game = new Game();
-      this.$game.player = new Player(bufferName);
-      this.$game.player.enemy = new Enemy("Captain Bob");
-      this.$router.push({ name: "Placement" });
+        this.game.nextGame();
+        this.$router.push({ name: "Placement" });
     }
   }
 };

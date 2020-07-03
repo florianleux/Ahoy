@@ -30,8 +30,6 @@
 </template>
 
 <script>
-import { Player } from "@/classes/Player.js";
-import { Enemy } from "@/classes/Enemy.js";
 
 export default {
   data() {
@@ -47,8 +45,7 @@ export default {
   },
   methods: {
     newGame() {
-      this.$game.player = new Player(this.playerName);
-      this.$game.player.enemy = new Enemy("Captain Bob");
+      this.$game.newGame(this.playerName);
       this.$router.push({ name: "Placement" });
     }
   }
