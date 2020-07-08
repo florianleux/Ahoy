@@ -1,5 +1,6 @@
 import {Player} from "@/classes/Player.js";
 import {SimpleSam} from "@/classes/enemies/SimpleSam/SimpleSam.js";
+import {JackTheBurned} from "./enemies/JackTheBurned/JackTheBurned";
 
 export class Game {
   player = null;
@@ -7,7 +8,8 @@ export class Game {
   level = 0;
 
   enemyList=[
-       SimpleSam
+       // SimpleSam,
+      JackTheBurned
   ];
 
   newGame(playerName){
@@ -62,6 +64,38 @@ export class Game {
               _this.nextRound();
             }
           }, 800);
+        }, enemyDelay);
+        break;
+
+      case JackTheBurned :
+        enemyDelay = this._randomDelay(1000, 2200);
+
+        setTimeout(function() {
+          var enemyAttackResult = _this.player.enemy.generateAttack(_this.player);
+          _this.player.enemy.setMoodAttacking(enemyAttackResult);
+          _this.player.setMoodAttacked(enemyAttackResult);
+          setTimeout(function() {
+            _this.player.mood = "default";
+            _this.player.enemy.mood = "default";
+            if(enemyAttackResult === "HIT" && !_this.player.enemy.powerActivated) {
+              let powerActivation = _this.player.enemy.activatePower();
+              console.log("CALCUL POWER");
+              console.log("poweractivation",powerActivation);
+                setTimeout(function(){
+                  if(powerActivation) {
+                    console.log("power activé");
+                    _this._enemyTurn();
+                    _this.player.enemy.powerActivated = true;
+                }else{
+                console.log("power non activé");
+                _this.player.enemy.powerActivated = false;
+                _this.nextRound();
+              }},500)
+            }else{
+              _this.player.enemy.powerActivated = false;
+              _this.nextRound();
+            }
+          }, 600);
         }, enemyDelay);
         break;
 

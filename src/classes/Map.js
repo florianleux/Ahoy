@@ -128,6 +128,8 @@ export class Map {
   }
 
   generateRandomMap(fleet) {
+    console.log("random map");
+    console.log(fleet);
     var _this = this;
     fleet.boats.reverse().forEach(function(boat) {
       var boatCoords = _this._getRandomBoatCoords(boat);
