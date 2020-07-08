@@ -106,7 +106,14 @@ export default {
 };
 </script>
 
-<style scoped lang="less">
+<style  lang="less">
+  #app{
+    /*background: url('/fight/bg.jpg') no-repeat;*/
+    background-attachment: fixed;
+    background-position: center center;
+    background-size: cover;
+  }
+
 .map-line {
   margin-left: 50px;
   position: relative;

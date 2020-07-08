@@ -2,7 +2,7 @@
   <div class="enemy profile" :class="{ active: enemy.turn }">
     <div class="infos">
       <div class="name">{{ enemy.name }}</div>
-      <div class="phrase">"Je suis TRES TRES MECHANT"</div>
+      <div class="phrase">"{{ enemy.phrase }}"</div>
     </div>
   </div>
 </template>

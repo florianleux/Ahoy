@@ -61,11 +61,11 @@ export default {
 @grid-size: 230px;
 
 #map {
-  transform: rotate(5deg);
+  transform: rotate(10deg);
   float: left;
-  margin-top: @grid-size / 5 + 62px;
+  margin-top: @grid-size / 5 + 120px;
   position: relative;
-  margin-left: 10px;
+  margin-left: 110px;
 }
 .attack-result {
   position: absolute;

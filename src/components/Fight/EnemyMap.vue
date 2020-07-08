@@ -95,11 +95,12 @@ export default {
 @grid-size: 400px;
 
 #map {
-  position: relative;
+  position: absolute;
   padding-top: 20px;
   float: right;
-  transform: rotate(-5deg);
-  margin-right: 10px;
+  transform: rotate(-10deg);
+  left: 50%;
+  margin-left:-480px;
 }
 
 .canvas {
@@ -153,6 +154,38 @@ export default {
   &:hover {
     background: violet;
     cursor: pointer;
+  }
+}
+
+@media (max-width: 1300px) {
+  #map{
+    margin-top: 50px;
+    margin-left: -400px;
+  }
+
+  .canvas{
+    width: @grid-size*0.75;
+    height: @grid-size*0.75;
+  }
+
+  .line {
+    height: @grid-size*0.75 / 10;
+  }
+}
+
+@media (max-width: 1500px) and (min-width: 1300px){
+  #map{
+    margin-top: 35px;
+    margin-left: -430px;
+  }
+
+  .canvas{
+    width: @grid-size*0.85;
+    height: @grid-size*0.85;
+  }
+
+  .line {
+    height: @grid-size*0.85 / 10;
   }
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="player profile" :class="{ active: player.turn }">
     <img
-      width="280"
+      width="320"
       :src="
         publicPath + 'players/' + player.identity + '/' + player.mood + '.png'
       "
