@@ -49,11 +49,11 @@ export default {
 };
 </script>
 <style scoped lang="less">
-  #app{
-    background: url("/home/bg.jpg") no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-  }
+#app {
+  background: url("/home/bg.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
 </style>

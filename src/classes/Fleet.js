@@ -22,7 +22,7 @@ export class Fleet {
     }
   }
 
-  _populateFleet(){
+  _populateFleet() {
     for (let i = 1; i <= this.size; i++) {
       this.boats.push(new Boat(i + 1, i));
     }

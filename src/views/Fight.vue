@@ -99,20 +99,20 @@ export default {
   },
   methods: {
     rerun: function() {
-        this.game.nextGame();
-        this.$router.push({ name: "Placement" });
+      this.game.nextGame();
+      this.$router.push({ name: "Placement" });
     }
   }
 };
 </script>
 
-<style  lang="less">
-  #app{
-    /*background: url('/fight/bg.jpg') no-repeat;*/
-    background-attachment: fixed;
-    background-position: center center;
-    background-size: cover;
-  }
+<style lang="less">
+#app {
+  /*background: url('/fight/bg.jpg') no-repeat;*/
+  background-attachment: fixed;
+  background-position: center center;
+  background-size: cover;
+}
 
 .map-line {
   margin-left: 50px;

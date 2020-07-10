@@ -38,6 +38,9 @@
 </template>
 
 <script>
+import { MamanBrigitte } from "../../classes/enemies/MamanBrigitte/MamanBrigitte";
+import _ from "lodash";
+
 export default {
   name: "EnemyMap",
   data: function() {
@@ -52,27 +55,66 @@ export default {
         DESTROYED: " Touché ! Coulé !",
         MISSED: "A l'eau !"
       },
-      attackMessage: false
+      attackMessage: false,
+      enemyClass: this.$game.enemyList[this.$game.level]
     };
   },
   methods: {
     hoverSquare: function() {},
+    nextRound(time) {
+      let _this = this;
+      this.$game.nextRound();
+      setTimeout(function() {
+        _this.player.enemy.mood = "default";
+        _this.attackMessage = false;
+        _this.player.mood = "default";
+      }, time);
+    },
     attack: function(x, y) {
       if (!this.player.map.hitMap[y - 1][x - 1] && this.player.turn) {
-        let attackResult = this.player.attack(this.enemy, x, y);
+        let attackResult = this.player.attack(this.enemy, x, y),
+          _this = this;
         this.attackMessage = this.attackMessages[attackResult];
 
         this.enemy.setMoodAttacked(attackResult);
         this.player.setMoodAttacking(attackResult);
 
-        let _this = this;
+        switch (this.enemyClass) {
+          case MamanBrigitte:
+            if (attackResult === "DESTROYED") {
+              let destroyedBoatId = this.enemyMap.boatMap[y - 1][x - 1];
+              let destroyedBoat = _.find(this.enemy.fleet.boats, {
+                id: destroyedBoatId
+              });
 
-        setTimeout(function() {
-          _this.$game.nextRound();
-          _this.player.enemy.mood = "default";
-          _this.attackMessage = false;
-          _this.player.mood = "default";
-        }, 1200);
+              if (destroyedBoat.doomed) {
+                let aliveBoats = _.filter(this.player.fleet.boats, [
+                    "destroyed",
+                    false
+                  ]),
+                  randomAliveBoat =
+                    aliveBoats[Math.floor(Math.random() * aliveBoats.length)];
+
+                setTimeout(function() {
+                  randomAliveBoat.coords.forEach(function(coord) {
+                    _this.enemy.map.hitMap[[coord[1]]].splice(
+                      [coord[0]],
+                      1,
+                      "hit"
+                    );
+                  });
+
+                  randomAliveBoat.destroyed = true;
+                  randomAliveBoat.hp = 0;
+
+                  _this.nextRound(1200);
+                }, 500);
+              }
+            }
+            break;
+        }
+
+        this.nextRound(1200);
       }
     },
     isDestroyed(n, m) {
@@ -96,7 +138,7 @@ export default {
   float: right;
   transform: rotate(-10deg);
   left: 50%;
-  margin-left:-480px;
+  margin-left: -480px;
 }
 
 .canvas {
@@ -154,12 +196,12 @@ export default {
 }
 
 @media (max-width: 1300px) {
-  #map{
+  #map {
     margin-top: 50px;
     margin-left: -400px;
   }
 
-  .canvas{
+  .canvas {
     width: @grid-size*0.75;
     height: @grid-size*0.75;
   }
@@ -169,13 +211,13 @@ export default {
   }
 }
 
-@media (max-width: 1500px) and (min-width: 1300px){
-  #map{
+@media (max-width: 1500px) and (min-width: 1300px) {
+  #map {
     margin-top: 35px;
     margin-left: -430px;
   }
 
-  .canvas{
+  .canvas {
     width: @grid-size*0.85;
     height: @grid-size*0.85;
   }

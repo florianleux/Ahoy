@@ -8,6 +8,7 @@ export class Boat {
   selected = false;
   disabled = false;
   destroyed = false;
+  doomed = false;
 
   constructor(size, id) {
     this.id = id;

@@ -4,6 +4,7 @@ import { Character } from "@/classes/Character.js";
 export class Enemy extends Character {
   turn = false;
   firstHit = null;
+  lastHit = null;
   direction = this._shuffleDirectionArray(["UP", "DOWN", "RIGHT", "LEFT"]);
   directionIndex = 0;
   hitStrike = 0;
@@ -175,6 +176,8 @@ export class Enemy extends Character {
     setTimeout(function() {
       _this.attackMessage = false;
     }, 1500);
+
+    this.lastHit = [posX, posY];
 
     this._postAttack(posX, posY, attackResult);
 
