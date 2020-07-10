@@ -14,8 +14,8 @@ export class Game {
     MamanBrigitte
   ];
 
-  newGame(playerName) {
-    this.player = new Player(playerName);
+  newGame(playerName,playerIdentity) {
+    this.player = new Player(playerName, playerIdentity);
     this.player.enemy = new this.enemyList[0]();
   }
 

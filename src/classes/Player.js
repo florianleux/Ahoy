@@ -7,10 +7,10 @@ export class Player extends Character {
   identity = null;
   profileHelper = new PlayerProfileHelper();
 
-  constructor(name) {
+  constructor(name,identity) {
     super(name);
 
     this.phrase = this.profileHelper.getPhrase();
-    this.identity = this.profileHelper.getIdentity();
+    this.identity = identity;
   }
 }

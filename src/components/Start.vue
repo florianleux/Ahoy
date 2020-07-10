@@ -14,6 +14,17 @@
             />
           </v-col>
           <v-col cols="12">
+            <div class="label">Vous êtes :</div>
+            <v-radio-group class="identity-input" v-model="playerIdentity" row>
+              <v-col cols="6">
+                <v-radio label="Un homme" value="male"></v-radio>
+              </v-col>
+              <v-col cols="6">
+                <v-radio label="Une femme" value="female"></v-radio>
+              </v-col>
+            </v-radio-group>
+          </v-col>
+          <v-col cols="12">
             <v-btn
               :disabled="!valid"
               color="primary"
@@ -35,6 +46,7 @@ export default {
     return {
       valid: false,
       playerName: "",
+      playerIdentity: "male",
       nameRules: [
         v => v.length > 1 || "Votre nom doit comporter au minimum 1 caractère",
         v =>
@@ -44,7 +56,7 @@ export default {
   },
   methods: {
     newGame() {
-      this.$game.newGame(this.playerName);
+      this.$game.newGame(this.playerName, this.playerIdentity);
       this.$router.push({ name: "Placement" });
     }
   }
@@ -66,7 +78,7 @@ export default {
   margin: auto;
   padding-top: 50px;
 
-  .name-input {
+  .name-input, .identity-input {
     max-width: 300px;
     display: block;
     margin: auto;
@@ -78,6 +90,13 @@ export default {
     &::v-deep .v-text-field__details * {
       text-align: center;
     }
+  }
+
+  .label{
+    text-align: center;
+  }
+  .identity-input{
+    padding-left: 25px;
   }
 
   .v-btn {
