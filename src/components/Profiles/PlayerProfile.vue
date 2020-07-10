@@ -1,6 +1,7 @@
 <template>
   <div class="player profile" :class="{ active: player.turn }">
     <img
+      rel="preload"
       width="320"
       :src="
         publicPath + 'players/' + player.identity + '/' + player.mood + '.png'
