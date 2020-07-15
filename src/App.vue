@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <div id="app">
+    <div id="app" >
       <router-view />
       <!--      <pre>{{ game }}</pre>-->
     </div>
@@ -9,7 +9,7 @@
 
 <script>
 export default {
-  name: "App"
+  name: "App",
 };
 </script>
 

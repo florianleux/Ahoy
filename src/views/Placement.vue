@@ -56,6 +56,9 @@ export default {
     startFight: function() {
       this.$router.push({ name: "Fight" });
     }
+  },
+  beforeCreate: function() {
+    document.body.className = 'placement';
   }
 };
 </script>

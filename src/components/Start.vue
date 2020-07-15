@@ -1,42 +1,44 @@
 <template>
   <v-row class="start-page">
-    <v-col cols="12"><h1 class="game-title">AHOY !</h1></v-col>
-    <v-col cols="12">
-      <v-form class="start-form" v-model="valid">
-        <v-row>
-          <v-col cols="12">
-            <v-text-field
-              placeholder="Votre nom de Pirate"
-              v-model="playerName"
-              :rules="nameRules"
-              class="name-input"
-              required
-            />
-          </v-col>
-          <v-col cols="12">
-            <div class="label">Vous êtes :</div>
-            <v-radio-group class="identity-input" v-model="playerIdentity" row>
-              <v-col cols="6">
-                <v-radio label="Un homme" value="male"></v-radio>
-              </v-col>
-              <v-col cols="6">
-                <v-radio label="Une femme" value="female"></v-radio>
-              </v-col>
-            </v-radio-group>
-          </v-col>
-          <v-col cols="12">
-            <v-btn
-              :disabled="!valid"
-              color="primary"
-              class="start-game"
-              @click="newGame"
-            >
-              Play!
-            </v-btn>
-          </v-col>
-        </v-row>
-      </v-form>
-    </v-col>
+
+      <v-card class="home-card rounded-lg" outlined elevation="24">
+        <v-card-title><h1 class="game-title">AHOY !</h1></v-card-title>
+        <v-form class="start-form" v-model="valid">
+          <v-row>
+            <v-col cols="12">
+              <v-text-field
+                      placeholder="Votre nom de Pirate"
+                      v-model="playerName"
+                      :rules="nameRules"
+                      class="name-input"
+                      required
+              />
+            </v-col>
+            <v-col cols="12">
+              <div class="label">Vous êtes :</div>
+              <v-radio-group class="identity-input" v-model="playerIdentity" row>
+                <v-col cols="6">
+                  <v-radio label="Un homme" value="male"></v-radio>
+                </v-col>
+                <v-col cols="6">
+                  <v-radio label="Une femme" value="female"></v-radio>
+                </v-col>
+              </v-radio-group>
+            </v-col>
+            <v-col cols="12">
+              <v-btn
+                      :disabled="!valid"
+                      color="primary"
+                      class="start-game"
+                      @click="newGame"
+              >
+                Play!
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-form>
+      </v-card>
+
   </v-row>
 </template>
 
@@ -65,18 +67,24 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
-.start-page {
-  padding-top: 150px;
-}
+  .home-card{
+    margin: auto;
+    position: fixed;
+    top:50%;
+    margin-top:-250px;
+    left:50%;
+    margin-left:-196px;
+  }
+
 .game-title {
-  font-size: 100px;
-  color: #ffbf00;
+  font-size: 50px;
+  margin-top: 35px;
+  line-height : 1;
+  color: black;
 }
 .start-form {
-  width: 40%;
-  max-width: 500px;
+  max-width: 390px;
   margin: auto;
-  padding-top: 50px;
 
   .name-input, .identity-input {
     max-width: 300px;

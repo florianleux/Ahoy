@@ -45,11 +45,14 @@ export default {
   },
   created() {
     window.addEventListener("resize", this.onResize);
+  },
+  beforeCreate: function() {
+    document.body.className = 'home';
   }
 };
 </script>
-<style scoped lang="less">
-#app {
+<style lang="less">
+ body.home #app  {
   background: url("/home/bg.jpg") no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
