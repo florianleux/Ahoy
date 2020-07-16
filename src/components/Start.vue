@@ -72,7 +72,7 @@ export default {
     position: fixed;
     top:50%;
     margin-top:-250px;
-    left:50%;
+    left:75%;
     margin-left:-196px;
   }
 
