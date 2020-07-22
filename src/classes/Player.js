@@ -7,7 +7,7 @@ export class Player extends Character {
   identity = null;
   profileHelper = new PlayerProfileHelper();
 
-  constructor(name,identity) {
+  constructor(name, identity) {
     super(name);
 
     this.phrase = this.profileHelper.getPhrase();

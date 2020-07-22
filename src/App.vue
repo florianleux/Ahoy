@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <div id="app" >
+    <div id="app">
       <v-dialog v-model="displayKO" persistent width="500">
         <v-card>
           <v-card-title class="headline" primary-title>
@@ -8,11 +8,12 @@
           </v-card-title>
           <v-card-text>
             <div>
-              Malheureusement, Ahoy! est actuellement seulement jouable sur grand
-              écran, et n'est pas (encore) responsible !
+              Malheureusement, Ahoy! est actuellement seulement jouable sur
+              grand écran, et n'est pas (encore) responsible !
             </div>
             <div>
-              Augmentez la taille de votre fenêtre ou revenez jouer depuis un PC !
+              Augmentez la taille de votre fenêtre ou revenez jouer depuis un PC
+              !
             </div>
           </v-card-text>
         </v-card>
@@ -31,7 +32,7 @@ export default {
       displayKO: this.onResize()
     };
   },
-  methods :{
+  methods: {
     onResize() {
       console.log("route");
       if (window.innerWidth > 1100) {
@@ -43,7 +44,7 @@ export default {
   },
   created() {
     window.addEventListener("resize", this.onResize);
-  },
+  }
 };
 </script>
 

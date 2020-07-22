@@ -1,49 +1,47 @@
 <template>
   <v-row class="start-page">
+    <img
+      class="player-img"
+      :src="publicPath + 'home/players/' + playerIdentity + '.png'"
+    />
 
-    <img  class="player-img" :src="
-        publicPath + 'home/players/' + playerIdentity +'.png'
-      "
-    >
-
-      <v-card class="home-card rounded-lg" outlined elevation="24">
-        <v-card-title><h1 class="game-title">AHOY !</h1></v-card-title>
-        <v-form class="start-form" v-model="valid">
-          <v-row>
-            <v-col cols="12">
-              <v-text-field
-                      placeholder="Votre nom de Pirate"
-                      v-model="playerName"
-                      :rules="nameRules"
-                      class="name-input"
-                      required
-              />
-            </v-col>
-            <v-col cols="12">
-              <div class="label">Vous êtes :</div>
-              <v-radio-group class="identity-input" v-model="playerIdentity" row>
-                <v-col cols="6">
-                  <v-radio label="Un homme" value="male"></v-radio>
-                </v-col>
-                <v-col cols="6">
-                  <v-radio label="Une femme" value="female"></v-radio>
-                </v-col>
-              </v-radio-group>
-            </v-col>
-            <v-col cols="12">
-              <v-btn
-                      :disabled="!valid"
-                      color="primary"
-                      class="start-game"
-                      @click="newGame"
-              >
-                Play!
-              </v-btn>
-            </v-col>
-          </v-row>
-        </v-form>
-      </v-card>
-
+    <v-card class="home-card rounded-lg" outlined elevation="24">
+      <v-card-title><h1 class="game-title">AHOY !</h1></v-card-title>
+      <v-form class="start-form" v-model="valid">
+        <v-row>
+          <v-col cols="12">
+            <v-text-field
+              placeholder="Votre nom de Pirate"
+              v-model="playerName"
+              :rules="nameRules"
+              class="name-input"
+              required
+            />
+          </v-col>
+          <v-col cols="12">
+            <div class="label">Vous êtes :</div>
+            <v-radio-group class="identity-input" v-model="playerIdentity" row>
+              <v-col cols="6">
+                <v-radio label="Un homme" value="male"></v-radio>
+              </v-col>
+              <v-col cols="6">
+                <v-radio label="Une femme" value="female"></v-radio>
+              </v-col>
+            </v-radio-group>
+          </v-col>
+          <v-col cols="12">
+            <v-btn
+              :disabled="!valid"
+              color="primary"
+              class="start-game"
+              @click="newGame"
+            >
+              Play!
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-form>
+    </v-card>
   </v-row>
 </template>
 
@@ -59,7 +57,7 @@ export default {
         v =>
           v.length < 15 || "Votre nom doit comporter au maximum 15 caractères"
       ],
-        publicPath: process.env.BASE_URL
+      publicPath: process.env.BASE_URL
     };
   },
   methods: {
@@ -73,33 +71,34 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
-  .home-card{
-    margin: auto;
-    position: fixed;
-    top:50%;
-    margin-top:-250px;
-    left:75%;
-    margin-left:-196px;
-  }
+.home-card {
+  margin: auto;
+  position: fixed;
+  top: 50%;
+  margin-top: -250px;
+  left: 75%;
+  margin-left: -196px;
+}
 
-  .player-img{
-    position: fixed;
-    height: 100%;
-    top:0;
-    bottom:0;
-    left:10%;
-  }
+.player-img {
+  position: fixed;
+  height: 100%;
+  top: 0;
+  bottom: 0;
+  left: 10%;
+}
 .game-title {
   font-size: 50px;
   margin-top: 35px;
-  line-height : 1;
+  line-height: 1;
   color: black;
 }
 .start-form {
   max-width: 390px;
   margin: auto;
 
-  .name-input, .identity-input {
+  .name-input,
+  .identity-input {
     max-width: 300px;
     display: block;
     margin: auto;
@@ -113,10 +112,10 @@ export default {
     }
   }
 
-  .label{
+  .label {
     text-align: center;
   }
-  .identity-input{
+  .identity-input {
     padding-left: 25px;
   }
 

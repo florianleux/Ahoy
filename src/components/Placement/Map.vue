@@ -49,8 +49,10 @@ export default {
     },
     clickSquare: function(event) {
       this.playerMap.putBoat(event.target, this.$game.player.fleet);
-      if(_.find(this.$game.player.fleet.boats, ['placed', false])){
-          this.$game.player.fleet.selectBoat(_.find(this.$game.player.fleet.boats, ['placed', false]));
+      if (_.find(this.$game.player.fleet.boats, ["placed", false])) {
+        this.$game.player.fleet.selectBoat(
+          _.find(this.$game.player.fleet.boats, ["placed", false])
+        );
       }
     },
     rotateBoat: function() {
@@ -61,7 +63,7 @@ export default {
       }
     },
     onResize() {
-      var target = { x: 500, y: 215, width: 475,height: 475};
+      var target = { x: 500, y: 215, width: 475, height: 475 };
       var windowWidth = $(window).width();
       var windowHeight = $(window).height();
 
@@ -75,25 +77,23 @@ export default {
       if (xScale > yScale) {
         // The image fits perfectly in x axis, stretched in y
         scale = xScale;
-        yOffset = (windowHeight - (1080 * scale)) / 2;
+        yOffset = (windowHeight - 1080 * scale) / 2;
       } else {
         // The image fits perfectly in y axis, stretched in x
         scale = yScale;
-        xOffset = (windowWidth - (1920 * scale)) / 2;
+        xOffset = (windowWidth - 1920 * scale) / 2;
       }
 
-      $(".canvas").css('top', (target.y) * scale + yOffset);
-      $(".canvas").css('left', (target.x) * scale + xOffset);
-      $(".canvas").css('width', (target.width) * scale );
-      $(".canvas").css('height', (target.height) * scale);
-      $(".line").css('height', ((target.height) * scale)/10);
-
-
+      $(".canvas").css("top", target.y * scale + yOffset);
+      $(".canvas").css("left", target.x * scale + xOffset);
+      $(".canvas").css("width", target.width * scale);
+      $(".canvas").css("height", target.height * scale);
+      $(".line").css("height", (target.height * scale) / 10);
     }
   },
   mounted() {
     window.addEventListener("resize", this.onResize);
-    window.dispatchEvent(new Event('resize'));
+    window.dispatchEvent(new Event("resize"));
   },
   created() {
     this.throttledRotateBoat = _.throttle(this.rotateBoat, 200, {
@@ -113,6 +113,9 @@ export default {
   transform: rotate(-6deg);
   position: absolute;
   border: 1px solid black;
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .line {
@@ -135,5 +138,4 @@ export default {
     background: green;
   }
 }
-
 </style>
