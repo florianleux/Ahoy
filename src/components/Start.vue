@@ -1,6 +1,11 @@
 <template>
   <v-row class="start-page">
 
+    <img  class="player-img" :src="
+        publicPath + 'home/players/' + playerIdentity +'.png'
+      "
+    >
+
       <v-card class="home-card rounded-lg" outlined elevation="24">
         <v-card-title><h1 class="game-title">AHOY !</h1></v-card-title>
         <v-form class="start-form" v-model="valid">
@@ -53,7 +58,8 @@ export default {
         v => v.length > 1 || "Votre nom doit comporter au minimum 1 caractère",
         v =>
           v.length < 15 || "Votre nom doit comporter au maximum 15 caractères"
-      ]
+      ],
+        publicPath: process.env.BASE_URL
     };
   },
   methods: {
@@ -76,6 +82,13 @@ export default {
     margin-left:-196px;
   }
 
+  .player-img{
+    position: fixed;
+    height: 100%;
+    top:0;
+    bottom:0;
+    left:10%;
+  }
 .game-title {
   font-size: 50px;
   margin-top: 35px;

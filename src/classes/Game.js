@@ -9,8 +9,7 @@ export class Game {
   level = 0;
 
   enemyList = [
-    // SimpleSam,
-    // JackTheBurned,
+
     MamanBrigitte
   ];
 
