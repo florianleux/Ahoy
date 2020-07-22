@@ -21,7 +21,11 @@
 </template>
 
 <script>
+<<<<<<< Updated upstream
   import $ from "jquery";
+=======
+  import _ from "lodash";
+>>>>>>> Stashed changes
 
 export default {
   name: "Fleet",
@@ -66,10 +70,16 @@ export default {
 
     }
   },
+<<<<<<< Updated upstream
   mounted() {
     window.addEventListener("resize", this.onResize);
     window.dispatchEvent(new Event('resize'));
+=======
+  beforeCreate: function(){
+      this.$game.player.fleet.selectBoat(_.find(this.$game.player.fleet.boats, ['selected', false]));
+>>>>>>> Stashed changes
   }
+
 };
 </script>
 
