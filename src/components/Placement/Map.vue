@@ -109,8 +109,7 @@ export default {
 .canvas {
   transform: rotate(-6deg);
   position: absolute;
-  background: blue;
-  border: 1px solid red;
+  border: 1px solid black;
 }
 
 .line {
@@ -120,7 +119,7 @@ export default {
 .square {
   float: left;
   width: 10%;
-  border: 1px solid red;
+  border: 1px solid black;
   height: 100%;
 
   &.hovered {

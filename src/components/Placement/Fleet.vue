@@ -62,7 +62,7 @@ export default {
       $("#fleet").css('left', (target.x) * scale + xOffset);
       $("#fleet").css('width', (target.width) * scale );
       $("#fleet").css('height', (target.height) * scale);
-      $(".boat").css('height', ((target.height) * scale)/6);
+      $(".boat").css('height', ((target.height) * scale)/6.5);
 
     }
   },
@@ -78,11 +78,11 @@ export default {
   text-align: center;
   transform: rotate(7deg);
   position: absolute;
-  background:red;
 }
 
 .boat {
   height:25%;
+  color: white;
   &.selected {
     background: red;
   }
