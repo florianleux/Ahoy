@@ -28,6 +28,7 @@
 
 <script>
 import _ from "lodash";
+import $ from "jquery";
 
 export default {
   name: "MapVue",
@@ -55,7 +56,41 @@ export default {
           .selectedBoat.horizontal;
         this.playerMap.hoverSquare(this.target, this.$game.player.fleet);
       }
+    },
+    onResize() {
+      var target = { x: 500, y: 215, width: 475,height: 475};
+      var windowWidth = $(window).width();
+      var windowHeight = $(window).height();
+
+      // Get largest dimension increase
+      var xScale = windowWidth / 1920;
+      var yScale = windowHeight / 1080;
+      var scale;
+      var yOffset = 0;
+      var xOffset = 0;
+
+      if (xScale > yScale) {
+        // The image fits perfectly in x axis, stretched in y
+        scale = xScale;
+        yOffset = (windowHeight - (1080 * scale)) / 2;
+      } else {
+        // The image fits perfectly in y axis, stretched in x
+        scale = yScale;
+        xOffset = (windowWidth - (1920 * scale)) / 2;
+      }
+
+      $(".canvas").css('top', (target.y) * scale + yOffset);
+      $(".canvas").css('left', (target.x) * scale + xOffset);
+      $(".canvas").css('width', (target.width) * scale );
+      $(".canvas").css('height', (target.height) * scale);
+      $(".line").css('height', ((target.height) * scale)/10);
+
+
     }
+  },
+  mounted() {
+    window.addEventListener("resize", this.onResize);
+    window.dispatchEvent(new Event('resize'));
   },
   created() {
     this.throttledRotateBoat = _.throttle(this.rotateBoat, 200, {
@@ -69,12 +104,12 @@ export default {
 </script>
 
 <style scoped lang="less">
-@grid-size: 450px;
+@grid-size: 420px;
 
 .canvas {
-  margin: auto;
-  width: @grid-size;
-  height: @grid-size;
+  transform: rotate(-6deg);
+  position: absolute;
+  background: blue;
   border: 1px solid red;
 }
 
@@ -98,4 +133,5 @@ export default {
     background: green;
   }
 }
+
 </style>

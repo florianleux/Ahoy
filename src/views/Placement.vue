@@ -11,25 +11,27 @@
         <Fleet></Fleet>
       </v-col>
     </v-row>
-    <v-row>
-      <v-col>
-        <div class="help-placement">
-          Pour faire tourner votre bateau avant de le placer, vous pouvez
-          utiliser la roulette de votre souris ou faire un clic droit sur la
-          carte !
-        </div>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-btn
-        :disabled="playerFleet.size != playerFleet.putBoats"
-        color="success"
-        class="start-fight"
-        @click="startFight"
-      >
-        A L'ABORDAGE !
-      </v-btn>
-    </v-row>
+    <div class="help-zone">
+      <v-row>
+        <v-col>
+          <div class="help-placement">
+            Pour faire tourner votre bateau avant de le placer, vous pouvez
+            utiliser la roulette de votre souris ou faire un clic droit sur la
+            carte !
+          </div>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-btn
+                :disabled="playerFleet.size != playerFleet.putBoats"
+                color="success"
+                class="start-fight"
+                @click="startFight"
+        >
+          A L'ABORDAGE !
+        </v-btn>
+      </v-row>
+    </div>
     <PlayerProfile></PlayerProfile>
   </div>
 </template>
@@ -64,11 +66,27 @@ export default {
 </script>
 
 <style>
+  body.placement #app  {
+    background: url("/placement/bg.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+  }
+
 .help-placement {
   text-align: center;
   margin: auto;
   font-style: italic;
   font-size: 18px;
+}
+
+.help-zone{
+  transform: rotate(-6deg);
+  position: absolute;
+  bottom:19%;
+  left: 28%;
+  width: 400px;
 }
 
 .start-fight {
