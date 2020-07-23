@@ -15,6 +15,7 @@
           v-for="m in 10"
           :key="m"
           @mouseover="hoverSquare"
+          @mouseleave="leaveMap"
           @click="clickSquare"
           v-bind:class="{
             hovered: playerMap.hoverMap[n - 1][m - 1],
@@ -64,6 +65,9 @@ export default {
           .selectedBoat.horizontal;
         this.playerMap.hoverSquare(this.target, this.$game.player.fleet);
       }
+    },
+    leaveMap(){
+      this.playerMap.hoverMap = this.playerMap._resetMap();
     },
     onResize() {
       var target = { x: 500, y: 215, width: 475, height: 475 };
