@@ -62,6 +62,9 @@ export default {
   },
   methods: {
     newGame() {
+      let homeAudio = new Audio("/music/home.wav");
+      homeAudio.loop = true;
+      homeAudio.play();
       this.$game.newGame(this.playerName, this.playerIdentity);
       this.$router.push({ name: "Placement" });
     }

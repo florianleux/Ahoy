@@ -6,6 +6,7 @@
     @click.right.prevent="throttledRotateBoat"
   >
     <div class="canvas">
+      <div class="frame"></div>
       <div class="line" v-for="n in 10" :key="n">
         <div
           class="square"
@@ -20,7 +21,8 @@
             placed: playerMap.boatMap[n - 1][m - 1],
             koClick: !playerMap.okClick
           }"
-        ></div>
+        >
+        </div>
       </div>
     </div>
   </v-row>
@@ -39,7 +41,8 @@ export default {
       playerMap: this.$game.player.map,
       enemyMap: this.$game.player.enemy.map,
       enemyFleet: this.$game.player.enemy.fleet,
-      target: null
+      target: null,
+      publicPath: process.env.BASE_URL
     };
   },
   methods: {
@@ -112,9 +115,22 @@ export default {
 .canvas {
   transform: rotate(-6deg);
   position: absolute;
-  border: 1px solid black;
+  background: url("/placement/map.png") no-repeat center center ;
+  background-size:contain;
+  /*border: 1px solid black;*/
   &:hover {
     cursor: pointer;
+  }
+  .frame{
+    background: url("/placement/frame.png") no-repeat center center ;
+    background-size:contain;
+    position: absolute;
+    display: block;
+    pointer-events: none;
+    top:-15px;
+    bottom:-15px;
+    left:-15px;
+    right:-15px;
   }
 }
 
@@ -125,17 +141,20 @@ export default {
 .square {
   float: left;
   width: 10%;
-  border: 1px solid black;
+  /*border: 1px solid black;*/
   height: 100%;
 
   &.hovered {
-    background: lightgreen;
+    background: url("/boats/player/hover.png") no-repeat center center ;
+    background-size:contain;
     &.koClick {
-      background: orangered;
+      background: url("/boats/player/ko.png") no-repeat center center ;
+      background-size:contain;
     }
   }
   &.placed {
-    background: green;
+    background: url("/boats/player/ok.png") no-repeat center center ;
+    background-size:contain;
   }
 }
 </style>

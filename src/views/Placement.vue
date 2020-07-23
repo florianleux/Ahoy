@@ -41,6 +41,7 @@
 import MapVue from "@/components/Placement/Map.vue";
 import Fleet from "@/components/Placement/Fleet.vue";
 import PlayerProfile from "@/components/Profiles/PlayerProfile.vue";
+import $ from "jquery";
 
 export default {
   name: "Placement",
@@ -58,7 +59,38 @@ export default {
   methods: {
     startFight: function() {
       this.$router.push({ name: "Fight" });
+    },
+    onResize() {
+      var target = { x: 540, y: 720, width: 475, height: 170 };
+      var windowWidth = $(window).width();
+      var windowHeight = $(window).height();
+
+      // Get largest dimension increase
+      var xScale = windowWidth / 1920;
+      var yScale = windowHeight / 1080;
+      var scale;
+      var yOffset = 0;
+      var xOffset = 0;
+
+      if (xScale > yScale) {
+        // The image fits perfectly in x axis, stretched in y
+        scale = xScale;
+        yOffset = (windowHeight - 1080 * scale) / 2;
+      } else {
+        // The image fits perfectly in y axis, stretched in x
+        scale = yScale;
+        xOffset = (windowWidth - 1920 * scale) / 2;
+      }
+
+      $(".help-zone").css("top", target.y * scale + yOffset);
+      $(".help-zone").css("left", target.x * scale + xOffset);
+      $(".help-zone").css("width", target.width * scale);
+      $(".help-zone").css("height", target.height * scale);
     }
+  },
+  mounted() {
+    window.addEventListener("resize", this.onResize);
+    window.dispatchEvent(new Event("resize"));
   },
   beforeCreate: function() {
     document.body.className = "placement";
@@ -102,9 +134,6 @@ body.placement #app {
 .help-zone {
   transform: rotate(-6deg);
   position: absolute;
-  bottom: 19%;
-  left: 28%;
-  width: 400px;
 }
 
 .start-fight {
