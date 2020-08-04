@@ -30,6 +30,10 @@ export class Boat {
     this.disabled = true;
   }
 
+  enable(){
+    this.disabled = false;
+  }
+
   hit() {
     this.hp--;
     if (this.hp === 0) {

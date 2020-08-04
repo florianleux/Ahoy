@@ -7,7 +7,6 @@ export class Fleet {
   boats = [];
 
   constructor() {
-    console.log("construc fleet");
     this._populateFleet();
   }
 

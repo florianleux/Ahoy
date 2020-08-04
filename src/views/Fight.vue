@@ -99,9 +99,12 @@ export default {
   },
   methods: {
     rerun: function() {
-      this.game.nextGame();
+      this.game.nextLevel();
       this.$router.push({ name: "Placement" });
     }
+  },
+  beforeCreate: function() {
+    document.body.className = "fight";
   }
 };
 </script>

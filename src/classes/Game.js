@@ -8,7 +8,10 @@ export class Game {
   round = 0;
   level = 0;
 
-  enemyList = [MamanBrigitte];
+  enemyList = [
+      SimpleSam,
+      JackTheBurned,
+      MamanBrigitte];
 
   newGame(playerName, playerIdentity) {
     this.player = new Player(playerName, playerIdentity);

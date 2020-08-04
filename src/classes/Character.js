@@ -50,7 +50,6 @@ export class Character {
   }
 
   setMoodAttacking(attackResult) {
-    console.log(attackResult);
     this.mood = this.moodHelper.getMoodAttacking(attackResult);
   }
 

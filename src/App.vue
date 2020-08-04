@@ -34,7 +34,6 @@ export default {
   },
   methods: {
     onResize() {
-      console.log("route");
       if (window.innerWidth > 1100) {
         this.displayKO = false;
       } else {

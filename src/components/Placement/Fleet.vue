@@ -10,6 +10,7 @@
         @click="selectBoat(boat)"
       >
         <div class="name">Bateau n°{{ index + 1 }}</div>
+        <div v-if="boat.placed" @click="removeBoat(boat)">X</div>
         <div class="size">
           <span v-for="n in boat.size" :key="n">X</span>
         </div>
@@ -34,6 +35,10 @@ export default {
         this.$game.player.fleet.selectBoat(boat);
       }
     },
+    removeBoat: function(boat){
+      this.$game.player.map.removeBoat(boat,this.$game.player.fleet);
+    },
+
     onResize() {
       var target = { x: 1370, y: 85, width: 275, height: 817, paddingTop: 100 };
       var windowWidth = $(window).width();
@@ -131,7 +136,6 @@ export default {
 
     &:hover {
       background: initial;
-      cursor: not-allowed;
     }
   }
 }
