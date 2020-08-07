@@ -2,6 +2,7 @@ import { Player } from "@/classes/Player.js";
 import { SimpleSam } from "@/classes/enemies/SimpleSam/SimpleSam.js";
 import { JackTheBurned } from "./enemies/JackTheBurned/JackTheBurned";
 import { MamanBrigitte } from "./enemies/MamanBrigitte/MamanBrigitte";
+import { ChisanaKaizoku } from "./enemies/ChisanaKaizoku/ChisanaKaizoku";
 
 export class Game {
   player = null;
@@ -10,8 +11,10 @@ export class Game {
 
   enemyList = [
       SimpleSam,
-      JackTheBurned,
-      MamanBrigitte];
+    JackTheBurned,
+    MamanBrigitte,
+    ChisanaKaizoku
+  ];
 
   newGame(playerName, playerIdentity) {
     this.player = new Player(playerName, playerIdentity);
@@ -20,6 +23,13 @@ export class Game {
 
   nextLevel() {
     this.level++;
+    let bufferName = this.player.name;
+    this.round = 0;
+    this.player = new Player(bufferName);
+    this.player.enemy = new this.enemyList[this.level]();
+  }
+
+  rerun(){
     let bufferName = this.player.name;
     this.round = 0;
     this.player = new Player(bufferName);

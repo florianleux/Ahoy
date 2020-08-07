@@ -110,6 +110,13 @@ export class Enemy extends Character {
         if (this.firstHit) {
           this.directionIndex++;
           this.hitStrike = 1;
+          if (this.directionIndex > 3) {
+            this.firstHit = null;
+            this.hitStrike = 0;
+            this.directionIndex = 0;
+            this.direction = this._shuffleDirectionArray(this.direction);
+            return false;
+          }
         }
         break;
 
@@ -155,6 +162,13 @@ export class Enemy extends Character {
               }
               break;
           }
+          if (this.directionIndex > 3) {
+            this.firstHit = null;
+            this.hitStrike = 0;
+            this.directionIndex = 0;
+            this.direction = this._shuffleDirectionArray(this.direction);
+            return false;
+          }
         }
         break;
 
@@ -167,11 +181,15 @@ export class Enemy extends Character {
     }
   }
 
-  attack(target, posX, posY) {
+  attack(target, posX, posY, postAttack = true) {
     let attackResult = super.attack(target, posX, posY),
       _this = this;
 
     this.attackMessage = this.attackMessages[attackResult];
+
+    if(!postAttack){
+      return attackResult;
+    }
 
     setTimeout(function() {
       _this.attackMessage = false;

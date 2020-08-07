@@ -40,7 +40,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="rerun">
+          <v-btn color="primary" text @click="nextLevel">
             Nouvelle partie
           </v-btn>
         </v-card-actions>
@@ -98,8 +98,12 @@ export default {
     };
   },
   methods: {
-    rerun: function() {
+    nextLevel: function() {
       this.game.nextLevel();
+      this.$router.push({ name: "Placement" });
+    },
+    rerun: function() {
+      this.game.rerun();
       this.$router.push({ name: "Placement" });
     }
   },
