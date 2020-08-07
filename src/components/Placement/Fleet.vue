@@ -5,15 +5,20 @@
       <div
         v-for="(boat, index) in fleet.boats"
         :key="index"
+        :id="'boat' + boat.id"
         class="boat"
         :class="{ selected: boat.selected, disabled: boat.disabled }"
         @click="selectBoat(boat)"
       >
-        <div class="name">Bateau n°{{ index + 1 }}</div>
-        <div v-if="boat.placed" @click="removeBoat(boat)">X</div>
-        <div class="size">
-          <span v-for="n in boat.size" :key="n">X</span>
+        <div
+          class="remove-button"
+          title="Supprimer le placement du bateau"
+          v-if="boat.placed"
+          @click="removeBoat(boat)"
+        >
+          X
         </div>
+        <div class="name">Bateau n°{{ fleet.size - index }}</div>
       </div>
     </v-row>
   </div>
@@ -26,7 +31,8 @@ export default {
   name: "Fleet",
   data: function() {
     return {
-      fleet: this.$game.player.fleet
+      fleet: this.$game.player.fleet,
+      publicPath: process.env.BASE_URL
     };
   },
   methods: {
@@ -35,12 +41,15 @@ export default {
         this.$game.player.fleet.selectBoat(boat);
       }
     },
-    removeBoat: function(boat){
-      this.$game.player.map.removeBoat(boat,this.$game.player.fleet);
+    removeBoat: function(boat) {
+      this.$game.player.map.removeBoat(boat, this.$game.player.fleet);
     },
-
     onResize() {
-      var target = { x: 1370, y: 85, width: 275, height: 817, paddingTop: 100 };
+      var boat1 = { x: 1317, y: 758, width: 286, height: 143 };
+      var boat2 = { x: 1334, y: 613, width: 286, height: 143 };
+      var boat3 = { x: 1351, y: 470, width: 284, height: 142 };
+      var boat4 = { x: 1369, y: 328, width: 286, height: 142 };
+      var boat5 = { x: 1390, y: 183, width: 286, height: 142 };
       var windowWidth = $(window).width();
       var windowHeight = $(window).height();
 
@@ -61,17 +70,30 @@ export default {
         xOffset = (windowWidth - 1920 * scale) / 2;
       }
 
-      $("#fleet").css("top", target.y * scale + yOffset);
-      $("#fleet").css("left", target.x * scale + xOffset);
-      $("#fleet").css("width", target.width * scale);
-      $("#fleet").css("height", target.height * scale);
-      $("#fleet").css("padding-top", target.paddingTop * scale);
-      $(".boats").css("height", (target.height - target.paddingTop) * scale);
-      $(".boat").css(
-        "height",
-        ((target.height - target.paddingTop) * scale) / 5
-      );
-      $(".boat").css("width", target.width * scale);
+      $("#boat1").css("top", boat1.y * scale + yOffset);
+      $("#boat1").css("left", boat1.x * scale + xOffset);
+      $("#boat1").css("width", boat1.width * scale);
+      $("#boat1").css("height", boat1.height * scale);
+
+      $("#boat2").css("top", boat2.y * scale + yOffset);
+      $("#boat2").css("left", boat2.x * scale + xOffset);
+      $("#boat2").css("width", boat2.width * scale);
+      $("#boat2").css("height", boat2.height * scale);
+
+      $("#boat3").css("top", boat3.y * scale + yOffset);
+      $("#boat3").css("left", boat3.x * scale + xOffset);
+      $("#boat3").css("width", boat3.width * scale);
+      $("#boat3").css("height", boat3.height * scale);
+
+      $("#boat4").css("top", boat4.y * scale + yOffset);
+      $("#boat4").css("left", boat4.x * scale + xOffset);
+      $("#boat4").css("width", boat4.width * scale);
+      $("#boat4").css("height", boat4.height * scale);
+
+      $("#boat5").css("top", boat5.y * scale + yOffset);
+      $("#boat5").css("left", boat5.x * scale + xOffset);
+      $("#boat5").css("width", boat5.width * scale);
+      $("#boat5").css("height", boat5.height * scale);
     }
   },
   mounted() {
@@ -87,33 +109,65 @@ export default {
 </script>
 
 <style scoped lang="less">
-#fleet {
-  text-align: center;
-  transform: rotate(7deg);
-  position: absolute;
-}
 .boats {
   margin: 0;
 }
+
+.boatImg {
+  width: 100%;
+}
 .boat {
   color: #450000;
-  position: relative;
+  transform: rotate(7deg);
+  position: absolute;
+
+  &#boat1 {
+    background: url("/placement/boats/1.png") no-repeat center center;
+    background-size: contain;
+  }
+  &#boat2 {
+    background: url("/placement/boats/2.png") no-repeat center center;
+    background-size: contain;
+  }
+  &#boat3 {
+    background: url("/placement/boats/3.png") no-repeat center center;
+    background-size: contain;
+  }
+  &#boat4 {
+    background: url("/placement/boats/4.png") no-repeat center center;
+    background-size: contain;
+  }
+  &#boat5 {
+    background: url("/placement/boats/5.png") no-repeat center center;
+    background-size: contain;
+  }
 
   .name {
     position: absolute;
-    top: 25%;
-    right: 15%;
+    top: 10%;
+    right: 0;
+    font-size: 20px;
+    left: 0;
+    text-align: center;
+    color: #370014;
   }
 
-  .size {
+  .remove-button {
+    z-index: 500;
+    font-family: "Space Comics";
+    color: #370014;
     position: absolute;
-    top: 50%;
-    right: 15%;
+    top: 15%;
+    font-size: 16px;
+    right: 5%;
+    &:hover {
+      color: white;
+      font-weight: bold;
+    }
   }
 
   &.selected {
-    .name,
-    .size {
+    .name {
       color: #ffffff;
       text-decoration: underline;
       -webkit-animation: glow 1s ease-in-out infinite alternate;
@@ -123,6 +177,9 @@ export default {
   }
   &:hover {
     cursor: pointer;
+    name {
+      font-weight: bold;
+    }
   }
   &:not(.selected):hover {
     .name,
@@ -133,10 +190,7 @@ export default {
 
   &.disabled {
     color: grey;
-
-    &:hover {
-      background: initial;
-    }
+    background: none !important;
   }
 }
 

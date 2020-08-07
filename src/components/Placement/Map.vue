@@ -22,8 +22,7 @@
             placed: playerMap.boatMap[n - 1][m - 1],
             koClick: !playerMap.okClick
           }"
-        >
-        </div>
+        ></div>
       </div>
     </div>
   </v-row>
@@ -66,7 +65,7 @@ export default {
         this.playerMap.hoverSquare(this.target, this.$game.player.fleet);
       }
     },
-    leaveMap(){
+    leaveMap() {
       this.playerMap.hoverMap = this.playerMap._resetMap();
     },
     onResize() {
@@ -119,22 +118,22 @@ export default {
 .canvas {
   transform: rotate(-6deg);
   position: absolute;
-  background: url("/placement/map.png") no-repeat center center ;
-  background-size:contain;
+  background: url("/placement/map.png") no-repeat center center;
+  background-size: contain;
   /*border: 1px solid black;*/
   &:hover {
     cursor: pointer;
   }
-  .frame{
-    background: url("/placement/frame.png") no-repeat center center ;
-    background-size:contain;
+  .frame {
+    background: url("/placement/frame.png") no-repeat center center;
+    background-size: contain;
     position: absolute;
     display: block;
     pointer-events: none;
-    top:-15px;
-    bottom:-15px;
-    left:-15px;
-    right:-15px;
+    top: -15px;
+    bottom: -15px;
+    left: -15px;
+    right: -15px;
   }
 }
 
@@ -149,16 +148,16 @@ export default {
   height: 100%;
 
   &.hovered {
-    background: url("/boats/player/hover.png") no-repeat center center ;
-    background-size:contain;
+    background: url("/boats/player/hover.png") no-repeat center center;
+    background-size: contain;
     &.koClick {
-      background: url("/boats/player/ko.png") no-repeat center center ;
-      background-size:contain;
+      background: url("/boats/player/ko.png") no-repeat center center;
+      background-size: contain;
     }
   }
   &.placed {
-    background: url("/boats/player/ok.png") no-repeat center center ;
-    background-size:contain;
+    background: url("/boats/player/ok.png") no-repeat center center;
+    background-size: contain;
   }
 }
 </style>

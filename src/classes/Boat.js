@@ -30,7 +30,7 @@ export class Boat {
     this.disabled = true;
   }
 
-  enable(){
+  enable() {
     this.disabled = false;
   }
 

@@ -187,7 +187,7 @@ export class Enemy extends Character {
 
     this.attackMessage = this.attackMessages[attackResult];
 
-    if(!postAttack){
+    if (!postAttack) {
       return attackResult;
     }
 

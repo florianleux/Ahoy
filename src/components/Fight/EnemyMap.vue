@@ -114,27 +114,25 @@ export default {
             }
             break;
 
-            case ChisanaKaizoku:
-              var randPower = Math.random();
-              if (!this.enemyMap.hitMap[y-1][x-1] &&  randPower >= 0.5){
+          case ChisanaKaizoku:
+            var randPower = Math.random();
+            if (!this.enemyMap.hitMap[y - 1][x - 1] && randPower >= 0.5) {
+              setTimeout(function() {
+                _this.enemy.attack(_this.player, x, y, false);
                 setTimeout(function() {
-                  _this.enemy.attack(_this.player,x,y,false);
-                   setTimeout(function(){
-                     _this.nextRound(1200);
-                   },500)
-                }, 800);
-              }else{
-                _this.nextRound(1200);
-              }
+                  _this.nextRound(1200);
+                }, 500);
+              }, 800);
+            } else {
+              _this.nextRound(1200);
+            }
 
-              break;
+            break;
 
-            default:
-              this.nextRound(1200);
-              break;
+          default:
+            this.nextRound(1200);
+            break;
         }
-
-
       }
     },
     isDestroyed(n, m) {

@@ -85,7 +85,13 @@ h1,
 }
 
 h1 {
+  -webkit-text-fill-color: black;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: white;
   margin: 10px auto;
+  z-index: 9999;
+  position: relative;
+  pointer-events: none;
 }
 
 .v-application--wrap {

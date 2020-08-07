@@ -108,7 +108,7 @@ body.placement #app {
   opacity: 1;
 }
 .shadow {
-  z-index: 9999;
+  z-index: 9900;
   position: fixed;
   top: 0;
   bottom: 0;

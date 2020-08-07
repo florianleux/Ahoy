@@ -146,14 +146,14 @@ export class Map {
     fleet.boats.reverse();
   }
 
-  removeBoat(boat,fleet){
+  removeBoat(boat, fleet) {
     var _this = this;
 
     boat.coords.forEach(function(coord) {
       _this.boatMap[coord[1]].splice(coord[0], 1, false);
     });
 
-    boat.coords =[];
+    boat.coords = [];
     boat.enable();
     boat.placed = false;
     fleet.putBoats--;

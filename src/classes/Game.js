@@ -9,12 +9,7 @@ export class Game {
   round = 0;
   level = 0;
 
-  enemyList = [
-      SimpleSam,
-    JackTheBurned,
-    MamanBrigitte,
-    ChisanaKaizoku
-  ];
+  enemyList = [SimpleSam, JackTheBurned, MamanBrigitte, ChisanaKaizoku];
 
   newGame(playerName, playerIdentity) {
     this.player = new Player(playerName, playerIdentity);
@@ -29,7 +24,7 @@ export class Game {
     this.player.enemy = new this.enemyList[this.level]();
   }
 
-  rerun(){
+  rerun() {
     let bufferName = this.player.name;
     this.round = 0;
     this.player = new Player(bufferName);
