@@ -1,6 +1,20 @@
 <template>
   <div class="enemy profile" :class="{ active: enemy.turn }">
+    <img
+            rel="preload"
+            width="370"
+            :src="
+        publicPath + 'players/' + enemy.name.replace(/\s+/g, '')+ '/' + enemy.mood + '.png'
+      "
+            alt=""
+            class="picture"
+    />
     <div class="infos">
+      <img
+              rel="preload"
+              :src="publicPath + 'players/plank.png'"
+              class="plank"
+      />
       <div class="name">{{ enemy.name }}</div>
       <div class="phrase">"{{ enemy.phrase }}"</div>
     </div>
@@ -13,45 +27,58 @@ export default {
   data: function() {
     return {
       game: this.$game,
-      enemy: this.$game.player.enemy
+      enemy: this.$game.player.enemy,
+      publicPath: process.env.BASE_URL
     };
   }
 };
 </script>
 
 <style scoped lang="less">
-.infos {
-  border-radius: 5px 0 0 0;
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  padding: 10px 30px 10px 30px;
-  width: 330px;
-  background: #f34667;
+  .infos {
+    border-radius: 0 5px 0 0;
+    position: relative;
+    z-index: 9990;
+    height: 77px;
+    padding: 10px 30px 10px 30px;
+    width: 330px;
 
-  .name {
-    font-weight: bold;
-    font-size: 16px;
-    font-family: "Space Comics";
-    text-transform: uppercase;
-    text-align: right;
-    float: right;
-  }
-  .phrase {
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    text-align: right;
-    float: right;
-  }
-}
-.profile {
-  &.active {
-    .infos {
-      background: #f30224;
-      box-shadow: -1px 0px 30px -6px rgba(255, 0, 128, 1);
-      border: 1px solid rgba(255, 0, 128, 1);
+    .plank {
+      position: absolute;
+      top: -10px;
+      right: -5px;
+    }
+
+    .name {
+      font-weight: bold;
+      -webkit-text-fill-color: #612d0c;
+      -webkit-text-stroke-width: 1px;
+      -webkit-text-stroke-color: white;
+      font-size: 16px;
+      position: relative;
+      z-index: 9991;
+      font-family: "Space Comics";
+      text-transform: uppercase;
+    }
+    .phrase {
+      z-index: 9991;
+      position: absolute;
+      bottom: 10px;
+      color: white;
     }
   }
-}
+
+  .profile {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    z-index: 9901;
+
+    .picture {
+      position: absolute;
+      z-index: 9902;
+      bottom: 81px;
+      right: 0px;
+    }
+  }
 </style>

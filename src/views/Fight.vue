@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div class="shadow"></div>
     <h1 class="page-title">
       Phase de BAGARRE
     </h1>
@@ -106,6 +107,7 @@ export default {
       this.game.rerun();
       this.$router.push({ name: "Placement" });
     }
+
   },
   beforeCreate: function() {
     document.body.className = "fight";
@@ -114,12 +116,31 @@ export default {
 </script>
 
 <style lang="less">
-#app {
-  /*background: url('/fight/bg.jpg') no-repeat;*/
-  background-attachment: fixed;
-  background-position: center center;
-  background-size: cover;
-}
+
+  body.fight #app {
+    background: url("/fight/bg.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    opacity: 1;
+  }
+  .shadow {
+    z-index: 9900;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    background: url("/fight/shadow.png") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    opacity: 1;
+  }
 
 .map-line {
   margin-left: 50px;
