@@ -66,11 +66,12 @@ export default {
     hoverSquare: function() {},
     nextRound(time) {
       let _this = this;
-      this.$game.nextRound();
+
       setTimeout(function() {
         _this.player.enemy.mood = "default";
         _this.attackMessage = false;
         _this.player.mood = "default";
+        _this.$game.nextRound();
       }, time);
     },
     attack: function(x, y) {
