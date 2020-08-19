@@ -1,13 +1,12 @@
 <template>
   <v-row id="map" v-if="enemyMap.boatMap[9]">
-
     <v-col cols="12">
       <div class="enemy canvas" :class="{ disabled: !player.turn }">
         <div class="attack-result">
           <transition
-                  name="enterMessage"
-                  enter-to-class="animate__animated animate__tada"
-                  leave-to-class="animate__animated animate__fadeOut"
+            name="enterMessage"
+            enter-to-class="animate__animated animate__tada"
+            leave-to-class="animate__animated animate__fadeOut"
           >
             <div v-if="attackMessage">{{ attackMessage }}</div>
           </transition>
@@ -147,7 +146,7 @@ export default {
       }
     },
     onResize() {
-      var target = { x: 370  , y: 180, width: 500, height: 500   };
+      var target = { x: 370, y: 180, width: 500, height: 500 };
       var windowWidth = $(window).width();
       var windowHeight = $(window).height();
 
@@ -168,7 +167,6 @@ export default {
         xOffset = (windowWidth - 1920 * scale) / 2;
       }
 
-
       $(".enemy.canvas").css("top", target.y * scale + yOffset);
       $(".enemy.canvas").css("left", target.x * scale + xOffset);
       $(".enemy.canvas").css("width", target.width * scale);
@@ -180,13 +178,12 @@ export default {
   mounted() {
     window.addEventListener("resize", this.onResize);
     window.dispatchEvent(new Event("resize"));
-  },
+  }
 };
 </script>
 
 <style scoped lang="less">
 @grid-size: 400px;
-
 
 .canvas {
   transform: rotate(-6deg);
@@ -226,7 +223,7 @@ export default {
 
   text-align: center;
   margin-right: -50px;
-  *{
+  * {
     font-size: 27px;
   }
 }
@@ -234,10 +231,6 @@ export default {
   float: left;
   width: 10%;
   height: 100%;
-
-  &.placed {
-    background: goldenrod;
-  }
 
   &.hit {
     background: #ff180073;

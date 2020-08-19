@@ -2,7 +2,6 @@
   <div class="player profile" :class="{ active: player.turn }">
     <img
       rel="preload"
-      width="320"
       :src="
         publicPath + 'players/' + player.identity + '/' + player.mood + '.png'
       "
@@ -75,7 +74,15 @@ export default {
   left: 0;
   z-index: 9901;
 
+  &.active {
+    .picture {
+      width: 330px;
+    }
+  }
+
   .picture {
+    transition: width 0.4s;
+    width: 255px;
     position: absolute;
     z-index: 9902;
     bottom: 81px;

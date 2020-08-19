@@ -14,22 +14,6 @@
     </v-row>
     <PlayerProfile></PlayerProfile>
     <EnemyProfile></EnemyProfile>
-    <v-row class="turn-indication">
-      <transition
-        mode="out-in"
-        enter-active-class="animate__animated animate__flipInY"
-        leave-active-class="animate__animated animate__flipOutY"
-      >
-        <div class="text" v-bind:key="player.turn">
-          {{
-            player.turn
-              ? "C'est votre tour !"
-              : "C'est au tour de votre adversaire !"
-          }}
-        </div>
-      </transition>
-    </v-row>
-
     <v-dialog v-model="player.victory" persistent width="500">
       <v-card>
         <v-card-title class="headline" primary-title>
@@ -107,7 +91,6 @@ export default {
       this.game.rerun();
       this.$router.push({ name: "Placement" });
     }
-
   },
   beforeCreate: function() {
     document.body.className = "fight";
@@ -116,31 +99,30 @@ export default {
 </script>
 
 <style lang="less">
-
-  body.fight #app {
-    background: url("/fight/bg.jpg") no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-    opacity: 1;
-  }
-  .shadow {
-    z-index: 9900;
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    mix-blend-mode: multiply;
-    pointer-events: none;
-    background: url("/fight/shadow.png") no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-    opacity: 1;
-  }
+body.fight #app {
+  background: url("/fight/bg.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  opacity: 1;
+}
+.shadow {
+  z-index: 9900;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  background: url("/fight/shadow.png") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  opacity: 1;
+}
 
 .map-line {
   margin-left: 50px;
@@ -159,14 +141,5 @@ export default {
 
 .popin {
   color: white;
-}
-.turn-indication {
-  .text {
-    margin: auto;
-    margin-top: 25px;
-    text-align: center;
-    font-size: 35px;
-    background: white;
-  }
 }
 </style>

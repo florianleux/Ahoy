@@ -1,19 +1,23 @@
 <template>
   <div class="enemy profile" :class="{ active: enemy.turn }">
     <img
-            rel="preload"
-            width="370"
-            :src="
-        publicPath + 'players/' + enemy.name.replace(/\s+/g, '')+ '/' + enemy.mood + '.png'
+      rel="preload"
+      :src="
+        publicPath +
+          'players/' +
+          enemy.name.replace(/\s+/g, '') +
+          '/' +
+          enemy.mood +
+          '.png'
       "
-            alt=""
-            class="picture"
+      alt=""
+      class="picture"
     />
     <div class="infos">
       <img
-              rel="preload"
-              :src="publicPath + 'players/plank.png'"
-              class="plank"
+        rel="preload"
+        :src="publicPath + 'players/plank.png'"
+        class="plank"
       />
       <div class="name">{{ enemy.name }}</div>
       <div class="phrase">"{{ enemy.phrase }}"</div>
@@ -35,50 +39,61 @@ export default {
 </script>
 
 <style scoped lang="less">
-  .infos {
-    border-radius: 0 5px 0 0;
+.infos {
+  border-radius: 0 5px 0 0;
+  position: relative;
+  z-index: 9990;
+  height: 77px;
+  padding: 10px 25px 10px 25px;
+  width: 330px;
+
+  .plank {
+    position: absolute;
+    top: -10px;
+    right: -5px;
+  }
+
+  .name {
+    font-weight: bold;
+    -webkit-text-fill-color: #612d0c;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: white;
+    font-size: 16px;
     position: relative;
-    z-index: 9990;
-    height: 77px;
-    padding: 10px 30px 10px 30px;
-    width: 330px;
-
-    .plank {
-      position: absolute;
-      top: -10px;
-      right: -5px;
-    }
-
-    .name {
-      font-weight: bold;
-      -webkit-text-fill-color: #612d0c;
-      -webkit-text-stroke-width: 1px;
-      -webkit-text-stroke-color: white;
-      font-size: 16px;
-      position: relative;
-      z-index: 9991;
-      font-family: "Space Comics";
-      text-transform: uppercase;
-    }
-    .phrase {
-      z-index: 9991;
-      position: absolute;
-      bottom: 10px;
-      color: white;
-    }
+    z-index: 9991;
+    font-family: "Space Comics";
+    text-transform: uppercase;
   }
+  .phrase {
+    z-index: 9991;
+    position: absolute;
+    bottom: 10px;
+    color: white;
+    text-align: right;
+    right: 15px;
+  }
+}
 
-  .profile {
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    z-index: 9901;
+.profile {
+  position: fixed;
+  bottom: 0;
+  text-align: right;
+  right: 0;
+  z-index: 9901;
 
+  &.active {
     .picture {
-      position: absolute;
-      z-index: 9902;
-      bottom: 81px;
-      right: 0px;
+      width: 390px;
     }
   }
+
+  .picture {
+    width: 310px;
+    transition: width 0.4s;
+    position: absolute;
+    z-index: 9902;
+    bottom: 81px;
+    right: 0px;
+  }
+}
 </style>
