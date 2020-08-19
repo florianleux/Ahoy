@@ -52,11 +52,13 @@ export default {
     },
     clickSquare: function(event) {
       this.playerMap.putBoat(event.target, this.$game.player.fleet);
+
       if (_.find(this.$game.player.fleet.boats, ["placed", false])) {
         this.$game.player.fleet.selectBoat(
           _.find(this.$game.player.fleet.boats, ["placed", false])
         );
       }
+      this.playerMap.hoverSquare(event.target, this.$game.player.fleet);
     },
     rotateBoat: function() {
       if (this.playerFleet.selectedBoat) {

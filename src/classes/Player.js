@@ -6,6 +6,7 @@ export class Player extends Character {
   turn = true;
   identity = null;
   profileHelper = new PlayerProfileHelper();
+  attackLock = false;
 
   constructor(name, identity) {
     super(name);

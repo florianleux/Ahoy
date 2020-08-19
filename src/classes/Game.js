@@ -52,6 +52,9 @@ export class Game {
     let enemyDelay = this._randomDelay(1000, 2500),
       _this = this;
 
+    _this.player.attackLock = false;
+    console.log("unlock attack");
+
     switch (this.enemyList[this.level]) {
       case SimpleSam:
         setTimeout(function() {

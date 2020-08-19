@@ -1,5 +1,8 @@
 <template>
   <div class="player profile" :class="{ active: player.turn }">
+    <div class="health">
+      {{player.health}}
+    </div>
     <img
       rel="preload"
       :src="
@@ -88,5 +91,21 @@ export default {
     bottom: 81px;
     left: 0px;
   }
+}
+.health{
+  position: absolute;
+  right: -17px;
+  font-size: 14px;
+  font-family: Space Comics;
+  z-index: 10000;
+  top: 50%;
+  text-align: center;
+  color: white;
+  margin-top: -38px;
+  width: 60px;
+  height: 60px;
+  line-height: 60px;
+  background: url("/boats/player/ok.png") no-repeat center center;
+  background-size: contain;
 }
 </style>

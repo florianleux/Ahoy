@@ -1,5 +1,8 @@
 <template>
   <div class="enemy profile" :class="{ active: enemy.turn }">
+    <div class="health">
+      {{enemy.health}}
+    </div>
     <img
       rel="preload"
       :src="
@@ -39,6 +42,23 @@ export default {
 </script>
 
 <style scoped lang="less">
+  .health{
+    position: absolute;
+    left: -17px;
+    font-size: 14px;
+    font-family: Space Comics;
+    z-index: 10000;
+    top: 50%;
+    text-align: center;
+    color: white;
+    margin-top: -36px;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    background: url("/boats/player/ok.png") no-repeat center center;
+    background-size: contain;
+  }
+
 .infos {
   border-radius: 0 5px 0 0;
   position: relative;

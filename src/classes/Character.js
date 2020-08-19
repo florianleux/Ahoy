@@ -11,6 +11,7 @@ export class Character {
   picture = null;
   moodHelper = new MoodHelper();
   mood = "default";
+  health = 20;
 
   constructor(name) {
     this.name = name;
@@ -33,6 +34,7 @@ export class Character {
         this.map.hitMap[[y - 1]].splice([x - 1], 1, "hit");
         let hitBoat = _.find(target.fleet.boats, { id: hit });
         hitBoat.hit();
+        target.health--;
         if (hitBoat.destroyed) {
           let aliveBoats = _.find(target.fleet.boats, { destroyed: false });
           if (!aliveBoats) {

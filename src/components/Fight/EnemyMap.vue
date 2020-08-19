@@ -1,7 +1,7 @@
 <template>
-  <v-row id="map" v-if="enemyMap.boatMap[9]">
+  <v-row id="map" v-if="enemyMap.boatMap[9]" :class="{ disabled: !player.turn }">
     <v-col cols="12">
-      <div class="enemy canvas" :class="{ disabled: !player.turn }">
+      <div class="enemy canvas" :class="{ disabled: player.attackLock }">
         <div class="attack-result">
           <transition
             name="enterMessage"
@@ -71,11 +71,17 @@ export default {
         _this.player.enemy.mood = "default";
         _this.attackMessage = false;
         _this.player.mood = "default";
+
         _this.$game.nextRound();
       }, time);
     },
     attack: function(x, y) {
-      if (!this.player.map.hitMap[y - 1][x - 1] && this.player.turn) {
+      if(this.player.attackLock){
+        return false;
+      }
+
+      if (!this.player.map.hitMap[y - 1][x - 1] && !this.player.attackLock) {
+        this.player.attackLock = true;
         let attackResult = this.player.attack(this.enemy, x, y),
           _this = this;
         this.attackMessage = this.attackMessages[attackResult];
@@ -185,7 +191,10 @@ export default {
 
 <style scoped lang="less">
 @grid-size: 400px;
-
+#map.disabled .canvas{
+  opacity: 0.5;
+  &:hover *{cursor: not-allowed !important; }
+}
 .canvas {
   transform: rotate(-6deg);
   position: absolute;
@@ -193,7 +202,7 @@ export default {
   background-size: contain;
 
   &.disabled {
-    opacity: 0.5;
+
     &:hover * {
       cursor: not-allowed !important;
     }
