@@ -26,7 +26,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="primary" text @click="nextLevel">
-            Nouvelle partie
+            Ennemi suivant !
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -52,12 +52,12 @@
       </v-card>
     </v-dialog>
 
-    <!--    <v-btn @click="player.defeat = true">-->
-    <!--      defeat-->
-    <!--    </v-btn>-->
-    <!--    <v-btn @click="player.victory = true">-->
-    <!--      victory-->
-    <!--    </v-btn>-->
+    <v-btn @click="player.defeat = true">
+      defeat
+    </v-btn>
+    <v-btn @click="player.victory = true">
+      victory
+    </v-btn>
   </div>
 </template>
 
@@ -85,7 +85,7 @@ export default {
   methods: {
     nextLevel: function() {
       this.game.nextLevel();
-      this.$router.push({ name: "Placement" });
+      this.$router.push({ name: "PreFight" });
     },
     rerun: function() {
       this.game.rerun();

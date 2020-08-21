@@ -9,26 +9,30 @@ export class Game {
   round = 0;
   level = 0;
 
-  enemyList = [SimpleSam, JackTheBurned, MamanBrigitte, ChisanaKaizoku];
+  enemyList = [
+    new SimpleSam(),
+    new JackTheBurned(),
+    new MamanBrigitte(),
+    new ChisanaKaizoku(),
+
+  ];
 
   newGame(playerName, playerIdentity) {
     this.player = new Player(playerName, playerIdentity);
-    this.player.enemy = new this.enemyList[0]();
+    this.player.enemy = this.enemyList[0];
   }
 
   nextLevel() {
     this.level++;
-    let bufferName = this.player.name;
     this.round = 0;
-    this.player = new Player(bufferName);
-    this.player.enemy = new this.enemyList[this.level]();
+    this.player.reset();
+    this.player.enemy = this.enemyList[this.level];
   }
 
   rerun() {
-    let bufferName = this.player.name;
     this.round = 0;
-    this.player = new Player(bufferName);
-    this.player.enemy = new this.enemyList[this.level]();
+    this.player.reset();
+    this.player.enemy.reset();
   }
 
   nextRound = function() {

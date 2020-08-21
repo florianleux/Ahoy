@@ -19,6 +19,14 @@ export class Character {
     this.fleet = new Fleet();
   }
 
+  reset() {
+    this.map = new Map();
+    this.fleet = new Fleet();
+    this.health = 20;
+    this.victory = false;
+    this.defeat = false;
+  }
+
   setName(name) {
     this.name = name;
   }

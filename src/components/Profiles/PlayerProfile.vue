@@ -1,7 +1,7 @@
 <template>
   <div class="player profile" :class="{ active: player.turn }">
     <div class="health">
-      {{player.health}}
+      {{ player.health }}
     </div>
     <img
       rel="preload"
@@ -92,7 +92,8 @@ export default {
     left: 0px;
   }
 }
-.health{
+
+.health {
   position: absolute;
   right: -17px;
   font-size: 14px;

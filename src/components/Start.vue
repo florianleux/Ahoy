@@ -66,7 +66,7 @@ export default {
       homeAudio.loop = true;
       homeAudio.play();
       this.$game.newGame(this.playerName, this.playerIdentity);
-      this.$router.push({ name: "Placement" });
+      this.$router.push({ name: "PreFight" });
     }
   }
 };
