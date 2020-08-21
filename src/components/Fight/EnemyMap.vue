@@ -32,7 +32,32 @@
               // placed: enemyMap.boatMap[n - 1][m - 1],
               destroyed: isDestroyed(n, m)
             }"
-          ></div>
+          >
+            <img
+              rel="preload"
+              :src="
+                publicPath +
+                  'boats/' +
+                  enemy.name.replace(/\s+/g, '') +
+                  '/destroyed.png'
+              "
+              v-if="isDestroyed(n, m)"
+              class="coin destroyed"
+            />
+            <img
+              rel="preload"
+              :src="
+                publicPath +
+                  'boats/' +
+                  enemy.name.replace(/\s+/g, '') +
+                  '/hit.png'
+              "
+              v-if="
+                playerMap.hitMap[n - 1][m - 1] == 'hit' && !isDestroyed(n, m)
+              "
+              class="coin hit "
+            />
+          </div>
         </div>
       </div>
     </v-col>
@@ -61,6 +86,7 @@ export default {
         MISSED: "A l'eau !"
       },
       attackMessage: false,
+      publicPath: process.env.BASE_URL,
       enemyClass: this.$game.enemyList[this.$game.level].constructor.name
     };
   },
@@ -228,6 +254,10 @@ export default {
   }
 }
 
+.coin {
+  width: 100%;
+}
+
 .line {
   height: @grid-size / 10;
 }
@@ -248,14 +278,6 @@ export default {
   float: left;
   width: 10%;
   height: 100%;
-
-  &.hit {
-    background: #ff180073;
-
-    &.destroyed {
-      background: black;
-    }
-  }
 
   &.missed {
     background: #007ce64d;

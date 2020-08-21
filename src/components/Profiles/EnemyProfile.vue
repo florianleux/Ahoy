@@ -1,7 +1,15 @@
 <template>
   <div class="enemy profile" :class="{ active: enemy.turn }">
     <div class="health">
-      {{ enemy.health }}
+      <img
+        rel="preload"
+        :src="
+          publicPath + 'boats/' + enemy.name.replace(/\s+/g, '') + '/ok.png'
+        "
+        alt=""
+        class="coin"
+      />
+      <span class="value">{{ enemy.health }}</span>
     </div>
     <img
       rel="preload"
@@ -45,18 +53,26 @@ export default {
 .health {
   position: absolute;
   left: -17px;
-  font-size: 14px;
-  font-family: Space Comics;
+
   z-index: 10000;
   top: 50%;
-  text-align: center;
   color: white;
   margin-top: -36px;
   width: 60px;
   height: 60px;
-  line-height: 60px;
-  background: url("/boats/player/ok.png") no-repeat center center;
-  background-size: contain;
+  .coin {
+    width: 100%;
+    z-index: 9999;
+  }
+  .value {
+    font-size: 14px;
+    font-family: Space Comics;
+    position: absolute;
+    left: 0;
+    top: 18px;
+    right: 0;
+    text-align: center;
+  }
 }
 
 .infos {

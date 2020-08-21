@@ -66,7 +66,7 @@ export default {
       this.$game.clickSound.play();
       homeAudio.loop = true;
       homeAudio.play();
-      homeAudio.volume = 0.3;
+      homeAudio.volume = 0.15;
       this.$game.newGame(this.playerName, this.playerIdentity);
       this.$router.push({ name: "PreFight" });
     }

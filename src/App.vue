@@ -26,11 +26,11 @@
 </template>
 
 <script>
-  import Preloader from "@/components/Preloader.vue";
+import Preloader from "@/components/Preloader.vue";
 
 export default {
   name: "App",
-  components:{
+  components: {
     Preloader
   },
   data: function() {

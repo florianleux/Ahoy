@@ -143,19 +143,22 @@ export default {
   height: 100%;
 
   &.placed {
-    background: green;
+    background: url("/boats/player/ok.png") no-repeat center center;
+    background-size: contain;
   }
 
   &.hit {
-    background: orangered;
+    background: url("/boats/player/hit.png") no-repeat center center;
+    background-size: contain;
 
     &.destroyed {
-      background: black;
+      background: url("/boats/player/destroyed.png") no-repeat center center;
+      background-size: contain;
     }
   }
 
   &.missed {
-    background: blue;
+    background: #007ce64d;
   }
 }
 </style>

@@ -52,12 +52,12 @@
       </v-card>
     </v-dialog>
 
-    <v-btn @click="player.defeat = true">
-      defeat
-    </v-btn>
-    <v-btn @click="player.victory = true">
-      victory
-    </v-btn>
+    <!--<div class="dev">    <v-btn @click="player.defeat = true">-->
+    <!--  defeat-->
+    <!--</v-btn>-->
+    <!--  <v-btn @click="player.victory = true">-->
+    <!--    victory-->
+    <!--  </v-btn></div>-->
   </div>
 </template>
 
@@ -141,5 +141,12 @@ body.fight #app {
 
 .popin {
   color: white;
+}
+
+.dev {
+  position: fixed;
+  top: 30px;
+  left: 30px;
+  z-index: 100000000;
 }
 </style>
