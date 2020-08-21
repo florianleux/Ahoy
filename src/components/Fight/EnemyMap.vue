@@ -43,8 +43,6 @@
 </template>
 
 <script>
-import { MamanBrigitte } from "../../classes/enemies/MamanBrigitte/MamanBrigitte";
-import { ChisanaKaizoku } from "../../classes/enemies/ChisanaKaizoku/ChisanaKaizoku";
 import _ from "lodash";
 import $ from "jquery";
 
@@ -63,7 +61,7 @@ export default {
         MISSED: "A l'eau !"
       },
       attackMessage: false,
-      enemyClass: this.$game.enemyList[this.$game.level]
+      enemyClass: this.$game.enemyList[this.$game.level].constructor.name
     };
   },
   methods: {
@@ -98,7 +96,7 @@ export default {
         this.player.setMoodAttacking(attackResult);
 
         switch (this.enemyClass) {
-          case MamanBrigitte:
+          case "MamanBrigitte":
             if (attackResult === "DESTROYED") {
               let destroyedBoatId = this.enemyMap.boatMap[y - 1][x - 1];
               let destroyedBoat = _.find(this.enemy.fleet.boats, {
@@ -131,7 +129,7 @@ export default {
             }
             break;
 
-          case ChisanaKaizoku:
+          case "ChisanaKaizoku":
             var randPower = Math.random();
             if (!this.enemyMap.hitMap[y - 1][x - 1] && randPower >= 0.5) {
               setTimeout(function() {

@@ -12,11 +12,17 @@ export class Character {
   moodHelper = new MoodHelper();
   mood = "default";
   health = 20;
+  attackLock = false;
+
+  hitSound = new Audio("/music/hit.wav");
+  destroyedSound = new Audio("/music/hit.wav");
+  missedSound = new Audio("/music/missed.mp3");
 
   constructor(name) {
     this.name = name;
     this.map = new Map();
     this.fleet = new Fleet();
+    this.hitSound.volume = 0.5;
   }
 
   reset() {
@@ -25,6 +31,8 @@ export class Character {
     this.health = 20;
     this.victory = false;
     this.defeat = false;
+    this.attackLock = false;
+    this.mood = "default";
   }
 
   setName(name) {
@@ -36,6 +44,7 @@ export class Character {
 
     if (!hit) {
       this.map.hitMap[[y - 1]].splice([x - 1], 1, "missed");
+      this.missedSound.play();
       return "MISSED";
     } else {
       if (typeof hit == "number") {
@@ -45,6 +54,7 @@ export class Character {
         target.health--;
         if (hitBoat.destroyed) {
           let aliveBoats = _.find(target.fleet.boats, { destroyed: false });
+          this.destroyedSound.play();
           if (!aliveBoats) {
             this.victory = true;
             target.defeat = true;
@@ -53,6 +63,7 @@ export class Character {
             return "DESTROYED";
           }
         } else {
+          this.hitSound.play();
           return "HIT";
         }
       }

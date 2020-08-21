@@ -64,7 +64,10 @@ export default {
     newGame() {
       let homeAudio = new Audio("/music/home.wav");
       homeAudio.loop = true;
+
+
       homeAudio.play();
+      homeAudio.volume = 0.05;
       this.$game.newGame(this.playerName, this.playerIdentity);
       this.$router.push({ name: "PreFight" });
     }

@@ -9,17 +9,20 @@ export class Game {
   round = 0;
   level = 0;
 
+  placedSound = new Audio("/music/placed.wav");
+
   enemyList = [
     new SimpleSam(),
     new JackTheBurned(),
     new MamanBrigitte(),
-    new ChisanaKaizoku(),
-
+    new ChisanaKaizoku()
   ];
 
   newGame(playerName, playerIdentity) {
     this.player = new Player(playerName, playerIdentity);
     this.player.enemy = this.enemyList[0];
+
+
   }
 
   nextLevel() {
@@ -57,10 +60,10 @@ export class Game {
       _this = this;
 
     _this.player.attackLock = false;
-    console.log("unlock attack");
+    console.log(this.enemyList[this.level].constructor.name);
 
-    switch (this.enemyList[this.level]) {
-      case SimpleSam:
+    switch (this.enemyList[this.level].constructor.name) {
+      case "SimpleSam":
         setTimeout(function() {
           var enemyAttackResult = _this.player.enemy.generateAttack(
             _this.player
@@ -79,7 +82,7 @@ export class Game {
         }, enemyDelay);
         break;
 
-      case JackTheBurned:
+      case "JackTheBurned":
         enemyDelay = this._randomDelay(1000, 2200);
 
         setTimeout(function() {
@@ -125,6 +128,7 @@ export class Game {
 
     setTimeout(function() {
       var enemyAttackResult = _this.player.enemy.generateAttack(_this.player);
+
       _this.player.enemy.setMoodAttacking(enemyAttackResult);
       _this.player.setMoodAttacked(enemyAttackResult);
       setTimeout(function() {

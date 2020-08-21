@@ -18,30 +18,24 @@
           <v-col class="label">Flotte </v-col>
           <v-col class="value">
             <div
-                    v-for="(boat, index) in selectedEnemy.fleet.boats"
-                    :key="index"
-                    class="boat"
+              v-for="(boat, index) in selectedEnemy.fleet.boats"
+              :key="index"
+              class="boat"
             >
               <span v-for="n in boat.size" :key="n">X</span>
             </div>
           </v-col>
         </v-row>
         <div class="powers-zone">
-          <div v-for="(power,index) in selectedEnemy.powers"
-          :key="index">
+          <div v-for="(power, index) in selectedEnemy.powers" :key="index">
             <v-row
-            ><v-col class="label">Pouvoir {{power.type}}</v-col>
-              <v-col class="value">{{
-                power.name
-                }}</v-col></v-row
+              ><v-col class="label">Pouvoir {{ power.type }}</v-col>
+              <v-col class="value">{{ power.name }}</v-col></v-row
             >
-            <v-row class="description"
-                   v-html=" power.description"></v-row
-            >
+            <v-row class="description" v-html="power.description"></v-row>
           </div>
         </div>
       </div>
-
     </v-col>
     <v-col cols="5">
       <img
@@ -87,7 +81,7 @@ export default {
   line-height: 10px;
 }
 
-.wanted{
+.wanted {
   display: block;
 }
 
@@ -101,7 +95,7 @@ export default {
 
 .powers-zone {
   margin-top: 50px;
-  .description{
+  .description {
     text-align: center;
     display: block;
   }
@@ -113,15 +107,14 @@ export default {
 }
 
 .enemy-details {
-
   .infos {
     padding-top: 35px;
   }
 
-  .infos{
-    float:right;
+  .infos {
+    float: right;
     min-width: 650px;
-    *{
+    * {
       white-space: nowrap;
     }
   }
