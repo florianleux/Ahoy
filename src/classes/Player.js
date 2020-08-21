@@ -7,7 +7,6 @@ export class Player extends Character {
   identity = null;
   profileHelper = new PlayerProfileHelper();
 
-
   constructor(name, identity) {
     super(name);
 

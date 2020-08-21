@@ -58,6 +58,7 @@ export default {
   },
   methods: {
     startFight: function() {
+      this.$game.clickSound.play();
       this.$router.push({ name: "Fight" });
     },
     onResize() {

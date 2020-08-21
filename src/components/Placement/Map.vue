@@ -52,7 +52,6 @@ export default {
     },
     clickSquare: function(event) {
       this.playerMap.putBoat(event.target, this.$game.player.fleet);
-      this.game.placedSound.play();
 
       if (_.find(this.$game.player.fleet.boats, ["placed", false])) {
         this.$game.player.fleet.selectBoat(

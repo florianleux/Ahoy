@@ -3,7 +3,7 @@
     <h1>Prochain adversaire</h1>
     <EnemiesList />
     <CurrentEnemy />
-    <v-btn color="primary" class="start-fight" @click="placement">
+    <v-btn color="primary" class="start-fight" @click="goPlacement">
       A l'attaque !
     </v-btn>
   </div>
@@ -19,7 +19,8 @@ export default {
     CurrentEnemy
   },
   methods: {
-    placement: function() {
+    goPlacement: function() {
+      this.$game.clickSound.play();
       this.$router.push({ name: "Placement" });
     }
   },

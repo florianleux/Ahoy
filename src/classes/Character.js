@@ -22,7 +22,7 @@ export class Character {
     this.name = name;
     this.map = new Map();
     this.fleet = new Fleet();
-    this.hitSound.volume = 0.5;
+    this.hitSound.volume = 0.7;
   }
 
   reset() {

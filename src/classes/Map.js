@@ -8,6 +8,7 @@ export class Map {
   boatMap = [];
   hitMap = [];
   okClick = false;
+  placedSound = new Audio("/music/placed.wav");
 
   constructor() {
     this.hoverMap = this._resetMap();
@@ -103,6 +104,7 @@ export class Map {
       }
 
       //Unselect the boat and add the boat in the playerFleet counter
+      this.placedSound.play();
       selectedBoat.unselect();
       selectedBoat.disable();
       selectedBoat.placed = true;

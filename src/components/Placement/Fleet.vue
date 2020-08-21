@@ -37,6 +37,7 @@ export default {
   },
   methods: {
     selectBoat: function(boat) {
+      this.$game.clickSound.play();
       if (!boat.placed) {
         this.$game.player.fleet.selectBoat(boat);
       }

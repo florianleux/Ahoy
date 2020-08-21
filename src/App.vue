@@ -1,6 +1,9 @@
 <template>
   <v-app>
     <div id="app">
+      <div id="preloader">
+        <img src="" alt="" />
+      </div>
       <v-dialog v-model="displayKO" persistent width="500">
         <v-card>
           <v-card-title class="headline" primary-title>
@@ -96,5 +99,23 @@ h1 {
 
 .v-application--wrap {
   padding: 15px 30px;
+}
+
+@media screen {
+  div#preloader {
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
+  }
+  div#preloader img {
+    display: block;
+  }
+}
+@media print {
+  div#preloader,
+  div#preloader img {
+    visibility: hidden;
+    display: none;
+  }
 }
 </style>

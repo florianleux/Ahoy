@@ -9,7 +9,7 @@ export class Game {
   round = 0;
   level = 0;
 
-  placedSound = new Audio("/music/placed.wav");
+  clickSound = new Audio("/music/click.wav");
 
   enemyList = [
     new SimpleSam(),
@@ -21,8 +21,7 @@ export class Game {
   newGame(playerName, playerIdentity) {
     this.player = new Player(playerName, playerIdentity);
     this.player.enemy = this.enemyList[0];
-
-
+    this.clickSound.volume = 1;
   }
 
   nextLevel() {
