@@ -28,11 +28,16 @@ export class Game {
     this.level++;
     this.round = 0;
     this.player.reset();
+    this.player.turn = true;
+    this.player.enemy.turn = false;
+
     this.player.enemy = this.enemyList[this.level];
   }
 
   rerun() {
     this.round = 0;
+    this.player.turn = true;
+    this.player.enemy.turn = false;
     this.player.reset();
     this.player.enemy.reset();
   }
@@ -59,7 +64,6 @@ export class Game {
       _this = this;
 
     _this.player.attackLock = false;
-    console.log(this.enemyList[this.level].constructor.name);
 
     switch (this.enemyList[this.level].constructor.name) {
       case "SimpleSam":
