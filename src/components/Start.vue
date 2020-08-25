@@ -36,7 +36,15 @@
               class="start-game"
               @click="newGame"
             >
-              Play!
+              Nouvelle Partie
+            </v-btn>
+            <v-btn
+                    :disabled="!savedGame"
+                    color="primary"
+                    class="load-game"
+                    @click="loadGame"
+            >
+              Continuer
             </v-btn>
           </v-col>
         </v-row>
@@ -57,7 +65,8 @@ export default {
         v =>
           v.length < 15 || "Votre nom doit comporter au maximum 15 caractères"
       ],
-      publicPath: process.env.BASE_URL
+      publicPath: process.env.BASE_URL,
+      savedGame : localStorage.ahoyGame
     };
   },
   methods: {
@@ -68,6 +77,15 @@ export default {
       homeAudio.play();
       homeAudio.volume = 0.15;
       this.$game.newGame(this.playerName, this.playerIdentity);
+      this.$router.push({ name: "PreFight" });
+    },
+    loadGame() {
+      this.$game.loadGame(JSON.parse(this.savedGame));
+      let homeAudio = new Audio("/music/home.wav");
+      this.$game.clickSound.play();
+      homeAudio.loop = true;
+      homeAudio.play();
+      homeAudio.volume = 0.15;
       this.$router.push({ name: "PreFight" });
     }
   }

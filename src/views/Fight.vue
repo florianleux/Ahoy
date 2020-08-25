@@ -59,7 +59,7 @@
       <v-btn @click="player.victory = true">
         victory
       </v-btn>
-     </div>
+    </div>
   </div>
 </template>
 
@@ -88,6 +88,7 @@ export default {
     nextLevel: function() {
       this.game.nextLevel();
       this.$router.push({ name: "PreFight" });
+
     },
     rerun: function() {
       this.game.rerun();
@@ -95,7 +96,7 @@ export default {
     }
   },
   beforeCreate: function() {
-    document.body.className = "fight";
+    document.body.className = "fight "+ this.$game.player.enemy.constructor.name;
   }
 };
 </script>
@@ -109,6 +110,11 @@ body.fight #app {
   background-size: cover;
   opacity: 1;
 }
+body.fight.SimpleSam #app{
+  background: url("/fight/SimpleSam/bg.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+}
+
 .shadow {
   z-index: 9900;
   position: fixed;

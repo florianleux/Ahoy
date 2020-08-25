@@ -32,6 +32,7 @@ export class Game {
     this.player.enemy.turn = false;
 
     this.player.enemy = this.enemyList[this.level];
+    localStorage.ahoyGame = JSON.stringify(this);
   }
 
   rerun() {
@@ -52,6 +53,11 @@ export class Game {
       this._enemyTurn();
     }
   };
+
+  loadGame = function(savedGame){
+    this.player = savedGame.player;
+    this.level = savedGame.level;
+  }
 
   _randomDelay(min, max) {
     min = Math.ceil(min);
