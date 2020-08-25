@@ -18,12 +18,14 @@ export class Game {
     new ChisanaKaizoku()
   ];
 
+  //Starting a new game
   newGame(playerName, playerIdentity) {
     this.player = new Player(playerName, playerIdentity);
     this.player.enemy = this.enemyList[0];
     this.clickSound.volume = 1;
   }
 
+  //Going to next enemy
   nextLevel() {
     this.level++;
     this.round = 0;
@@ -31,22 +33,28 @@ export class Game {
     this.player.turn = true;
     this.player.enemy.turn = false;
 
+    //Updating ennemy to the next on in the list
     this.player.enemy = this.enemyList[this.level];
+
+    //Saving the current Game object to Localstorage
     localStorage.ahoyGame = JSON.stringify(this);
   }
 
+  // Rerunning the current level in case of defeat
   rerun() {
     this.round = 0;
     this.player.turn = true;
     this.player.enemy.turn = false;
+
+    //Resetting enemy and players (turns, attackLock etc)
     this.player.reset();
     this.player.enemy.reset();
   }
 
+  //Alternating turns between enemy and player
   nextRound = function() {
     this.player.turn = !this.player.turn;
     this.player.enemy.turn = !this.player.enemy.turn;
-
     this.round++;
 
     if (this.player.enemy.turn & !this.player.enemy.defeat) {
@@ -54,10 +62,11 @@ export class Game {
     }
   };
 
-  loadGame = function(savedGame){
+  // Loading a Game Object from LocalStorage
+  loadGame = function(savedGame) {
     this.player = savedGame.player;
     this.level = savedGame.level;
-  }
+  };
 
   _randomDelay(min, max) {
     min = Math.ceil(min);
@@ -65,13 +74,18 @@ export class Game {
     return Math.floor(Math.random() * (max - min)) + min;
   }
 
+  // Main function for enemy's turn
   _enemyTurn() {
+    //Calculating the enemy delay for this turn
+    //Used to fake a "thinking time" for the IA
     let enemyDelay = this._randomDelay(1000, 2500),
       _this = this;
 
+    // Locking the player attack on his map
     _this.player.attackLock = false;
 
-    switch (this.enemyList[this.level].constructor.name) {
+    // Using the enemy classname to differentiate them : the name is translated and the constructor.name is not available in production
+    switch (this.enemyList[this.level].className) {
       case "SimpleSam":
         setTimeout(function() {
           var enemyAttackResult = _this.player.enemy.generateAttack(
@@ -82,6 +96,8 @@ export class Game {
           setTimeout(function() {
             _this.player.mood = "default";
             _this.player.enemy.mood = "default";
+
+            //Simple Sam Power : if there is a HIT, he attacks again.
             if (enemyAttackResult === "HIT") {
               _this._enemyTurn();
             } else {
@@ -107,8 +123,10 @@ export class Game {
               enemyAttackResult === "HIT" &&
               !_this.player.enemy.powerActivated
             ) {
+              // Randomizing a probability to activate the power : 50%
               let powerActivation = _this.player.enemy.activatePower();
               setTimeout(function() {
+                //Jack the Burned power : If the power is activated, he attacks again around his initial hit
                 if (powerActivation) {
                   _this._enemyTurn();
                   _this.player.enemy.powerActivated = true;
@@ -138,6 +156,7 @@ export class Game {
     setTimeout(function() {
       var enemyAttackResult = _this.player.enemy.generateAttack(_this.player);
 
+      // Setting mood for profile picture of enemy and player
       _this.player.enemy.setMoodAttacking(enemyAttackResult);
       _this.player.setMoodAttacked(enemyAttackResult);
       setTimeout(function() {
