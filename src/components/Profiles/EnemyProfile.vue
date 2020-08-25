@@ -4,7 +4,7 @@
       <img
         rel="preload"
         :src="
-          publicPath + 'boats/' + enemy.name.replace(/\s+/g, '') + '/ok.png'
+          publicPath + 'boats/' + enemy.constructor.name.replace(/\s+/g, '') + '/ok.png'
         "
         alt=""
         class="coin"
@@ -16,7 +16,7 @@
       :src="
         publicPath +
           'players/' +
-          enemy.name.replace(/\s+/g, '') +
+          enemy.constructor.name.replace(/\s+/g, '') +
           '/' +
           enemy.mood +
           '.png'
