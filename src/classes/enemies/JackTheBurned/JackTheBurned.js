@@ -5,6 +5,9 @@ import { MathHelper } from "@/classes/helpers/MathHelper.js";
 export class JackTheBurned extends Enemy {
   name = "Jack Le Cramé";
 
+  className ="JackTheBurned";
+
+
   phrase = "Quelqu'un aurait du feu ?";
 
   nature = "Pyromane à ses heures perdues.";

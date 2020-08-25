@@ -4,6 +4,8 @@ import { Power } from "@/classes/Power.js";
 export class ChisanaKaizoku extends Enemy {
   name = "Chïsana Kaizoku";
 
+  className ="ChisanaKaizoku";
+
   phrase = "Osu !";
 
   nature = "Il a le mal de mer.";

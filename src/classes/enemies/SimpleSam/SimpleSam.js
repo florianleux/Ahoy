@@ -5,6 +5,8 @@ import { SimpleSamFleet } from "@/classes/enemies/SimpleSam/SimpleSamFleet.js";
 export class SimpleSam extends Enemy {
   name = "Simple Sam";
 
+  className="SimpleSam"
+
   phrase = "La vie c'est comme une boîte de sardines...";
 
   nature = "Pas très malin. Vraiment.";

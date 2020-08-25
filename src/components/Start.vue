@@ -39,10 +39,10 @@
               Nouvelle Partie
             </v-btn>
             <v-btn
-                    :disabled="!savedGame"
-                    color="primary"
-                    class="load-game"
-                    @click="loadGame"
+              :disabled="!savedGame"
+              color="primary"
+              class="load-game"
+              @click="loadGame"
             >
               Continuer
             </v-btn>
@@ -66,11 +66,20 @@ export default {
           v.length < 15 || "Votre nom doit comporter au maximum 15 caractères"
       ],
       publicPath: process.env.BASE_URL,
-      savedGame : localStorage.ahoyGame
+      savedGame: localStorage.ahoyGame
     };
   },
   methods: {
     newGame() {
+      if (this.savedGame) {
+        let savedGameDetected = confirm(
+          "Il semblerait que vous avez déja commencé une partie de Ahoy! Si vous commencez une nouvelle partie, la sauvegarde existante sera écrasée !"
+        );
+
+        if (!savedGameDetected) {
+          return false;
+        }
+      }
       let homeAudio = new Audio("/music/home.wav");
       this.$game.clickSound.play();
       homeAudio.loop = true;

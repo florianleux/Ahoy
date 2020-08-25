@@ -38,7 +38,7 @@
               :src="
                 publicPath +
                   'boats/' +
-                  enemy.name.replace(/\s+/g, '') +
+                  enemy.className +
                   '/destroyed.png'
               "
               v-if="isDestroyed(n, m)"
@@ -49,7 +49,7 @@
               :src="
                 publicPath +
                   'boats/' +
-                  enemy.name.replace(/\s+/g, '') +
+                  enemy.className +
                   '/hit.png'
               "
               v-if="
@@ -87,7 +87,7 @@ export default {
       },
       attackMessage: false,
       publicPath: process.env.BASE_URL,
-      enemyClass: this.$game.enemyList[this.$game.level].constructor.name
+      enemyClass: this.$game.enemyList[this.$game.level].className
     };
   },
   methods: {

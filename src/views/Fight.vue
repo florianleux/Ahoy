@@ -88,7 +88,6 @@ export default {
     nextLevel: function() {
       this.game.nextLevel();
       this.$router.push({ name: "PreFight" });
-
     },
     rerun: function() {
       this.game.rerun();
@@ -96,7 +95,8 @@ export default {
     }
   },
   beforeCreate: function() {
-    document.body.className = "fight "+ this.$game.player.enemy.constructor.name;
+    document.body.className =
+      "fight " + this.$game.player.enemy.className;
   }
 };
 </script>
@@ -110,7 +110,7 @@ body.fight #app {
   background-size: cover;
   opacity: 1;
 }
-body.fight.SimpleSam #app{
+body.fight.SimpleSam #app {
   background: url("/fight/SimpleSam/bg.jpg") no-repeat center center fixed;
   -webkit-background-size: cover;
 }

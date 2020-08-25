@@ -43,7 +43,7 @@
         :src="
           publicPath +
             'players/' +
-            selectedEnemy.name.replace(/\s+/g, '') +
+            selectedEnemy.className +
             '/' +
             'wanted.png'
         "

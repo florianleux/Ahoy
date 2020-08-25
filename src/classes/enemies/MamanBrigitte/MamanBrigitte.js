@@ -5,6 +5,8 @@ import { MamanBrigitteFleet } from "@/classes/enemies/MamanBrigitte/MamanBrigitt
 export class MamanBrigitte extends Enemy {
   name = "Maman Brigitte";
 
+  className="MamanBrigitte";
+
   phrase = "Mesye la kwa avanse pou l we yo!";
 
   nature = "Elle est une Iwa, une divinité vaudou.";
