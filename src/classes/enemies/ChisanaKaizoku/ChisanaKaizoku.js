@@ -13,12 +13,11 @@ export class ChisanaKaizoku extends Enemy {
   constructor(name) {
     super(name);
 
-    this.powers.push(
+    this.mainPower=
       new Power(
         "Contre-attaque",
         "A chaque fois que vous attaquez Chïsana, il a 50% de chances </br> de riposter aux même coordonnées sur votre carte.",
         "Passif"
-      )
     );
   }
 }

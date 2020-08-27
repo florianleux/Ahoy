@@ -1,5 +1,11 @@
 <template>
   <div class="player profile" :class="{ active: player.turn }">
+    <div class="power">
+      <div class="logo">
+
+      </div>
+
+    </div>
     <div class="health">
       {{ player.health }}
     </div>

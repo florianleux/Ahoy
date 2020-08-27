@@ -64,7 +64,8 @@ export class Game {
 
   // Loading a Game Object from LocalStorage
   loadGame = function(savedGame) {
-    this.player = savedGame.player;
+    this.player = new Player(savedGame.player.name, savedGame.player.identity);
+    this.player.enemy = this.enemyList[savedGame.level];
     this.level = savedGame.level;
   };
 
@@ -84,7 +85,8 @@ export class Game {
     // Locking the player attack on his map
     _this.player.attackLock = false;
 
-    // Using the enemy classname to differentiate them : the name is translated and the constructor.name is not available in production
+    // Using the enemy className attribute to differentiate them because
+    // the name is translated and the constructor.name is not available in production
     switch (this.enemyList[this.level].className) {
       case "SimpleSam":
         setTimeout(function() {
@@ -99,6 +101,7 @@ export class Game {
 
             //Simple Sam Power : if there is a HIT, he attacks again.
             if (enemyAttackResult === "HIT") {
+              _this.player.enemy.mainPower.activate();
               _this._enemyTurn();
             } else {
               _this.nextRound();

@@ -14,7 +14,8 @@ export class Enemy extends Character {
     DESTROYED: " Touché ! Coulé !",
     MISSED: "A l'eau !"
   };
-  powers = [];
+  mainPower = null;
+  secondaryPowers = [];
 
   generateAttack(target) {
     // Coord Calculation

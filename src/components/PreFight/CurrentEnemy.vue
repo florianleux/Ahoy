@@ -27,7 +27,14 @@
           </v-col>
         </v-row>
         <div class="powers-zone">
-          <div v-for="(power, index) in selectedEnemy.powers" :key="index">
+          <div>
+            <v-row
+            ><v-col class="label">Pouvoir {{ selectedEnemy.mainPower.type }}</v-col>
+              <v-col class="value">{{ selectedEnemy.mainPower.name }}</v-col></v-row
+            >
+            <v-row class="description" v-html="selectedEnemy.mainPower.description"></v-row>
+          </div>
+          <div v-for="(power, index) in selectedEnemy.secondaryPowers" :key="index">
             <v-row
               ><v-col class="label">Pouvoir {{ power.type }}</v-col>
               <v-col class="value">{{ power.name }}</v-col></v-row

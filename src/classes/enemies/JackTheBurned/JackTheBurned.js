@@ -21,12 +21,11 @@ export class JackTheBurned extends Enemy {
   constructor(name) {
     super(name);
 
-    this.powers.push(
+    this.mainPower =
       new Power(
         "Alluuumeer le feuu",
         "Quand Jack touche un de vos bateaux, il a 50% de chances d'enflammer une case adjacente à celle qu'il vient de viser.",
         "Passif"
-      )
     );
   }
 }

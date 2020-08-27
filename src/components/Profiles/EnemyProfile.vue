@@ -1,5 +1,18 @@
 <template>
   <div class="enemy profile" :class="{ active: enemy.turn }">
+    <div class="power"> <span  v-if="enemy.mainPower.active">Pouvoir activé !</span>
+      <img
+              rel="preload"
+              :src="
+        publicPath +
+          'players/' +
+          enemy.className +
+          '/power.png'
+      "
+              class="power-logo" :class="{active : enemy.mainPower.active}"
+              :title="enemy.mainPower.description"
+      >
+    </div>
     <div class="health">
       <img
         rel="preload"
@@ -16,6 +29,7 @@
     </div>
     <img
       rel="preload"
+
       :src="
         publicPath +
           'players/' +
@@ -54,6 +68,41 @@ export default {
 </script>
 
 <style scoped lang="less">
+
+  .power-logo{
+    filter: grayscale(65%);
+    opacity: 0.9;
+    position: absolute;
+    left: 35px;
+    top: 50%;
+    width: 65px;
+    margin-top: -29px;
+
+    &.active{
+      opacity: 1;
+      filter: none;
+    }
+  }
+  .power{
+    span{
+      position: relative;
+      z-index: 10000;
+    color:white;
+      font-size: 8px;
+      top:2px;
+      /*text-shadow: 0 0 5px #FFF, 0 0 20px #ff0099, 0 0 30px #ff0099;*/
+      text-align: center;
+      text-transform: uppercase;
+      font-family: "Space Comics";
+
+
+    }
+    position: absolute;
+    left: -151px;
+    margin-top: -20px;
+    top: 50%;
+
+  }
 .health {
   position: absolute;
   left: -17px;

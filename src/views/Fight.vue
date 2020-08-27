@@ -52,14 +52,14 @@
       </v-card>
     </v-dialog>
 
-    <div class="dev">
-      <v-btn @click="player.defeat = true">
-        defeat
-      </v-btn>
-      <v-btn @click="player.victory = true">
-        victory
-      </v-btn>
-    </div>
+<!--    <div class="dev">-->
+<!--      <v-btn @click="player.defeat = true">-->
+<!--        defeat-->
+<!--      </v-btn>-->
+<!--      <v-btn @click="player.victory = true">-->
+<!--        victory-->
+<!--      </v-btn>-->
+<!--    </div>-->
   </div>
 </template>
 
@@ -113,6 +113,15 @@ body.fight #app {
 body.fight.SimpleSam #app {
   background: url("/fight/SimpleSam/bg.jpg") no-repeat center center fixed;
   -webkit-background-size: cover;
+}
+body.fight.JackTheBurned #app {
+  background: url("/fight/JackTheBurned/bg.jpg") no-repeat center center fixed;
+  background-size: cover;
+
+  .shadow{
+    background: url("/fight/JackTheBurned/shadow.png") no-repeat center center fixed;
+    background-size: cover;
+  }
 }
 
 .shadow {

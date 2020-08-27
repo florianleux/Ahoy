@@ -15,19 +15,19 @@ export class SimpleSam extends Enemy {
     super(name);
     this.fleet = new SimpleSamFleet();
 
-    this.powers.push(
+    this.mainPower=
       new Power(
         "Tant que je gagne, je joue !",
         "A chaque fois que Simple Sam touche un de vos bateaux, il attaque de nouveau.",
         "Passif"
-      )
     );
 
-    this.powers.push(
+    this.secondaryPowers.push(
       new Power(
         "Poulet sans tête",
         "Simple Sam n'a aucune stratégie : tous ses coups sont joués au hasard",
-        "Passif"
+        "Passif",
+          false
       )
     );
   }
