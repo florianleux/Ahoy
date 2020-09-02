@@ -1,17 +1,7 @@
 <template>
   <div class="enemy profile" :class="{ active: enemy.turn }">
-    <div class="power"> <span  v-if="enemy.mainPower.active">Pouvoir activé !</span>
-      <img
-              rel="preload"
-              :src="
-        publicPath +
-          'players/' +
-          enemy.className +
-          '/power.png'
-      "
-              class="power-logo" :class="{active : enemy.mainPower.active}"
-              :title="enemy.mainPower.description"
-      >
+    <div class="power"> <span v-if="enemy.mainPower.active" >Pouvoir activé !</span>
+
     </div>
     <div class="health">
       <img

@@ -52,14 +52,14 @@
       </v-card>
     </v-dialog>
 
-<!--    <div class="dev">-->
-<!--      <v-btn @click="player.defeat = true">-->
-<!--        defeat-->
-<!--      </v-btn>-->
-<!--      <v-btn @click="player.victory = true">-->
-<!--        victory-->
-<!--      </v-btn>-->
-<!--    </div>-->
+    <div class="dev">
+      <v-btn @click="player.defeat = true">
+        defeat
+      </v-btn>
+      <v-btn @click="player.victory = true">
+        victory
+      </v-btn>
+    </div>
   </div>
 </template>
 

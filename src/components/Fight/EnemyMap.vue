@@ -153,6 +153,9 @@ export default {
                 }, 500);
               }
             }
+            else{
+              this.nextRound(1200);
+            }
             break;
 
           case "ChisanaKaizoku":
