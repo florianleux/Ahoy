@@ -34,6 +34,7 @@
               :disabled="!valid"
               color="primary"
               class="start-game"
+              id="startButton"
               @click="newGame"
             >
               Nouvelle Partie
@@ -42,6 +43,7 @@
               :disabled="!savedGame"
               color="primary"
               class="load-game"
+              id="loadButton"
               @click="loadGame"
             >
               Continuer
@@ -110,6 +112,14 @@ export default {
   margin-top: -250px;
   left: 75%;
   margin-left: -196px;
+}
+
+#startButton {
+  width: 250px;
+  margin-bottom: 15px;
+}
+#loadButton {
+  width: 250px;
 }
 
 .player-img {

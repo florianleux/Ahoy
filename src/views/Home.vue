@@ -25,5 +25,9 @@ body.home #app {
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+
+  #help {
+    display: none;
+  }
 }
 </style>

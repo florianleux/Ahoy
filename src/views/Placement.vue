@@ -12,7 +12,8 @@
         <Fleet></Fleet>
       </v-col>
     </v-row>
-    <div class="help-zone">
+
+    <div class="help-zone" id="helpZone">
       <v-row>
         <v-col>
           <div class="help-placement">
@@ -25,9 +26,10 @@
       <v-row>
         <v-btn
           :disabled="playerFleet.size != playerFleet.putBoats"
-          color="success"
+          color="primary"
           class="start-fight"
           @click="startFight"
+          id="startFight"
         >
           A L'ABORDAGE !
         </v-btn>
@@ -52,6 +54,7 @@ export default {
   },
   data: function() {
     return {
+      game: this.$game,
       player: this.$game.player,
       playerFleet: this.$game.player.fleet
     };

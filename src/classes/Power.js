@@ -2,7 +2,7 @@ export class Power {
   name = "";
   description = "";
   type = "";
-  active=false;
+  active = false;
 
   constructor(name, description, type) {
     this.name = name;
@@ -10,11 +10,11 @@ export class Power {
     this.type = type;
   }
 
-  activate(time=1500){
+  activate(time = 1500) {
     let _this = this;
     this.active = true;
-    setTimeout(function(){
+    setTimeout(function() {
       _this.active = false;
-    },time)
+    }, time);
   }
 }

@@ -1,5 +1,18 @@
 <template>
   <v-row id="map" v-if="playerMap.boatMap[9]">
+    <div
+      class="tooltip"
+      v-if="game.help"
+      style="transform: rotate(10deg);
+    transition: auto;
+    top: 90%;
+    right: 15%;"
+    >
+      <span class="text"
+        >Sur la carte de droite, vous voyez les cases sur lesquelles votre
+        adversaire vous a attaqué.</span
+      >
+    </div>
     <div class="player canvas" :class="{ disabled: !enemy.turn }">
       <div class="attack-result">
         <transition

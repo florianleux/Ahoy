@@ -1,7 +1,12 @@
 <template>
   <div id="fleet">
     <!--    <p>Votre flotte</p>-->
-    <v-row class="boats">
+
+    <v-row id="boats" class="boats">
+      <div class="tooltip" v-if="game.help" style="top: 10%;">
+        <span class="text">Cliquez sur un bateau pour le sélectionner</span>
+      </div>
+
       <div
         v-for="(boat, index) in fleet.boats"
         :key="index"
@@ -21,6 +26,12 @@
         <div class="name">Bateau n°{{ fleet.size - index }}</div>
       </div>
     </v-row>
+    <div class="tooltip" v-if="game.help" style="bottom: 10%;">
+      <span class="text"
+        >Vous pouvez modifier sa position en cliquant sur la croix à droite de
+        son nom.</span
+      >
+    </div>
   </div>
 </template>
 
@@ -31,6 +42,7 @@ export default {
   name: "Fleet",
   data: function() {
     return {
+      game: this.$game,
       fleet: this.$game.player.fleet,
       publicPath: process.env.BASE_URL
     };

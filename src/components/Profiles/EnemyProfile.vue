@@ -1,17 +1,12 @@
 <template>
   <div class="enemy profile" :class="{ active: enemy.turn }">
-    <div class="power"> <span v-if="enemy.mainPower.active" >Pouvoir activé !</span>
-
+    <div class="power">
+      <span v-if="enemy.mainPower.active">Pouvoir activé !</span>
     </div>
     <div class="health">
       <img
         rel="preload"
-        :src="
-          publicPath +
-            'boats/' +
-            enemy.className +
-            '/ok.png'
-        "
+        :src="publicPath + 'boats/' + enemy.className + '/ok.png'"
         alt=""
         class="coin"
       />
@@ -19,14 +14,8 @@
     </div>
     <img
       rel="preload"
-
       :src="
-        publicPath +
-          'players/' +
-          enemy.className +
-          '/' +
-          enemy.mood +
-          '.png'
+        publicPath + 'players/' + enemy.className + '/' + enemy.mood + '.png'
       "
       alt=""
       class="picture"
@@ -58,41 +47,37 @@ export default {
 </script>
 
 <style scoped lang="less">
+.power-logo {
+  filter: grayscale(65%);
+  opacity: 0.9;
+  position: absolute;
+  left: 35px;
+  top: 50%;
+  width: 65px;
+  margin-top: -29px;
 
-  .power-logo{
-    filter: grayscale(65%);
-    opacity: 0.9;
-    position: absolute;
-    left: 35px;
-    top: 50%;
-    width: 65px;
-    margin-top: -29px;
-
-    &.active{
-      opacity: 1;
-      filter: none;
-    }
+  &.active {
+    opacity: 1;
+    filter: none;
   }
-  .power{
-    span{
-      position: relative;
-      z-index: 10000;
-    color:white;
-      font-size: 8px;
-      top:2px;
-      /*text-shadow: 0 0 5px #FFF, 0 0 20px #ff0099, 0 0 30px #ff0099;*/
-      text-align: center;
-      text-transform: uppercase;
-      font-family: "Space Comics";
-
-
-    }
-    position: absolute;
-    left: -151px;
-    margin-top: -20px;
-    top: 50%;
-
+}
+.power {
+  span {
+    position: relative;
+    z-index: 10000;
+    color: white;
+    font-size: 8px;
+    top: 2px;
+    /*text-shadow: 0 0 5px #FFF, 0 0 20px #ff0099, 0 0 30px #ff0099;*/
+    text-align: center;
+    text-transform: uppercase;
+    font-family: "Space Comics";
   }
+  position: absolute;
+  left: -151px;
+  margin-top: -20px;
+  top: 50%;
+}
 .health {
   position: absolute;
   left: -17px;

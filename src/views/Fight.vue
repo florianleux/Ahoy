@@ -12,6 +12,15 @@
         <PlayerMap></PlayerMap>
       </v-col>
     </v-row>
+    <div class="tooltip" v-if="game.help" style="right:190px;bottom: 85px;">
+      <span class="text">...et celles de votre adversaire ! </span>
+    </div>
+    <div class="tooltip" v-if="game.help" style="left : 180px; bottom: 85px ">
+      <span class="text"
+        >Voici le nombre de cases de bateaux <br />non coulés qu'il vous
+        reste...</span
+      >
+    </div>
     <PlayerProfile></PlayerProfile>
     <EnemyProfile></EnemyProfile>
     <v-dialog v-model="player.victory" persistent width="500">
@@ -95,8 +104,7 @@ export default {
     }
   },
   beforeCreate: function() {
-    document.body.className =
-      "fight " + this.$game.player.enemy.className;
+    document.body.className = "fight " + this.$game.player.enemy.className;
   }
 };
 </script>
@@ -118,8 +126,9 @@ body.fight.JackTheBurned #app {
   background: url("/fight/JackTheBurned/bg.jpg") no-repeat center center fixed;
   background-size: cover;
 
-  .shadow{
-    background: url("/fight/JackTheBurned/shadow.png") no-repeat center center fixed;
+  .shadow {
+    background: url("/fight/JackTheBurned/shadow.png") no-repeat center center
+      fixed;
     background-size: cover;
   }
 }

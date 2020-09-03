@@ -1,6 +1,12 @@
 <template>
   <v-app>
     <div id="app">
+      <v-icon id="help" @click="game.help = !game.help">mdi-help-circle</v-icon>
+      <div
+        v-if="game.help"
+        @click="game.help = !game.help"
+        class="help-mask"
+      ></div>
       <Preloader></Preloader>
       <v-dialog v-model="displayKO" persistent width="500">
         <v-card>
@@ -35,6 +41,7 @@ export default {
   },
   data: function() {
     return {
+      game: this.$game,
       displayKO: this.onResize()
     };
   },
@@ -72,6 +79,14 @@ export default {
   font-size: @baseFontSize;
 }
 
+#app.v-application .primary {
+  background-color: #f3daa4 !important;
+  box-shadow: 0px 2px 0px 0px #debc72;
+  border-color: #debc72 !important;
+  border: 2px solid;
+  color: #c34a29 !important;
+}
+
 h1,
 .v-btn {
   text-align: center;
@@ -82,11 +97,19 @@ h1,
     text-transform: uppercase;
   }
 }
-
 .v-btn {
   padding: 10px 15px;
   * {
     font-size: 12px;
+  }
+
+  &--disabled {
+    box-shadow: 0px 2px 0px 0px #afafaf !important;
+    border: 2px solid #afafaf !important;
+    color: rgb(0 0 0 / 13%) !important;
+    &--disabled:hover {
+      cursor: not-allowed !important;
+    }
   }
 }
 
@@ -102,5 +125,43 @@ h1 {
 
 .v-application--wrap {
   padding: 15px 30px;
+}
+
+.tooltip {
+  position: absolute;
+  background-color: #f3daa4 !important;
+  border-color: #debc72 !important;
+  border: 2px solid;
+  color: #c34a29 !important;
+  padding: 8px 11px;
+  border-radius: 5px;
+  z-index: 100000;
+  line-height: 1;
+  max-width: 430px;
+  text-align: center;
+
+  .text {
+    font-family: "Space Comics";
+    text-transform: uppercase;
+    font-size: 7px;
+  }
+}
+
+#help {
+  z-index: 100000000;
+  position: fixed;
+  right: 7px;
+  top: 5px;
+  font-size: 30px;
+  color: white !important;
+}
+.help-mask {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background: #ca559b8f;
+  z-index: 10000;
 }
 </style>

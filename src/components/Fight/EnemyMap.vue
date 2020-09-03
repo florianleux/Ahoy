@@ -16,6 +16,7 @@
           </transition>
           <div v-if="!attackMessage">&nbsp;</div>
         </div>
+
         <div class="frame"></div>
         <div class="line" v-for="n in 10" :key="n">
           <div
@@ -35,23 +36,13 @@
           >
             <img
               rel="preload"
-              :src="
-                publicPath +
-                  'boats/' +
-                  enemy.className +
-                  '/destroyed.png'
-              "
+              :src="publicPath + 'boats/' + enemy.className + '/destroyed.png'"
               v-if="isDestroyed(n, m)"
               class="coin destroyed"
             />
             <img
               rel="preload"
-              :src="
-                publicPath +
-                  'boats/' +
-                  enemy.className +
-                  '/hit.png'
-              "
+              :src="publicPath + 'boats/' + enemy.className + '/hit.png'"
               v-if="
                 playerMap.hitMap[n - 1][m - 1] == 'hit' && !isDestroyed(n, m)
               "
@@ -59,6 +50,16 @@
             />
           </div>
         </div>
+      </div>
+      <div
+        class="tooltip"
+        v-if="game.help"
+        style="top: 90%;left: 19%;transform: rotate(-6deg);"
+      >
+        <span class="text"
+          >Durant votre tour, cliquez dans une case de la carte pour attaquer
+          votre adversaire.</span
+        >
       </div>
     </v-col>
     <!--    <v-btn @click="randomMap">-->
@@ -152,8 +153,7 @@ export default {
                   _this.nextRound(1200);
                 }, 500);
               }
-            }
-            else{
+            } else {
               this.nextRound(1200);
             }
             break;

@@ -5,6 +5,30 @@
     @wheel.prevent="throttledRotateBoat"
     @click.right.prevent="throttledRotateBoat"
   >
+    <div
+      class="tooltip"
+      v-if="game.help"
+      style="right: 50%;bottom: 50%;margin-bottom: 25px;"
+    >
+      <span class="text"
+        >Cliquez sur la carte pour placer le bateau sélectionné.</span
+      >
+    </div>
+
+    <div
+      class="tooltip"
+      style="
+    bottom: 10%;
+    left: 20%;
+"
+      v-if="game.help"
+    >
+      <span class="text"
+        >Une fois votre flotte placée, cliquez sur le bouton pour démarrer le
+        combat !</span
+      >
+    </div>
+
     <div class="canvas">
       <div class="frame"></div>
       <div class="line" v-for="n in 10" :key="n">
@@ -136,6 +160,14 @@ export default {
     bottom: -15px;
     left: -15px;
     right: -15px;
+  }
+}
+
+#mapHelp {
+  right: 50%;
+  top: 50%;
+  span {
+    text-align: center;
   }
 }
 

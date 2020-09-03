@@ -29,12 +29,22 @@
         <div class="powers-zone">
           <div>
             <v-row
-            ><v-col class="label">Pouvoir {{ selectedEnemy.mainPower.type }}</v-col>
-              <v-col class="value">{{ selectedEnemy.mainPower.name }}</v-col></v-row
+              ><v-col class="label"
+                >Pouvoir {{ selectedEnemy.mainPower.type }}</v-col
+              >
+              <v-col class="value">{{
+                selectedEnemy.mainPower.name
+              }}</v-col></v-row
             >
-            <v-row class="description" v-html="selectedEnemy.mainPower.description"></v-row>
+            <v-row
+              class="description"
+              v-html="selectedEnemy.mainPower.description"
+            ></v-row>
           </div>
-          <div v-for="(power, index) in selectedEnemy.secondaryPowers" :key="index">
+          <div
+            v-for="(power, index) in selectedEnemy.secondaryPowers"
+            :key="index"
+          >
             <v-row
               ><v-col class="label">Pouvoir {{ power.type }}</v-col>
               <v-col class="value">{{ power.name }}</v-col></v-row
@@ -48,11 +58,7 @@
       <img
         rel="preload"
         :src="
-          publicPath +
-            'players/' +
-            selectedEnemy.className +
-            '/' +
-            'wanted.png'
+          publicPath + 'players/' + selectedEnemy.className + '/' + 'wanted.png'
         "
         alt=""
         class="wanted"
