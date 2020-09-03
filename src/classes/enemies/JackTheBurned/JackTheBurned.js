@@ -32,53 +32,51 @@ export class JackTheBurned extends Enemy {
     var fireDirection = this.mathHelper.getRandomIntMax(3);
     var i = 0;
 
-
-    while(!ok && i<4){
-
+    while (!ok && i < 4) {
       switch (fireDirection) {
         case 0:
-          if(posX === 10){
+          if (posX === 10) {
             fireDirection++;
-          }else if(!this.map.hitMap[posX+1][posY]){
+          } else if (!this.map.hitMap[posX + 1][posY]) {
             posX++;
             ok = true;
             this.attack(target, posX, posY);
-          }else{
+          } else {
             fireDirection++;
           }
           break;
         case 1:
-          if(posX === 1){
+          if (posX === 1) {
             fireDirection++;
-          }else if(!this.map.hitMap[posX-1][posY]){
+          } else if (!this.map.hitMap[posX - 1][posY]) {
             posX--;
             ok = true;
             console.log(posX, posY);
             this.attack(target, posX, posY);
-          }else{
+          } else {
             fireDirection++;
           }
           break;
         case 2:
-          if(posY === 10){
+          if (posY === 10) {
             fireDirection++;
-          }else if(!this.map.hitMap[posX][posY+1]){
+          } else if (!this.map.hitMap[posX][posY + 1]) {
             posY++;
             ok = true;
             this.attack(target, posX, posY);
-          }else{
+          } else {
             fireDirection++;
           }
           break;
         case 3:
-          if(posY === 1){
-            fireDirection=4;
-          }else if(!this.map.hitMap[posX][posY-1]){
+          if (posY === 1) {
+            fireDirection = 4;
+          } else if (!this.map.hitMap[posX][posY - 1]) {
             posY--;
             ok = true;
             this.attack(target, posX, posY);
-          }else{
-            fireDirection=4;
+          } else {
+            fireDirection = 4;
           }
           break;
       }

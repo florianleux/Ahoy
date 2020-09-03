@@ -132,7 +132,11 @@ export class Game {
               setTimeout(function() {
                 //Jack the Burned power : If the power is activated, he attacks again around his initial hit
                 if (powerActivation) {
-                  _this.player.enemy.fire(_this.player, _this.player.enemy.lastHit[0],_this.player.enemy.lastHit[1]);
+                  _this.player.enemy.fire(
+                    _this.player,
+                    _this.player.enemy.lastHit[0],
+                    _this.player.enemy.lastHit[1]
+                  );
                   _this.player.enemy.powerActivated = true;
                   _this.nextRound();
                 } else {
