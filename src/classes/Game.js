@@ -24,6 +24,7 @@ export class Game {
     this.player = new Player(playerName, playerIdentity);
     this.player.enemy = this.enemyList[0];
     this.clickSound.volume = 1;
+    localStorage.ahoyGame = JSON.stringify(this);
   }
 
   //Going to next enemy
