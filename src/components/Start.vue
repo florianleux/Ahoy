@@ -11,7 +11,7 @@
         <v-row>
           <v-col cols="12">
             <v-text-field
-              placeholder="Votre nom de Pirate"
+              :placeholder="$t('votre_nom_de_pirate')"
               v-model="playerName"
               :rules="nameRules"
               class="name-input"
@@ -19,13 +19,13 @@
             />
           </v-col>
           <v-col cols="12">
-            <div class="label">Vous êtes :</div>
+            <div class="label">{{ $t("vous_etes") }}</div>
             <v-radio-group class="identity-input" v-model="playerIdentity" row>
               <v-col cols="6">
-                <v-radio label="Un homme" value="male"></v-radio>
+                <v-radio :label=" $t('un_homme')" value="male"></v-radio>
               </v-col>
               <v-col cols="6">
-                <v-radio label="Une femme" value="female"></v-radio>
+                <v-radio :label="$t('une_femme')" value="female"></v-radio>
               </v-col>
             </v-radio-group>
           </v-col>
@@ -37,7 +37,7 @@
               id="startButton"
               @click="newGame"
             >
-              Nouvelle Partie
+              {{$t("nouvelle_partie")}}
             </v-btn>
             <v-btn
               :disabled="!savedGame"
@@ -46,7 +46,7 @@
               id="loadButton"
               @click="loadGame"
             >
-              Continuer
+              {{$t("continuer")}}
             </v-btn>
           </v-col>
         </v-row>
@@ -73,9 +73,10 @@ export default {
   },
   methods: {
     newGame() {
+      var _this = this;
       if (this.savedGame) {
         let savedGameDetected = confirm(
-          "Il semblerait que vous avez déja commencé une partie de Ahoy! Si vous commencez une nouvelle partie, la sauvegarde existante sera écrasée !"
+          _this.$t("alert_partie_existante")
         );
 
         if (!savedGameDetected) {

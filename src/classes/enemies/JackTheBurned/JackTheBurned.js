@@ -3,13 +3,13 @@ import { Power } from "@/classes/Power.js";
 import { MathHelper } from "@/classes/helpers/MathHelper.js";
 
 export class JackTheBurned extends Enemy {
-  name = "Jack Le Cramé";
+  name = "jtb_name";
 
   className = "JackTheBurned";
 
-  phrase = "Quelqu'un aurait du feu ?";
+  phrase = "jtb_phrase";
 
-  nature = "Pyromane à ses heures perdues.";
+  nature = "jtb_nature";
 
   mathHelper = new MathHelper();
 
@@ -21,9 +21,9 @@ export class JackTheBurned extends Enemy {
     super(name);
 
     this.mainPower = new Power(
-      "Alluuumeer le feuu",
-      "Quand Jack touche un de vos bateaux, il a 50% de chances d'enflammer une case adjacente à celle qu'il vient de viser.",
-      "Passif"
+      "jtb_main_power_name",
+      "jtb_main_power_description",
+      "passif"
     );
   }
 

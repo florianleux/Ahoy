@@ -3,29 +3,29 @@ import { Power } from "@/classes/Power.js";
 import { SimpleSamFleet } from "@/classes/enemies/SimpleSam/SimpleSamFleet.js";
 
 export class SimpleSam extends Enemy {
-  name = "Simple Sam";
+  name = "ss_name";
 
   className = "SimpleSam";
 
-  phrase = "La vie c'est comme une boîte de sardines...";
+  phrase = "ss_phrase";
 
-  nature = "Pas très malin. Vraiment.";
+  nature = "ss_nature";
 
   constructor(name) {
     super(name);
     this.fleet = new SimpleSamFleet();
 
     this.mainPower = new Power(
-      "Tant que je gagne, je joue !",
-      "A chaque fois que Simple Sam touche un de vos bateaux, il attaque de nouveau.",
-      "Passif"
+      "ss_main_power_name",
+      "ss_main_power_description",
+      "passif"
     );
 
     this.secondaryPowers.push(
       new Power(
-        "Poulet sans tête",
-        "Simple Sam n'a aucune stratégie : tous ses coups sont joués au hasard",
-        "Passif",
+        "ss_secondary_power_name",
+        "ss_secondary_power_description",
+        "passif",
         false
       )
     );

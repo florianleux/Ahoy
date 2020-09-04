@@ -3,19 +3,19 @@
     <v-col cols="7">
       <div class="infos">
         <v-row class="name-zone">
-          <v-col class="label">Nom </v-col>
-          <v-col class="value">{{ selectedEnemy.name }}</v-col>
+          <v-col class="label">{{$t("nom")}} </v-col>
+          <v-col class="value">{{ $t(selectedEnemy.name) }}</v-col>
         </v-row>
         <v-row class="mojo-zone">
-          <v-col class="label">Mojo </v-col>
-          <v-col class="value">"{{ selectedEnemy.phrase }}"</v-col>
+          <v-col class="label">{{$t("mojo")}} </v-col>
+          <v-col class="value">"{{ $t(selectedEnemy.phrase) }}"</v-col>
         </v-row>
         <v-row class="nature-zone">
-          <v-col class="label">Signe particulier </v-col>
-          <v-col class="value">{{ selectedEnemy.nature }}</v-col>
+          <v-col class="label">{{$t("signe_particulier")}} </v-col>
+          <v-col class="value">{{ $t(selectedEnemy.nature)}}</v-col>
         </v-row>
         <v-row class="fleet">
-          <v-col class="label">Flotte </v-col>
+          <v-col class="label">{{$t("flotte")}} </v-col>
           <v-col class="value">
             <div
               v-for="(boat, index) in selectedEnemy.fleet.boats"
@@ -30,15 +30,15 @@
           <div>
             <v-row
               ><v-col class="label"
-                >Pouvoir {{ selectedEnemy.mainPower.type }}</v-col
+                >{{$t("pouvoir_"+selectedEnemy.mainPower.type)}} </v-col
               >
               <v-col class="value">{{
-                selectedEnemy.mainPower.name
+                $t(selectedEnemy.mainPower.name)
               }}</v-col></v-row
             >
             <v-row
               class="description"
-              v-html="selectedEnemy.mainPower.description"
+              v-html="$t(selectedEnemy.mainPower.description)"
             ></v-row>
           </div>
           <div
@@ -46,10 +46,10 @@
             :key="index"
           >
             <v-row
-              ><v-col class="label">Pouvoir {{ power.type }}</v-col>
-              <v-col class="value">{{ power.name }}</v-col></v-row
+              ><v-col class="label">{{$t("pouvoir_"+power.type)}}</v-col>
+              <v-col class="value">{{$t( power.name) }}</v-col></v-row
             >
-            <v-row class="description" v-html="power.description"></v-row>
+            <v-row class="description" v-html="$t(power.description)"></v-row>
           </div>
         </div>
       </div>

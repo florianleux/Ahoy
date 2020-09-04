@@ -1,0 +1,33 @@
+{
+  "vous_etes" : "Your gender:",
+  "un_homme" : "male",
+  "une_femme": "female",
+  "nouvelle_partie" : "New Game",
+  "continuer" : "Load Game",
+  "votre_nom_de_pirate": "Your pirate name",
+  "alert_partie_existante": "It seems that you have already started a game! If you start a new game, your save will be overwritten ! ",
+
+  "prochain_adversaire" : "Next opponent",
+  "nom": "Name",
+  "mojo" : " Mojo",
+  "signe_particulier" : "Particuliar sign",
+  "flotte" : "Fleet",
+  "pouvoir_passif" : "Passive ability",
+  "pouvoir_actif" : "Active ability",
+  "a_lattaque" : "Fight !",
+
+  "ss_name" : "Simple Sam",
+  "ss_phrase" : "Stupid is as stupid does.",
+  "ss_nature" : "Not very smart. REALLY not.",
+  "ss_main_power_name" : "Winner winner, chicken dinner !",
+  "ss_main_power_description" : "Everytime Simple Sam hits a boat, he attacks again in the same turn.",
+  "ss_secondary_power_name" : "Headless chicken",
+  "ss_secondary_power_description" : "Simple Sam has no strategy whatsoever, he shoots randomly across the map.",
+
+  "jtb_name" : "Jack The Burned",
+  "jtb_phrase" : "I'm on fire !",
+  "jtb_nature" : "Self-taught pyromaniac",
+  "jtb_main_power_name" : "Fire in the hole !",
+  "jtb_main_power_description" : "if Jack hits a boat, there is 50% chance that he sets on fire one of the adjacent cells. "
+
+}

@@ -2,6 +2,12 @@
   <v-app>
     <div id="app">
       <v-icon id="help" @click="game.help = !game.help">mdi-help-circle</v-icon>
+      <div class="locale-switcher">
+        <select v-model="$i18n.locale">
+          <option value="fr">fr</option>
+          <option value="en">en</option>
+        </select>
+      </div>
       <div
         v-if="game.help"
         @click="game.help = !game.help"

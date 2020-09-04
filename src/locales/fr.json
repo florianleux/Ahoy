@@ -1,0 +1,32 @@
+{
+  "vous_etes" : "Vous êtes :",
+  "un_homme" : "un homme",
+  "une_femme": "une femme",
+  "nouvelle_partie" : "Nouvelle Partie",
+  "continuer" : "Continuer",
+ "votre_nom_de_pirate": "Votre nom de Pirate",
+  "alert_partie_existante": "Il semblerait que vous avez déja commencé une partie de Ahoy! Si vous commencez une nouvelle partie, la sauvegarde existante sera écrasée !",
+
+  "prochain_adversaire" : "Prochain Adversaire",
+  "nom": "Nom",
+  "mojo" : " Mojo",
+  "signe_particulier" : "Signe particulier",
+  "flotte" : "Flotte",
+  "pouvoir_passif" : "Pouvoir passif",
+  "pouvoir_actif" : "Pouvoir actif",
+  "a_lattaque" : "A l'attaque !",
+
+  "ss_name" : "Simple Sam",
+  "ss_phrase" : "La vie c'est comme une boîte de sardines...",
+  "ss_nature" : "Pas très malin. Vraiment.",
+  "ss_main_power_name" : "Tant que je gagne, je joue !",
+  "ss_main_power_description" : "A chaque fois que Simple Sam touche un de vos bateaux, il attaque de nouveau.",
+  "ss_secondary_power_name" : "Poulet sans tête",
+  "ss_secondary_power_description" : "Simple Sam n'a aucune stratégie : tous ses coups sont joués au hasard\"",
+
+  "jtb_name" : "Jack Le Cramé",
+  "jtb_phrase" : "Quelqu'un aurait du feu ?",
+  "jtb_nature" : "Pyromane à ses heures perdues.",
+  "jtb_main_power_name" : "Alluuumeer le feuu",
+  "jtb_main_power_description" : "Quand Jack touche un de vos bateaux, il a 50% de chances d'enflammer une case adjacente à celle qu'il vient de viser."
+}

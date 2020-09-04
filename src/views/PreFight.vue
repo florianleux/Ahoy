@@ -1,10 +1,10 @@
 <template>
   <div class="infos-zone">
-    <h1>Prochain adversaire</h1>
+    <h1>{{$t('prochain_adversaire')}}</h1>
     <EnemiesList />
     <CurrentEnemy />
     <v-btn color="primary" class="start-fight" @click="goPlacement">
-      A l'attaque !
+     {{$t("a_lattaque")}}
     </v-btn>
   </div>
 </template>

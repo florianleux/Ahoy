@@ -16,7 +16,7 @@ export class ChisanaKaizoku extends Enemy {
     this.mainPower = new Power(
       "Contre-attaque",
       "A chaque fois que vous attaquez Chïsana, il a 50% de chances </br> de riposter aux même coordonnées sur votre carte.",
-      "Passif"
+      "passif"
     );
   }
 }
