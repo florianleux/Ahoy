@@ -2,17 +2,15 @@
   <v-app>
     <div id="app">
       <v-icon id="help" @click="game.help = !game.help">mdi-help-circle</v-icon>
-      <div class="locale-switcher">
-        <select v-model="$i18n.locale">
-          <option value="fr">fr</option>
-          <option value="en">en</option>
-        </select>
-      </div>
+      <v-icon id="settings" @click="game.settings = !game.settings"
+        >mdi-cog</v-icon
+      >
       <div
         v-if="game.help"
         @click="game.help = !game.help"
         class="help-mask"
       ></div>
+      <Settings v-if="game.settings"></Settings>
       <Preloader></Preloader>
       <v-dialog v-model="displayKO" persistent width="500">
         <v-card>
@@ -39,11 +37,13 @@
 
 <script>
 import Preloader from "@/components/Preloader.vue";
+import Settings from "@/components/Settings.vue";
 
 export default {
   name: "App",
   components: {
-    Preloader
+    Preloader,
+    Settings
   },
   data: function() {
     return {
@@ -67,12 +67,12 @@ export default {
 </script>
 
 <style lang="less">
-@baseFontSize: 19px;
+@baseFontSize: 25px;
 
 //Fonts Déclaration
 @font-face {
   font-family: "Roman Antique";
-  src: url("assets/fonts/RomanAntique-Italic.ttf") format("truetype");
+  src: url("assets/fonts/EnchantedLand.otf") format("opentype");
 }
 
 @font-face {
@@ -86,11 +86,15 @@ export default {
 }
 
 #app.v-application .primary {
-  background-color: #f3daa4 !important;
+  background-color: #dcb570 !important;
   box-shadow: 0px 2px 0px 0px #debc72;
   border-color: #debc72 !important;
   border: 2px solid;
-  color: #c34a29 !important;
+  color: #893522 !important;
+}
+
+.v-label {
+  font-size: 22px !important;
 }
 
 h1,
@@ -109,13 +113,10 @@ h1,
     font-size: 12px;
   }
 
-  &--disabled {
-    box-shadow: 0px 2px 0px 0px #afafaf !important;
-    border: 2px solid #afafaf !important;
+  &.v-btn--disabled {
+    box-shadow: 0px 2px 0px 0px #bca680 !important;
+    border: 2px solid  #bca680 !important;
     color: rgb(0 0 0 / 13%) !important;
-    &--disabled:hover {
-      cursor: not-allowed !important;
-    }
   }
 }
 
@@ -152,11 +153,18 @@ h1 {
     font-size: 7px;
   }
 }
-
-#help {
+#settings {
   z-index: 100000000;
   position: fixed;
   right: 7px;
+  top: 5px;
+  font-size: 30px;
+  color: white !important;
+}
+#help {
+  z-index: 100000000;
+  position: fixed;
+  right: 42px;
   top: 5px;
   font-size: 30px;
   color: white !important;
@@ -170,4 +178,6 @@ h1 {
   background: #ca559b8f;
   z-index: 10000;
 }
+
+
 </style>
