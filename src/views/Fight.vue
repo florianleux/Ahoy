@@ -132,6 +132,16 @@ body.fight.JackTheBurned #app {
     background-size: cover;
   }
 }
+body.fight.MamanBrigitte #app {
+  background: url("/fight/MamanBrigitte/bg.jpg") no-repeat center center fixed;
+  background-size: cover;
+
+  .shadow {
+    background: url("/fight/MamanBrigitte/shadow.png") no-repeat center center
+      fixed;
+    background-size: cover;
+  }
+}
 
 .shadow {
   z-index: 9900;
