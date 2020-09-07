@@ -159,7 +159,7 @@ export default {
     position: absolute;
     top: 10%;
     right: 0;
-    font-size: 20px;
+    font-size: 22px;
     left: 0;
     text-align: center;
     color: #370014;

@@ -22,7 +22,7 @@
             <div class="label">{{ $t("vous_etes") }}</div>
             <v-radio-group class="identity-input" v-model="playerIdentity" row>
               <v-col cols="6">
-                <v-radio :label=" $t('un_homme')" value="male"></v-radio>
+                <v-radio :label="$t('un_homme')" value="male"></v-radio>
               </v-col>
               <v-col cols="6">
                 <v-radio :label="$t('une_femme')" value="female"></v-radio>
@@ -37,7 +37,7 @@
               id="startButton"
               @click="newGame"
             >
-              {{$t("nouvelle_partie")}}
+              {{ $t("nouvelle_partie") }}
             </v-btn>
             <v-btn
               :disabled="!savedGame"
@@ -46,7 +46,7 @@
               id="loadButton"
               @click="loadGame"
             >
-              {{$t("continuer")}}
+              {{ $t("continuer") }}
             </v-btn>
           </v-col>
         </v-row>
@@ -72,12 +72,10 @@ export default {
     };
   },
   methods: {
-    newGame() {
+    newGame(event) {
       var _this = this;
       if (this.savedGame) {
-        let savedGameDetected = confirm(
-          _this.$t("alert_partie_existante")
-        );
+        let savedGameDetected = confirm(_this.$t("alert_partie_existante"));
 
         if (!savedGameDetected) {
           return false;
@@ -90,8 +88,36 @@ export default {
       homeAudio.volume = 0.15;
       this.$game.newGame(this.playerName, this.playerIdentity);
       this.$router.push({ name: "PreFight" });
+      this.toggleFullscreen(event);
     },
-    loadGame() {
+    toggleFullscreen(event) {
+      var element = document.body;
+
+      if (event instanceof HTMLElement) {
+        element = event;
+      }
+
+      var isFullscreen =
+        document.webkitIsFullScreen || document.mozFullScreen || false;
+
+      element.requestFullScreen =
+        element.requestFullScreen ||
+        element.webkitRequestFullScreen ||
+        element.mozRequestFullScreen ||
+        function() {
+          return false;
+        };
+      document.cancelFullScreen =
+        document.cancelFullScreen ||
+        document.webkitCancelFullScreen ||
+        document.mozCancelFullScreen ||
+        function() {
+          return false;
+        };
+
+      isFullscreen ? document.cancelFullScreen() : element.requestFullScreen();
+    },
+    loadGame(event) {
       this.$game.loadGame(JSON.parse(this.savedGame));
       let homeAudio = new Audio("/music/home.wav");
       this.$game.clickSound.play();
@@ -99,6 +125,7 @@ export default {
       homeAudio.play();
       homeAudio.volume = 0.15;
       this.$router.push({ name: "PreFight" });
+      this.toggleFullscreen(event);
     }
   }
 };
@@ -113,6 +140,11 @@ export default {
   margin-top: -250px;
   left: 75%;
   margin-left: -196px;
+  background: #ffe4b4;
+  border: 3px solid #d09c5f;
+  color: #502218 !important;
+
+  *{color: #502218 !important;}
 }
 
 #startButton {
@@ -131,6 +163,9 @@ export default {
   left: 10%;
 }
 .game-title {
+  -webkit-text-fill-color: #ffffff;
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: #dcb570;
   font-size: 50px;
   margin-top: 35px;
   line-height: 1;
@@ -167,4 +202,5 @@ export default {
     display: block;
   }
 }
+
 </style>

@@ -69,8 +69,9 @@ export default {
   .phrase {
     z-index: 9991;
     position: absolute;
-    bottom: 10px;
+    bottom: 13px;
     color: white;
+    font-size: 21px;
   }
 }
 

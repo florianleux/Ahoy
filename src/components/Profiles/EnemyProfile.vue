@@ -27,8 +27,8 @@
         :src="publicPath + 'players/plank.png'"
         class="plank"
       />
-      <div class="name">{{ enemy.name }}</div>
-      <div class="phrase">"{{ enemy.phrase }}"</div>
+      <div class="name">{{ $t(enemy.name) }}</div>
+      <div class="phrase">"{{ $t(enemy.phrase) }}"</div>
     </div>
   </div>
 </template>
@@ -131,9 +131,10 @@ export default {
   .phrase {
     z-index: 9991;
     position: absolute;
-    bottom: 10px;
+    bottom: 13px;
     color: white;
     text-align: right;
+    font-size: 21px;
     right: 15px;
   }
 }

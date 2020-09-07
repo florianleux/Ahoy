@@ -9,6 +9,7 @@ export class Game {
   round = 0;
   level = 0;
   help = false;
+  settings = false;
 
   clickSound = new Audio("/music/click.wav");
 
