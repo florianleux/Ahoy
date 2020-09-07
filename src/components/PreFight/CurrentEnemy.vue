@@ -24,11 +24,13 @@
             >
               <span v-for="n in boat.size" :key="n">
                 <img
-                        rel="preload"
-                        :src="publicPath + 'boats/' + selectedEnemy.className + '/ok.png'"
-                        alt=""
-                        width="30"
-                        class="coin"
+                  rel="preload"
+                  :src="
+                    publicPath + 'boats/' + selectedEnemy.className + '/ok.png'
+                  "
+                  alt=""
+                  width="30"
+                  class="coin"
                 />
               </span>
             </div>

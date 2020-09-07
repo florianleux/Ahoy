@@ -115,7 +115,7 @@ h1,
 
   &.v-btn--disabled {
     box-shadow: 0px 2px 0px 0px #bca680 !important;
-    border: 2px solid  #bca680 !important;
+    border: 2px solid #bca680 !important;
     color: rgb(0 0 0 / 13%) !important;
   }
 }
@@ -178,6 +178,4 @@ h1 {
   background: #ca559b8f;
   z-index: 10000;
 }
-
-
 </style>

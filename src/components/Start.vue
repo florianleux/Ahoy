@@ -144,7 +144,9 @@ export default {
   border: 3px solid #d09c5f;
   color: #502218 !important;
 
-  *{color: #502218 !important;}
+  * {
+    color: #502218 !important;
+  }
 }
 
 #startButton {
@@ -202,5 +204,4 @@ export default {
     display: block;
   }
 }
-
 </style>
