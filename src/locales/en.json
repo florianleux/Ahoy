@@ -1,4 +1,9 @@
 {
+  "parametres" : "Settings",
+  "plein_ecran" : "Fullscreen",
+  "anglais" : "English",
+  "francais" : "French",
+
   "vous_etes" : "Your gender:",
   "un_homme" : "male",
   "une_femme": "female",

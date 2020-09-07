@@ -1,4 +1,9 @@
 {
+ "parametres" : "Paramètres",
+ "plein_ecran" : "Plein écran",
+ "anglais" : "Anglais",
+ "francais" : "Français",
+
   "vous_etes" : "Vous êtes :",
   "un_homme" : "un homme",
   "une_femme": "une femme",
