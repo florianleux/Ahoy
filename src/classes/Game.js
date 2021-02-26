@@ -3,6 +3,7 @@ import { SimpleSam } from "@/classes/enemies/SimpleSam/SimpleSam.js";
 import { JackTheBurned } from "./enemies/JackTheBurned/JackTheBurned";
 import { MamanBrigitte } from "./enemies/MamanBrigitte/MamanBrigitte";
 import { ChisanaKaizoku } from "./enemies/ChisanaKaizoku/ChisanaKaizoku";
+import { Z } from "./enemies/Z/Z";
 
 export class Game {
   player = null;
@@ -14,10 +15,12 @@ export class Game {
   clickSound = new Audio("/music/click.wav");
 
   enemyList = [
+    new ChisanaKaizoku(),
     new SimpleSam(),
     new JackTheBurned(),
     new MamanBrigitte(),
-    new ChisanaKaizoku()
+
+    new Z(),
   ];
 
   //Starting a new game

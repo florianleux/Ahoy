@@ -145,10 +145,14 @@ export class Map {
     });
 
     //Put boats back in order
+
+    console.log("init",this.boatMap)
     fleet.boats.reverse();
   }
 
   removeBoat(boat, fleet) {
+    console.log("remove boat")
+    console.log(this.boatMap)
     var _this = this;
 
     boat.coords.forEach(function(coord) {
@@ -159,6 +163,9 @@ export class Map {
     boat.enable();
     boat.placed = false;
     fleet.putBoats--;
+
+    console.log(this.boatMap)
+
     fleet.selectBoat(boat);
   }
 

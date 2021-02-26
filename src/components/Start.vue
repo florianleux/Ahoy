@@ -72,7 +72,7 @@ export default {
     };
   },
   methods: {
-    newGame(event) {
+    newGame() {
       var _this = this;
       if (this.savedGame) {
         let savedGameDetected = confirm(_this.$t("alert_partie_existante"));
@@ -88,7 +88,6 @@ export default {
       homeAudio.volume = 0.15;
       this.$game.newGame(this.playerName, this.playerIdentity);
       this.$router.push({ name: "PreFight" });
-      this.toggleFullscreen(event);
     },
     toggleFullscreen(event) {
       var element = document.body;
@@ -117,7 +116,7 @@ export default {
 
       isFullscreen ? document.cancelFullScreen() : element.requestFullScreen();
     },
-    loadGame(event) {
+    loadGame() {
       this.$game.loadGame(JSON.parse(this.savedGame));
       let homeAudio = new Audio("/music/home.wav");
       this.$game.clickSound.play();
@@ -125,7 +124,6 @@ export default {
       homeAudio.play();
       homeAudio.volume = 0.15;
       this.$router.push({ name: "PreFight" });
-      this.toggleFullscreen(event);
     }
   }
 };

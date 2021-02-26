@@ -30,8 +30,8 @@
             v-bind:class="{
               hit: playerMap.hitMap[n - 1][m - 1] == 'hit',
               missed: playerMap.hitMap[n - 1][m - 1] == 'missed',
-              // placed: enemyMap.boatMap[n - 1][m - 1],
-              destroyed: isDestroyed(n, m)
+              placed: enemyMap.boatMap[n - 1][m - 1],
+              destroyed: destroyedMap[n - 1][m-1]
             }"
           >
             <img
@@ -90,6 +90,24 @@ export default {
       publicPath: process.env.BASE_URL,
       enemyClass: this.$game.enemyList[this.$game.level].className
     };
+  },
+  computed:{
+    destroyedMap(){
+      let dM = this.enemyMap._resetMap(),
+          _this =this;
+
+      dM.forEach((line,x) => {
+        line.forEach((col,y) =>{
+          if ( _this.enemyMap.boatMap[x][y]) {
+            dM[x][y] =   _this.enemy.fleet.boats[ _this.enemyMap.boatMap[x][y] - 1].destroyed;
+          } else {
+            dM[x][y] = false;
+          }
+        })
+      })
+
+      return dM;
+    }
   },
   methods: {
     hoverSquare: function() {},
@@ -166,12 +184,30 @@ export default {
                 setTimeout(function() {
                   _this.nextRound(1200);
                 }, 500);
-              }, 800);
+              }, 1200);
             } else {
               _this.nextRound(1200);
             }
-
             break;
+
+            case "Z":
+
+              if (attackResult === "DESTROYED") {
+                let destroyedBoatId = this.enemyMap.boatMap[y - 1][x - 1];
+                let destroyedBoat = _.find(this.enemy.fleet.boats, {
+                  id: destroyedBoatId
+                });
+                setTimeout(function() {
+                  _this.enemyMap.removeBoat(destroyedBoat,_this.enemy.fleet)
+                }, 1500);
+
+                this.nextRound(1200);
+
+                console.log(destroyedBoat)
+              }else{
+                this.nextRound(1200);
+              }
+                break;
 
           default:
             this.nextRound(1200);
@@ -259,6 +295,18 @@ export default {
 
 .coin {
   width: 100%;
+}
+
+.placed{
+  background: red;
+}
+
+.hit.destroyed{
+  background: black !important;
+}
+
+.hit{
+  background: yellow !important;
 }
 
 .line {
