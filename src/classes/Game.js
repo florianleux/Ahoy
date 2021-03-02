@@ -15,12 +15,11 @@ export class Game {
   clickSound = new Audio("/music/click.wav");
 
   enemyList = [
-    new ChisanaKaizoku(),
-    new SimpleSam(),
-    new JackTheBurned(),
-    new MamanBrigitte(),
-
     new Z(),
+    new SimpleSam(),
+    new ChisanaKaizoku(),
+    new JackTheBurned(),
+    new MamanBrigitte()
   ];
 
   //Starting a new game

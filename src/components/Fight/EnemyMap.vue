@@ -28,8 +28,8 @@
             @mouseover="hoverSquare"
             @click="attack(m, n)"
             v-bind:class="{
-              hit: playerMap.hitMap[n - 1][m - 1] == 'hit',
-              missed: playerMap.hitMap[n - 1][m - 1] == 'missed',
+              hit: playerMap.hitMap[n - 1][m - 1] === 'hit',
+              missed: playerMap.hitMap[n - 1][m - 1] === 'missed',
               placed: enemyMap.boatMap[n - 1][m - 1],
               destroyed: destroyedMap[n - 1][m-1]
             }"
@@ -140,7 +140,7 @@ export default {
         this.enemy.setMoodAttacked(attackResult);
         this.player.setMoodAttacking(attackResult);
 
-        switch (this.enemyClass) {
+        let randPower;switch (this.enemyClass) {
           case "MamanBrigitte":
             if (attackResult === "DESTROYED") {
               let destroyedBoatId = this.enemyMap.boatMap[y - 1][x - 1];
@@ -177,7 +177,7 @@ export default {
             break;
 
           case "ChisanaKaizoku":
-            var randPower = Math.random();
+            randPower = Math.random();
             if (!this.enemyMap.hitMap[y - 1][x - 1] && randPower >= 0.5) {
               setTimeout(function() {
                 _this.enemy.attack(_this.player, x, y, false);
@@ -191,19 +191,18 @@ export default {
             break;
 
             case "Z":
-
-              if (attackResult === "DESTROYED") {
+              randPower = Math.random();
+              if (attackResult === "DESTROYED" && randPower > 0) {
                 let destroyedBoatId = this.enemyMap.boatMap[y - 1][x - 1];
                 let destroyedBoat = _.find(this.enemy.fleet.boats, {
                   id: destroyedBoatId
                 });
                 setTimeout(function() {
-                  _this.enemyMap.removeBoat(destroyedBoat,_this.enemy.fleet)
+                  // _this.enemyMap.removeBoat(destroyedBoat,_this.enemy.fleet);
+                  _this.enemy.healBoat(destroyedBoat,_this.player)
                 }, 1500);
 
                 this.nextRound(1200);
-
-                console.log(destroyedBoat)
               }else{
                 this.nextRound(1200);
               }

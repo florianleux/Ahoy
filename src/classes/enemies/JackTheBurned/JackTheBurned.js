@@ -51,7 +51,6 @@ export class JackTheBurned extends Enemy {
           } else if (!this.map.hitMap[posX - 1][posY]) {
             posX--;
             ok = true;
-            console.log(posX, posY);
             this.attack(target, posX, posY);
           } else {
             fireDirection++;

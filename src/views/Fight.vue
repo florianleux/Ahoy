@@ -68,6 +68,9 @@
       <v-btn @click="player.victory = true">
         victory
       </v-btn>
+      <v-btn @click="randomMap">
+        regeneratez
+      </v-btn>
     </div>
   </div>
 </template>
@@ -97,6 +100,10 @@ export default {
     nextLevel: function() {
       this.game.nextLevel();
       this.$router.push({ name: "PreFight" });
+    },
+    randomMap(){
+      this.enemy.map.boatMap =  this.enemy.map._resetMap();
+      this.enemy.map.generateRandomMap(this.enemy.fleet);
     },
     rerun: function() {
       this.game.rerun();

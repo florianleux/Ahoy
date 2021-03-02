@@ -145,14 +145,10 @@ export class Map {
     });
 
     //Put boats back in order
-
-    console.log("init",this.boatMap)
     fleet.boats.reverse();
   }
 
   removeBoat(boat, fleet) {
-    console.log("remove boat")
-    console.log(this.boatMap)
     var _this = this;
 
     boat.coords.forEach(function(coord) {
@@ -164,8 +160,6 @@ export class Map {
     boat.placed = false;
     fleet.putBoats--;
 
-    console.log(this.boatMap)
-
     fleet.selectBoat(boat);
   }
 
@@ -175,7 +169,7 @@ export class Map {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-  _getRandomBoatCoords(boat) {
+  _getRandomBoatCoords(boat, otherMap = null) {
     var _this = this,
       centerX = -1000,
       centerY = -1000,
@@ -215,12 +209,11 @@ export class Map {
       }
 
       coords.forEach(function(coord) {
-        var posX = coord[0],
-          posY = coord[1];
-
-        if (_this.boatMap[posY][posX]) {
-          conflict = true;
-        }
+          if(!conflict){
+            var posX = coord[0],
+                posY = coord[1];
+            conflict = otherMap ?  otherMap[posY][posX] !== false || _this.boatMap[posY][posX] !== false : _this.boatMap[posY][posX] !== false;
+          }
       });
 
       tryCount++;

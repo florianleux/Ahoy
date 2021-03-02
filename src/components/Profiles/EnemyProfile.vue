@@ -148,17 +148,19 @@ export default {
 
   &.active {
     .picture {
-      width: 390px;
+      width: 420px;
+
     }
   }
 
   .picture {
-    width: 310px;
+    width: 320px;
     transition: width 0.4s;
     position: absolute;
     z-index: 9902;
     bottom: 81px;
     right: 0px;
+
   }
 }
 </style>

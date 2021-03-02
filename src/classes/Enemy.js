@@ -184,8 +184,6 @@ export class Enemy extends Character {
   }
 
   attack(target, posX, posY, postAttack = true) {
-    console.log("attack");
-
     let attackResult = super.attack(target, posX, posY),
       _this = this;
 
