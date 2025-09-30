@@ -28,11 +28,11 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ### Certificate Issues
 If you encounter "certificate has expired" errors during deployment:
 
-1. **Node.js Version**: The project uses Node.js 18 (specified in `.nvmrc`)
+1. **Node.js Version**: The project uses Node.js 16 (specified in `.nvmrc`) - compatible with Vue CLI 4.4.0
 2. **Build Configuration**: See `netlify.toml` for build settings
 3. **Environment Variables**: In Netlify dashboard, add:
-   - `NODE_VERSION`: `18`
-   - `NPM_VERSION`: `9`
+   - `NODE_VERSION`: `16`
+   - `NPM_VERSION`: `8`
 
 ### Build Command
 ```bash
