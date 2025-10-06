@@ -12,6 +12,8 @@
 <script>
 import EnemiesList from "../components/PreFight/EnemiesList";
 import CurrentEnemy from "../components/PreFight/CurrentEnemy";
+import { audioManager } from "@/utils/AudioManager";
+
 export default {
   name: "PreFight",
   components: {
@@ -20,12 +22,9 @@ export default {
   },
   methods: {
     goPlacement: function() {
-      this.$game.clickSound.play();
+      audioManager.playSound("click");
       this.$router.push({ name: "Placement" });
     }
-  },
-  beforeCreate: function() {
-    document.body.className = "pre-fight";
   }
 };
 </script>

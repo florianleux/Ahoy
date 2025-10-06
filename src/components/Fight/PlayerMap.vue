@@ -13,7 +13,11 @@
         adversaire vous a attaqué.</span
       >
     </div>
-    <div class="player canvas" :class="{ disabled: !enemy.turn }">
+    <div
+      class="player canvas"
+      :class="{ disabled: !enemy.turn }"
+      :style="canvasStyle"
+    >
       <div class="attack-result">
         <transition
           name="enemyAttackMessage"
@@ -25,7 +29,7 @@
         <div v-if="!enemy.attackMessage">&nbsp;</div>
       </div>
       <div class="frame"></div>
-      <div class="line" v-for="n in 10" :key="n">
+      <div class="line" v-for="n in 10" :key="n" :style="lineStyle">
         <div
           class="square"
           :data-y="n"
@@ -45,10 +49,11 @@
 </template>
 
 <script>
-import $ from "jquery";
+import { responsivePositionMixin } from "@/mixins/responsivePosition";
 
 export default {
   name: "MapVue",
+  mixins: [responsivePositionMixin],
   data: function() {
     return {
       game: this.$game,
@@ -57,7 +62,10 @@ export default {
       enemy: this.$game.player.enemy,
       playerMap: this.$game.player.map,
       enemyMap: this.$game.player.enemy.map,
-      target: null
+      target: null,
+      baseCoords: { x: 1065, y: 290, width: 340, height: 340 },
+      canvasStyle: {},
+      lineStyle: {}
     };
   },
   methods: {
@@ -69,38 +77,15 @@ export default {
         return false;
       }
     },
-    onResize() {
-      var target = { x: 1065, y: 290, width: 340, height: 340 };
-      var windowWidth = $(window).width();
-      var windowHeight = $(window).height();
-
-      // Get largest dimension increase
-      var xScale = windowWidth / 1920;
-      var yScale = windowHeight / 1080;
-      var scale;
-      var yOffset = 0;
-      var xOffset = 0;
-
-      if (xScale > yScale) {
-        // The image fits perfectly in x axis, stretched in y
-        scale = xScale;
-        yOffset = (windowHeight - 1080 * scale) / 2;
-      } else {
-        // The image fits perfectly in y axis, stretched in x
-        scale = yScale;
-        xOffset = (windowWidth - 1920 * scale) / 2;
-      }
-
-      $(".player.canvas").css("top", target.y * scale + yOffset);
-      $(".player.canvas").css("left", target.x * scale + xOffset);
-      $(".player.canvas").css("width", target.width * scale);
-      $(".player.canvas").css("height", target.height * scale);
-
-      $(".player.canvas .line").css("height", (target.height * scale) / 10);
+    handleResize() {
+      this.canvasStyle = this.calculatePosition(this.baseCoords);
+      this.lineStyle = {
+        height: this.calculateLineHeight(this.baseCoords.height)
+      };
     }
   },
   mounted() {
-    window.addEventListener("resize", this.onResize);
+    this.setupResponsive();
     window.dispatchEvent(new Event("resize"));
   }
 };

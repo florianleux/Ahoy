@@ -26,46 +26,19 @@
 </template>
 
 <script>
+import { isFullscreen, toggleFullscreen } from "@/utils/fullscreen";
+
 export default {
   name: "Settings",
   data: function() {
     return {
       game: this.$game,
-      fullScreen: document.webkitIsFullScreen || document.mozFullScreen || false
+      fullScreen: isFullscreen()
     };
   },
   watch: {
     fullScreen() {
-      this.toggleFullscreen();
-    }
-  },
-  methods: {
-    toggleFullscreen(event) {
-      var element = document.body;
-
-      if (event instanceof HTMLElement) {
-        element = event;
-      }
-
-      var isFullscreen =
-        document.webkitIsFullScreen || document.mozFullScreen || false;
-
-      element.requestFullScreen =
-        element.requestFullScreen ||
-        element.webkitRequestFullScreen ||
-        element.mozRequestFullScreen ||
-        function() {
-          return false;
-        };
-      document.cancelFullScreen =
-        document.cancelFullScreen ||
-        document.webkitCancelFullScreen ||
-        document.mozCancelFullScreen ||
-        function() {
-          return false;
-        };
-
-      isFullscreen ? document.cancelFullScreen() : element.requestFullScreen();
+      toggleFullscreen();
     }
   }
 };

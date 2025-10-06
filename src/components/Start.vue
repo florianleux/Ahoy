@@ -56,6 +56,8 @@
 </template>
 
 <script>
+import { audioManager } from "@/utils/AudioManager";
+
 export default {
   data() {
     return {
@@ -81,48 +83,15 @@ export default {
           return false;
         }
       }
-      let homeAudio = new Audio("/music/home.wav");
-      this.$game.clickSound.play();
-      homeAudio.loop = true;
-      homeAudio.play();
-      homeAudio.volume = 0.15;
+      audioManager.playSound("click");
+      audioManager.playMusic("home");
       this.$game.newGame(this.playerName, this.playerIdentity);
       this.$router.push({ name: "PreFight" });
     },
-    toggleFullscreen(event) {
-      var element = document.body;
-
-      if (event instanceof HTMLElement) {
-        element = event;
-      }
-
-      var isFullscreen =
-        document.webkitIsFullScreen || document.mozFullScreen || false;
-
-      element.requestFullScreen =
-        element.requestFullScreen ||
-        element.webkitRequestFullScreen ||
-        element.mozRequestFullScreen ||
-        function() {
-          return false;
-        };
-      document.cancelFullScreen =
-        document.cancelFullScreen ||
-        document.webkitCancelFullScreen ||
-        document.mozCancelFullScreen ||
-        function() {
-          return false;
-        };
-
-      isFullscreen ? document.cancelFullScreen() : element.requestFullScreen();
-    },
     loadGame() {
       this.$game.loadGame(JSON.parse(this.savedGame));
-      let homeAudio = new Audio("/music/home.wav");
-      this.$game.clickSound.play();
-      homeAudio.loop = true;
-      homeAudio.play();
-      homeAudio.volume = 0.15;
+      audioManager.playSound("click");
+      audioManager.playMusic("home");
       this.$router.push({ name: "PreFight" });
     }
   }

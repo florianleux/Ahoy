@@ -60,18 +60,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-
-    <div class="dev">
-      <v-btn @click="player.defeat = true">
-        defeat
-      </v-btn>
-      <v-btn @click="player.victory = true">
-        victory
-      </v-btn>
-      <v-btn @click="randomMap">
-        regeneratez
-      </v-btn>
-    </div>
   </div>
 </template>
 
@@ -92,8 +80,8 @@ export default {
   data: function() {
     return {
       game: this.$game,
-      enemy: this.$game.player.enemy,
-      player: this.$game.player
+      enemy: this.$game.player?.enemy || null,
+      player: this.$game.player || null
     };
   },
   methods: {
@@ -101,17 +89,22 @@ export default {
       this.game.nextLevel();
       this.$router.push({ name: "PreFight" });
     },
-    randomMap(){
-      this.enemy.map.boatMap =  this.enemy.map._resetMap();
-      this.enemy.map.generateRandomMap(this.enemy.fleet);
-    },
     rerun: function() {
       this.game.rerun();
       this.$router.push({ name: "Placement" });
     }
   },
-  beforeCreate: function() {
-    document.body.className = "fight " + this.$game.player.enemy.className;
+  created() {
+    // Safety check - redirect if no player
+    if (!this.$game.player) {
+      this.$router.push({ name: "Home" });
+    }
+  },
+  mounted() {
+    // Add enemy class to body (base class already set by router guard)
+    if (this.enemy) {
+      document.body.classList.add(this.enemy.className);
+    }
   }
 };
 </script>
@@ -184,12 +177,5 @@ body.fight.MamanBrigitte #app {
 
 .popin {
   color: white;
-}
-
-.dev {
-  position: fixed;
-  top: 30px;
-  left: 30px;
-  z-index: 100000000;
 }
 </style>

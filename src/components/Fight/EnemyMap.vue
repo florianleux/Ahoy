@@ -5,7 +5,11 @@
     :class="{ disabled: !player.turn }"
   >
     <v-col cols="12">
-      <div class="enemy canvas" :class="{ disabled: player.attackLock }">
+      <div
+        class="enemy canvas"
+        :class="{ disabled: player.attackLock }"
+        :style="canvasStyle"
+      >
         <div class="attack-result">
           <transition
             name="enterMessage"
@@ -18,7 +22,7 @@
         </div>
 
         <div class="frame"></div>
-        <div class="line" v-for="n in 10" :key="n">
+        <div class="line" v-for="n in 10" :key="n" :style="lineStyle">
           <div
             class="square"
             :data-y="n"
@@ -31,7 +35,7 @@
               hit: playerMap.hitMap[n - 1][m - 1] === 'hit',
               missed: playerMap.hitMap[n - 1][m - 1] === 'missed',
               placed: enemyMap.boatMap[n - 1][m - 1],
-              destroyed: destroyedMap[n - 1][m-1]
+              destroyed: destroyedMap[n - 1][m - 1]
             }"
           >
             <img
@@ -70,10 +74,11 @@
 
 <script>
 import _ from "lodash";
-import $ from "jquery";
+import { responsivePositionMixin } from "@/mixins/responsivePosition";
 
 export default {
   name: "EnemyMap",
+  mixins: [responsivePositionMixin],
   data: function() {
     return {
       game: this.$game,
@@ -88,23 +93,29 @@ export default {
       },
       attackMessage: false,
       publicPath: process.env.BASE_URL,
-      enemyClass: this.$game.enemyList[this.$game.level].className
+      enemyClass: this.$game.enemyList[this.$game.level].className,
+      baseCoords: { x: 370, y: 180, width: 500, height: 500 },
+      canvasStyle: {},
+      lineStyle: {}
     };
   },
-  computed:{
-    destroyedMap(){
+  computed: {
+    destroyedMap() {
       let dM = this.enemyMap._resetMap(),
-          _this =this;
+        _this = this;
 
-      dM.forEach((line,x) => {
-        line.forEach((col,y) =>{
-          if ( _this.enemyMap.boatMap[x][y]) {
-            dM[x][y] =   _this.enemy.fleet.boats[ _this.enemyMap.boatMap[x][y] - 1].destroyed;
+      dM.forEach((line, x) => {
+        line.forEach((col, y) => {
+          if (_this.enemyMap.boatMap[x][y]) {
+            dM[x][y] =
+              _this.enemy.fleet.boats[
+                _this.enemyMap.boatMap[x][y] - 1
+              ].destroyed;
           } else {
             dM[x][y] = false;
           }
-        })
-      })
+        });
+      });
 
       return dM;
     }
@@ -140,7 +151,8 @@ export default {
         this.enemy.setMoodAttacked(attackResult);
         this.player.setMoodAttacking(attackResult);
 
-        let randPower;switch (this.enemyClass) {
+        let randPower;
+        switch (this.enemyClass) {
           case "MamanBrigitte":
             if (attackResult === "DESTROYED") {
               let destroyedBoatId = this.enemyMap.boatMap[y - 1][x - 1];
@@ -190,23 +202,23 @@ export default {
             }
             break;
 
-            case "Z":
-              randPower = Math.random();
-              if (attackResult === "DESTROYED" && randPower > 0) {
-                let destroyedBoatId = this.enemyMap.boatMap[y - 1][x - 1];
-                let destroyedBoat = _.find(this.enemy.fleet.boats, {
-                  id: destroyedBoatId
-                });
-                setTimeout(function() {
-                  // _this.enemyMap.removeBoat(destroyedBoat,_this.enemy.fleet);
-                  _this.enemy.healBoat(destroyedBoat,_this.player)
-                }, 1500);
+          case "Z":
+            randPower = Math.random();
+            if (attackResult === "DESTROYED" && randPower > 0) {
+              let destroyedBoatId = this.enemyMap.boatMap[y - 1][x - 1];
+              let destroyedBoat = _.find(this.enemy.fleet.boats, {
+                id: destroyedBoatId
+              });
+              setTimeout(function() {
+                // _this.enemyMap.removeBoat(destroyedBoat,_this.enemy.fleet);
+                _this.enemy.healBoat(destroyedBoat, _this.player);
+              }, 1500);
 
-                this.nextRound(1200);
-              }else{
-                this.nextRound(1200);
-              }
-                break;
+              this.nextRound(1200);
+            } else {
+              this.nextRound(1200);
+            }
+            break;
 
           default:
             this.nextRound(1200);
@@ -222,38 +234,15 @@ export default {
         return false;
       }
     },
-    onResize() {
-      var target = { x: 370, y: 180, width: 500, height: 500 };
-      var windowWidth = $(window).width();
-      var windowHeight = $(window).height();
-
-      // Get largest dimension increase
-      var xScale = windowWidth / 1920;
-      var yScale = windowHeight / 1080;
-      var scale;
-      var yOffset = 0;
-      var xOffset = 0;
-
-      if (xScale > yScale) {
-        // The image fits perfectly in x axis, stretched in y
-        scale = xScale;
-        yOffset = (windowHeight - 1080 * scale) / 2;
-      } else {
-        // The image fits perfectly in y axis, stretched in x
-        scale = yScale;
-        xOffset = (windowWidth - 1920 * scale) / 2;
-      }
-
-      $(".enemy.canvas").css("top", target.y * scale + yOffset);
-      $(".enemy.canvas").css("left", target.x * scale + xOffset);
-      $(".enemy.canvas").css("width", target.width * scale);
-      $(".enemy.canvas").css("height", target.height * scale);
-
-      $(".enemy.canvas .line").css("height", (target.height * scale) / 10);
+    handleResize() {
+      this.canvasStyle = this.calculatePosition(this.baseCoords);
+      this.lineStyle = {
+        height: this.calculateLineHeight(this.baseCoords.height)
+      };
     }
   },
   mounted() {
-    window.addEventListener("resize", this.onResize);
+    this.setupResponsive();
     window.dispatchEvent(new Event("resize"));
   }
 };
@@ -296,15 +285,15 @@ export default {
   width: 100%;
 }
 
-.placed{
+.placed {
   background: red;
 }
 
-.hit.destroyed{
+.hit.destroyed {
   background: black !important;
 }
 
-.hit{
+.hit {
   background: yellow !important;
 }
 

@@ -11,10 +11,6 @@ export default {
   name: "Home",
   components: {
     Start
-  },
-  methods: {},
-  beforeCreate: function() {
-    document.body.className = "home";
   }
 };
 </script>

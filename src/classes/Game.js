@@ -12,8 +12,6 @@ export class Game {
   help = false;
   settings = false;
 
-  clickSound = new Audio("/music/click.wav");
-
   enemyList = [
     new Z(),
     new SimpleSam(),
@@ -26,7 +24,6 @@ export class Game {
   newGame(playerName, playerIdentity) {
     this.player = new Player(playerName, playerIdentity);
     this.player.enemy = this.enemyList[0];
-    this.clickSound.volume = 1;
     localStorage.ahoyGame = JSON.stringify(this);
   }
 

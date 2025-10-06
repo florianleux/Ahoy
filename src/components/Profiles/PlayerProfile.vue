@@ -88,7 +88,7 @@ export default {
   }
 
   .picture {
-    filter: drop-shadow(0px 0px 22px rgba(255,255,255, 0.6));
+    filter: drop-shadow(0px 0px 22px rgba(255, 255, 255, 0.6));
     transition: width 0.4s;
     width: 255px;
     position: absolute;

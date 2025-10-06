@@ -29,9 +29,9 @@
       >
     </div>
 
-    <div class="canvas">
+    <div class="canvas" :style="canvasStyle">
       <div class="frame"></div>
-      <div class="line" v-for="n in 10" :key="n">
+      <div class="line" v-for="n in 10" :key="n" :style="lineStyle">
         <div
           class="square"
           :data-y="n"
@@ -54,10 +54,11 @@
 
 <script>
 import _ from "lodash";
-import $ from "jquery";
+import { responsivePositionMixin } from "@/mixins/responsivePosition";
 
 export default {
   name: "MapVue",
+  mixins: [responsivePositionMixin],
   data: function() {
     return {
       game: this.$game,
@@ -66,7 +67,10 @@ export default {
       enemyMap: this.$game.player.enemy.map,
       enemyFleet: this.$game.player.enemy.fleet,
       target: null,
-      publicPath: process.env.BASE_URL
+      publicPath: process.env.BASE_URL,
+      baseCoords: { x: 500, y: 215, width: 475, height: 475 },
+      canvasStyle: {},
+      lineStyle: {}
     };
   },
   methods: {
@@ -94,37 +98,15 @@ export default {
     leaveMap() {
       this.playerMap.hoverMap = this.playerMap._resetMap();
     },
-    onResize() {
-      var target = { x: 500, y: 215, width: 475, height: 475 };
-      var windowWidth = $(window).width();
-      var windowHeight = $(window).height();
-
-      // Get largest dimension increase
-      var xScale = windowWidth / 1920;
-      var yScale = windowHeight / 1080;
-      var scale;
-      var yOffset = 0;
-      var xOffset = 0;
-
-      if (xScale > yScale) {
-        // The image fits perfectly in x axis, stretched in y
-        scale = xScale;
-        yOffset = (windowHeight - 1080 * scale) / 2;
-      } else {
-        // The image fits perfectly in y axis, stretched in x
-        scale = yScale;
-        xOffset = (windowWidth - 1920 * scale) / 2;
-      }
-
-      $(".canvas").css("top", target.y * scale + yOffset);
-      $(".canvas").css("left", target.x * scale + xOffset);
-      $(".canvas").css("width", target.width * scale);
-      $(".canvas").css("height", target.height * scale);
-      $(".line").css("height", (target.height * scale) / 10);
+    handleResize() {
+      this.canvasStyle = this.calculatePosition(this.baseCoords);
+      this.lineStyle = {
+        height: this.calculateLineHeight(this.baseCoords.height)
+      };
     }
   },
   mounted() {
-    window.addEventListener("resize", this.onResize);
+    this.setupResponsive();
     window.dispatchEvent(new Event("resize"));
   },
   created() {

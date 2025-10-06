@@ -13,7 +13,7 @@
       </v-col>
     </v-row>
 
-    <div class="help-zone" id="helpZone">
+    <div class="help-zone" id="helpZone" :style="helpZoneStyle">
       <v-row>
         <v-col>
           <div class="help-placement">
@@ -43,10 +43,12 @@
 import MapVue from "@/components/Placement/Map.vue";
 import Fleet from "@/components/Placement/Fleet.vue";
 import PlayerProfile from "@/components/Profiles/PlayerProfile.vue";
-import $ from "jquery";
+import { audioManager } from "@/utils/AudioManager";
+import { responsivePositionMixin } from "@/mixins/responsivePosition";
 
 export default {
   name: "Placement",
+  mixins: [responsivePositionMixin],
   components: {
     MapVue,
     Fleet,
@@ -55,49 +57,30 @@ export default {
   data: function() {
     return {
       game: this.$game,
-      player: this.$game.player,
-      playerFleet: this.$game.player.fleet
+      player: this.$game.player || null,
+      playerFleet: this.$game.player?.fleet || null,
+      helpZoneStyle: {}
     };
   },
   methods: {
     startFight: function() {
-      this.$game.clickSound.play();
+      audioManager.playSound("click");
       this.$router.push({ name: "Fight" });
     },
-    onResize() {
-      var target = { x: 540, y: 720, width: 475, height: 170 };
-      var windowWidth = $(window).width();
-      var windowHeight = $(window).height();
-
-      // Get largest dimension increase
-      var xScale = windowWidth / 1920;
-      var yScale = windowHeight / 1080;
-      var scale;
-      var yOffset = 0;
-      var xOffset = 0;
-
-      if (xScale > yScale) {
-        // The image fits perfectly in x axis, stretched in y
-        scale = xScale;
-        yOffset = (windowHeight - 1080 * scale) / 2;
-      } else {
-        // The image fits perfectly in y axis, stretched in x
-        scale = yScale;
-        xOffset = (windowWidth - 1920 * scale) / 2;
-      }
-
-      $(".help-zone").css("top", target.y * scale + yOffset);
-      $(".help-zone").css("left", target.x * scale + xOffset);
-      $(".help-zone").css("width", target.width * scale);
-      $(".help-zone").css("height", target.height * scale);
+    handleResize() {
+      const baseCoords = { x: 540, y: 720, width: 475, height: 170 };
+      this.helpZoneStyle = this.calculatePosition(baseCoords);
+    }
+  },
+  created() {
+    // Safety check - redirect if no player
+    if (!this.$game.player) {
+      this.$router.push({ name: "Home" });
     }
   },
   mounted() {
-    window.addEventListener("resize", this.onResize);
+    this.setupResponsive();
     window.dispatchEvent(new Event("resize"));
-  },
-  beforeCreate: function() {
-    document.body.className = "placement";
   }
 };
 </script>

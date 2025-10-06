@@ -149,19 +149,17 @@ export default {
   &.active {
     .picture {
       width: 420px;
-
     }
   }
 
   .picture {
-    filter: drop-shadow(0px 0px 22px rgba(255,255,255, 0.6));
+    filter: drop-shadow(0px 0px 22px rgba(255, 255, 255, 0.6));
     width: 320px;
     transition: width 0.4s;
     position: absolute;
     z-index: 9902;
     bottom: 81px;
     right: 0px;
-
   }
 }
 </style>

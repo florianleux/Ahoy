@@ -13,6 +13,7 @@
         :id="'boat' + boat.id"
         class="boat"
         :class="{ selected: boat.selected, disabled: boat.disabled }"
+        :style="getBoatStyle(boat.id)"
         @click="selectBoat(boat)"
       >
         <div
@@ -36,20 +37,31 @@
 </template>
 
 <script>
-import $ from "jquery";
 import _ from "lodash";
+import { audioManager } from "@/utils/AudioManager";
+import { responsivePositionMixin } from "@/mixins/responsivePosition";
+
 export default {
   name: "Fleet",
+  mixins: [responsivePositionMixin],
   data: function() {
     return {
       game: this.$game,
       fleet: this.$game.player.fleet,
-      publicPath: process.env.BASE_URL
+      publicPath: process.env.BASE_URL,
+      boatPositions: {
+        1: { x: 1317, y: 758, width: 286, height: 143 },
+        2: { x: 1334, y: 613, width: 286, height: 143 },
+        3: { x: 1351, y: 470, width: 284, height: 142 },
+        4: { x: 1369, y: 328, width: 286, height: 142 },
+        5: { x: 1390, y: 183, width: 286, height: 142 }
+      },
+      boatStyles: {}
     };
   },
   methods: {
     selectBoat: function(boat) {
-      this.$game.clickSound.play();
+      audioManager.playSound("click");
       if (!boat.placed) {
         this.$game.player.fleet.selectBoat(boat);
       }
@@ -57,60 +69,21 @@ export default {
     removeBoat: function(boat) {
       this.$game.player.map.removeBoat(boat, this.$game.player.fleet);
     },
-    onResize() {
-      var boat1 = { x: 1317, y: 758, width: 286, height: 143 };
-      var boat2 = { x: 1334, y: 613, width: 286, height: 143 };
-      var boat3 = { x: 1351, y: 470, width: 284, height: 142 };
-      var boat4 = { x: 1369, y: 328, width: 286, height: 142 };
-      var boat5 = { x: 1390, y: 183, width: 286, height: 142 };
-      var windowWidth = $(window).width();
-      var windowHeight = $(window).height();
-
-      // Get largest dimension increase
-      var xScale = windowWidth / 1920;
-      var yScale = windowHeight / 1080;
-      var scale;
-      var yOffset = 0;
-      var xOffset = 0;
-
-      if (xScale > yScale) {
-        // The image fits perfectly in x axis, stretched in y
-        scale = xScale;
-        yOffset = (windowHeight - 1080 * scale) / 2;
-      } else {
-        // The image fits perfectly in y axis, stretched in x
-        scale = yScale;
-        xOffset = (windowWidth - 1920 * scale) / 2;
-      }
-
-      $("#boat1").css("top", boat1.y * scale + yOffset);
-      $("#boat1").css("left", boat1.x * scale + xOffset);
-      $("#boat1").css("width", boat1.width * scale);
-      $("#boat1").css("height", boat1.height * scale);
-
-      $("#boat2").css("top", boat2.y * scale + yOffset);
-      $("#boat2").css("left", boat2.x * scale + xOffset);
-      $("#boat2").css("width", boat2.width * scale);
-      $("#boat2").css("height", boat2.height * scale);
-
-      $("#boat3").css("top", boat3.y * scale + yOffset);
-      $("#boat3").css("left", boat3.x * scale + xOffset);
-      $("#boat3").css("width", boat3.width * scale);
-      $("#boat3").css("height", boat3.height * scale);
-
-      $("#boat4").css("top", boat4.y * scale + yOffset);
-      $("#boat4").css("left", boat4.x * scale + xOffset);
-      $("#boat4").css("width", boat4.width * scale);
-      $("#boat4").css("height", boat4.height * scale);
-
-      $("#boat5").css("top", boat5.y * scale + yOffset);
-      $("#boat5").css("left", boat5.x * scale + xOffset);
-      $("#boat5").css("width", boat5.width * scale);
-      $("#boat5").css("height", boat5.height * scale);
+    getBoatStyle(boatId) {
+      return this.boatStyles[boatId] || {};
+    },
+    handleResize() {
+      // Calculate styles for each boat
+      Object.keys(this.boatPositions).forEach(boatId => {
+        this.boatStyles[boatId] = this.calculatePosition(
+          this.boatPositions[boatId]
+        );
+      });
+      this.$forceUpdate(); // Force re-render with new styles
     }
   },
   mounted() {
-    window.addEventListener("resize", this.onResize);
+    this.setupResponsive();
     window.dispatchEvent(new Event("resize"));
   },
   beforeCreate: function() {

@@ -1,4 +1,5 @@
 // Map Class
+import { audioManager } from "@/utils/AudioManager.js";
 
 export class Map {
   name = "default";
@@ -8,7 +9,6 @@ export class Map {
   boatMap = [];
   hitMap = [];
   okClick = false;
-  placedSound = new Audio("/music/placed.wav");
 
   constructor() {
     this.hoverMap = this._resetMap();
@@ -104,7 +104,7 @@ export class Map {
       }
 
       //Unselect the boat and add the boat in the playerFleet counter
-      this.placedSound.play();
+      audioManager.playSound("placed");
       selectedBoat.unselect();
       selectedBoat.disable();
       selectedBoat.placed = true;
@@ -209,11 +209,14 @@ export class Map {
       }
 
       coords.forEach(function(coord) {
-          if(!conflict){
-            var posX = coord[0],
-                posY = coord[1];
-            conflict = otherMap ?  otherMap[posY][posX] !== false || _this.boatMap[posY][posX] !== false : _this.boatMap[posY][posX] !== false;
-          }
+        if (!conflict) {
+          var posX = coord[0],
+            posY = coord[1];
+          conflict = otherMap
+            ? otherMap[posY][posX] !== false ||
+              _this.boatMap[posY][posX] !== false
+            : _this.boatMap[posY][posX] !== false;
+        }
       });
 
       tryCount++;

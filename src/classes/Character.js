@@ -1,6 +1,7 @@
 import { Fleet } from "@/classes/Fleet.js";
 import { Map } from "@/classes/Map.js";
 import { MoodHelper } from "@/classes/helpers/MoodHelper.js";
+import { audioManager } from "@/utils/AudioManager.js";
 import _ from "lodash";
 
 export class Character {
@@ -14,15 +15,10 @@ export class Character {
   health = 20;
   attackLock = false;
 
-  hitSound = new Audio("/music/hit.wav");
-  destroyedSound = new Audio("/music/hit.wav");
-  missedSound = new Audio("/music/missed.mp3");
-
   constructor(name) {
     this.name = name;
     this.map = new Map();
     this.fleet = new Fleet();
-    this.hitSound.volume = 0.7;
   }
 
   reset() {
@@ -44,7 +40,7 @@ export class Character {
 
     if (!hit) {
       this.map.hitMap[[y - 1]].splice([x - 1], 1, "missed");
-      this.missedSound.play();
+      audioManager.playSound("missed");
       return "MISSED";
     } else {
       if (typeof hit == "number") {
@@ -54,7 +50,7 @@ export class Character {
         target.health--;
         if (hitBoat.destroyed) {
           let aliveBoats = _.find(target.fleet.boats, { destroyed: false });
-          this.destroyedSound.play();
+          audioManager.playSound("destroyed");
           if (!aliveBoats) {
             this.victory = true;
             target.defeat = true;
@@ -63,7 +59,7 @@ export class Character {
             return "DESTROYED";
           }
         } else {
-          this.hitSound.play();
+          audioManager.playSound("hit");
           return "HIT";
         }
       }
