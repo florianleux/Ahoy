@@ -111,7 +111,7 @@ h1,
   }
 }
 .v-btn {
-  padding: 30px 15px;
+  padding: 30px 15px !important;
   * {
     font-size: 12px;
   }
