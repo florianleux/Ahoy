@@ -109,6 +109,7 @@ export default {
   background: #ffe4b4;
   border: 3px solid #d09c5f;
   color: #502218 !important;
+  padding-bottom: 50px;
 
   * {
     color: #502218 !important;
