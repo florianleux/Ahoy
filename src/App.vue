@@ -111,14 +111,15 @@ h1,
   }
 }
 .v-btn {
-  padding: 20px 15px !important;
+  padding: 30px 15px 20px 15px !important;
   display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
+
 
   * {
     font-size: 12px;
   }
+
+
 
   &.v-btn--disabled {
     box-shadow: 0px 2px 0px 0px #bca680 !important;
