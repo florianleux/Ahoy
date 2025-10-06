@@ -81,7 +81,10 @@ export default {
 .health {
   position: absolute;
   left: -17px;
+  text-shadow: 0 0 15px black;
 
+  line-height: 35px;
+  font-size: 25px;
   z-index: 10000;
   top: 50%;
   color: white;
@@ -93,7 +96,7 @@ export default {
     z-index: 9999;
   }
   .value {
-    font-size: 14px;
+    font-size: 18px;
     font-family: Space Comics;
     position: absolute;
     left: 0;

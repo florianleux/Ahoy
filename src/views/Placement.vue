@@ -86,13 +86,17 @@ export default {
 </script>
 
 <style lang="less">
-body.placement #app {
-  background: url("/placement/bg.webp") no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  opacity: 1;
+body.placement {
+  overflow: hidden;
+  
+  #app {
+    background: url("/placement/bg.webp") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    opacity: 1;
+  }
 }
 .shadow {
   z-index: 9900;
@@ -115,7 +119,8 @@ body.placement #app {
   text-align: center;
   margin: auto;
   font-style: italic;
-  font-size: 18px;
+  font-size: 25px;
+  line-height: 1;
 }
 
 .help-zone {
@@ -124,6 +129,10 @@ body.placement #app {
 }
 
 .start-fight {
-  margin: auto;
+  position: fixed;
+    bottom: 5px;
+    right: 50%;
+    margin-right: -107px;
+    margin-top: 20px;
 }
 </style>

@@ -186,4 +186,13 @@ h1 {
   background: #ca559b8f;
   z-index: 10000;
 }
+.page-title {
+  font-size: 35px;
+  position: fixed;
+  top: 30px;
+  left: 0;
+  right: 0;
+
+
+}
 </style>

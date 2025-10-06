@@ -15,15 +15,19 @@ export default {
 };
 </script>
 <style lang="less">
-body.home #app {
-  background: url("/home/bg.webp") no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
+body.home {
+  overflow: hidden;
+  
+  #app {
+    background: url("/home/bg.webp") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 
-  #help {
-    display: none;
+    #help {
+      display: none;
+    }
   }
 }
 </style>

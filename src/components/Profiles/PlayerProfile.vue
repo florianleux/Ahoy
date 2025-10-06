@@ -6,21 +6,10 @@
     <div class="health">
       {{ player.health }}
     </div>
-    <img
-      rel="preload"
-      :src="
-        publicPath + 'players/' + player.identity + '/' + player.mood + '.webp'
-      "
-      alt=""
-      :class="player.identity"
-      class="picture"
-    />
+    <img rel="preload" :src="publicPath + 'players/' + player.identity + '/' + player.mood + '.webp'
+      " alt="" :class="player.identity" class="picture" />
     <div class="infos">
-      <img
-        rel="preload"
-        :src="publicPath + 'players/plank.webp'"
-        class="plank"
-      />
+      <img rel="preload" :src="publicPath + 'players/plank.webp'" class="plank" />
       <div class="name">{{ player.name }}</div>
       <div class="phrase">"{{ player.phrase }}"</div>
     </div>
@@ -30,7 +19,7 @@
 <script>
 export default {
   name: "ProfilePlayer",
-  data: function() {
+  data: function () {
     return {
       game: this.$game,
       player: this.$game.player,
@@ -66,6 +55,7 @@ export default {
     font-family: "Space Comics";
     text-transform: uppercase;
   }
+
   .phrase {
     z-index: 9991;
     position: absolute;
@@ -101,16 +91,17 @@ export default {
 .health {
   position: absolute;
   right: -17px;
-  font-size: 14px;
+  font-size: 18px;
   font-family: Space Comics;
   z-index: 10000;
   top: 50%;
+  text-shadow: 0 0 15px black;
   text-align: center;
   color: white;
   margin-top: -38px;
   width: 60px;
   height: 60px;
-  line-height: 60px;
+  line-height: 70px;
   background: url("/boats/player/ok.webp") no-repeat center center;
   background-size: contain;
 }

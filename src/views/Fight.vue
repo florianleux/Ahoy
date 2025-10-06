@@ -2,9 +2,9 @@
   <div>
     <div class="shadow"></div>
     <h1 class="page-title">
-      Phase de BAGARRE
+      COMBAT !
     </h1>
-    <v-row class="map-line">
+    <v-row class="map-line mt-15">
       <v-col cols="6">
         <EnemyMap></EnemyMap>
       </v-col>
@@ -105,22 +105,33 @@ export default {
     if (this.enemy) {
       document.body.classList.add(this.enemy.className);
     }
+  },
+  beforeDestroy() {
+    // Remove enemy class from body when leaving the page
+    if (this.enemy) {
+      document.body.classList.remove(this.enemy.className);
+    }
   }
 };
 </script>
 
 <style lang="less">
-body.fight #app {
-  background: url("/fight/bg.webp") no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  opacity: 1;
+body.fight {
+  overflow: hidden;
+  
+  #app {
+    background: url("/fight/bg.webp") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    opacity: 1;
+  }
 }
 body.fight.SimpleSam #app {
   background: url("/fight/SimpleSam/bg.webp") no-repeat center center fixed;
   -webkit-background-size: cover;
+  background-size: cover;
 }
 body.fight.JackTheBurned #app {
   background: url("/fight/JackTheBurned/bg.webp") no-repeat center center fixed;

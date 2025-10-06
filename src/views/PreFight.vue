@@ -3,7 +3,7 @@
     <h1>{{ $t("prochain_adversaire") }}</h1>
     <EnemiesList />
     <CurrentEnemy />
-    <v-btn color="primary" class="start-fight" @click="goPlacement">
+    <v-btn color="primary" class="start-placement" @click="goPlacement">
       {{ $t("a_lattaque") }}
     </v-btn>
   </div>
@@ -30,14 +30,18 @@ export default {
 </script>
 
 <style lang="less">
-body.pre-fight #app {
-  background: url("/placement/bg.webp") no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  #help {
-    display: none;
+body.pre-fight {
+  overflow: hidden;
+  
+  #app {
+    background: url("/placement/bg.webp") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    #help {
+      display: none;
+    }
   }
 }
 
@@ -54,10 +58,11 @@ body.pre-fight #app {
   border: 3px solid #333c4a;
 }
 
-.start-fight {
+.start-placement {
   position: fixed;
-  bottom: 25px;
-  right: 50%;
-  margin-right: -85px;
-}
-</style>
+      bottom: 70px;
+      right: 50%;
+      margin:auto;
+      margin-right: -107px;
+  }
+</style>  

@@ -50,11 +50,11 @@ export default {
       fleet: this.$game.player.fleet,
       publicPath: process.env.BASE_URL,
       boatPositions: {
-        1: { x: 1317, y: 758, width: 286, height: 143 },
-        2: { x: 1334, y: 613, width: 286, height: 143 },
-        3: { x: 1351, y: 470, width: 284, height: 142 },
-        4: { x: 1369, y: 328, width: 286, height: 142 },
-        5: { x: 1390, y: 183, width: 286, height: 142 }
+        1: { x: 1309, y: 758, width: 286, height: 143 },
+        2: { x: 1326, y: 613, width: 286, height: 143 },
+        3: { x: 1343, y: 470, width: 284, height: 142 },
+        4: { x: 1361, y: 328, width: 286, height: 142 },
+        5: { x: 1382, y: 183, width: 286, height: 142 }
       },
       boatStyles: {}
     };

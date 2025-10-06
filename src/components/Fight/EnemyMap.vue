@@ -285,17 +285,6 @@ export default {
   width: 100%;
 }
 
-.placed {
-  background: red;
-}
-
-.hit.destroyed {
-  background: black !important;
-}
-
-.hit {
-  background: yellow !important;
-}
 
 .line {
   height: @grid-size / 10;
