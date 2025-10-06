@@ -111,7 +111,11 @@ h1,
   }
 }
 .v-btn {
-  padding: 30px 15px !important;
+  padding: 20px 15px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
   * {
     font-size: 12px;
   }
