@@ -11,7 +11,8 @@ Vue.config.productionTip = false;
 Vue.prototype.$game = new Game();
 Vue.use(AnimateCSS);
 
-new Vue({
+// Create Vue instance and expose globally for router guards
+window.vueApp = new Vue({
   i18n,
   router,
   store,

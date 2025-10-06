@@ -12,30 +12,66 @@ const routes = [
     path: "/",
     name: "Home",
     component: Home,
-    props: true
+    props: true,
+    meta: { bodyClass: "home" }
   },
   {
-    path: "/",
+    path: "/placement",
     name: "Placement",
     component: Placement,
-    props: true
+    props: true,
+    meta: { bodyClass: "placement" }
   },
   {
-    path: "/",
+    path: "/pre-fight",
     name: "PreFight",
     component: PreFight,
-    props: true
+    props: true,
+    meta: { bodyClass: "pre-fight" }
   },
   {
-    path: "/",
+    path: "/fight",
     name: "Fight",
     component: Fight,
-    props: true
+    props: true,
+    meta: { bodyClass: "fight" }
   }
 ];
 
 const router = new VueRouter({
   routes
+});
+
+// Navigation guard to set body class
+router.beforeEach((to, from, next) => {
+  // Remove old body class
+  if (from.meta && from.meta.bodyClass) {
+    document.body.classList.remove(from.meta.bodyClass);
+  }
+
+  // Add new body class
+  if (to.meta && to.meta.bodyClass) {
+    document.body.classList.add(to.meta.bodyClass);
+  }
+
+  next();
+});
+
+// Route guards to protect game-related routes
+router.beforeEach((to, from, next) => {
+  // Routes that require an initialized game
+  const protectedRoutes = ["Placement", "PreFight", "Fight"];
+
+  if (protectedRoutes.includes(to.name)) {
+    // Check if game is initialized (using global Vue instance)
+    if (!window.vueApp || !window.vueApp.$game || !window.vueApp.$game.player) {
+      // Redirect to home if game not initialized
+      next({ name: "Home" });
+      return;
+    }
+  }
+
+  next();
 });
 
 export default router;
