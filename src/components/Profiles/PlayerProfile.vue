@@ -9,7 +9,7 @@
     <img
       rel="preload"
       :src="
-        publicPath + 'players/' + player.identity + '/' + player.mood + '.png'
+        publicPath + 'players/' + player.identity + '/' + player.mood + '.webp'
       "
       alt=""
       :class="player.identity"
@@ -18,7 +18,7 @@
     <div class="infos">
       <img
         rel="preload"
-        :src="publicPath + 'players/plank.png'"
+        :src="publicPath + 'players/plank.webp'"
         class="plank"
       />
       <div class="name">{{ player.name }}</div>
@@ -111,7 +111,7 @@ export default {
   width: 60px;
   height: 60px;
   line-height: 60px;
-  background: url("/boats/player/ok.png") no-repeat center center;
+  background: url("/boats/player/ok.webp") no-repeat center center;
   background-size: contain;
 }
 </style>

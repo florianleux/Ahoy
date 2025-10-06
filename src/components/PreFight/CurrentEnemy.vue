@@ -26,7 +26,7 @@
                 <img
                   rel="preload"
                   :src="
-                    publicPath + 'boats/' + selectedEnemy.className + '/ok.png'
+                    publicPath + 'boats/' + selectedEnemy.className + '/ok.webp'
                   "
                   alt=""
                   width="30"
@@ -68,7 +68,11 @@
       <img
         rel="preload"
         :src="
-          publicPath + 'players/' + selectedEnemy.className + '/' + 'wanted.png'
+          publicPath +
+            'players/' +
+            selectedEnemy.className +
+            '/' +
+            'wanted.webp'
         "
         alt=""
         class="wanted"

@@ -111,7 +111,7 @@ export default {
   transform: rotate(10deg);
   position: absolute;
   position: absolute;
-  background: url("/placement/map.png") no-repeat center center;
+  background: url("/placement/map.webp") no-repeat center center;
   background-size: contain;
 
   &.disabled {
@@ -120,7 +120,7 @@ export default {
 }
 
 .frame {
-  background: url("/placement/frame.png") no-repeat center center;
+  background: url("/placement/frame.webp") no-repeat center center;
   background-size: contain;
   position: absolute;
   display: block;
@@ -141,16 +141,16 @@ export default {
   height: 100%;
 
   &.placed {
-    background: url("/boats/player/ok.png") no-repeat center center;
+    background: url("/boats/player/ok.webp") no-repeat center center;
     background-size: contain;
   }
 
   &.hit {
-    background: url("/boats/player/hit.png") no-repeat center center;
+    background: url("/boats/player/hit.webp") no-repeat center center;
     background-size: contain;
 
     &.destroyed {
-      background: url("/boats/player/destroyed.png") no-repeat center center;
+      background: url("/boats/player/destroyed.webp") no-repeat center center;
       background-size: contain;
     }
   }

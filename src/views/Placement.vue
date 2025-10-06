@@ -87,7 +87,7 @@ export default {
 
 <style lang="less">
 body.placement #app {
-  background: url("/placement/bg.jpg") no-repeat center center fixed;
+  background: url("/placement/bg.webp") no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -103,7 +103,7 @@ body.placement #app {
   right: 0;
   mix-blend-mode: multiply;
   pointer-events: none;
-  background: url("/placement/shadow.png") no-repeat center center fixed;
+  background: url("/placement/shadow.webp") no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;

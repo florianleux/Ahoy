@@ -31,7 +31,7 @@ export default {
 
 <style lang="less">
 body.pre-fight #app {
-  background: url("/placement/bg.jpg") no-repeat center center fixed;
+  background: url("/placement/bg.webp") no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;

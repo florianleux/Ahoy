@@ -108,23 +108,23 @@ export default {
   position: absolute;
 
   &#boat1 {
-    background: url("/placement/boats/1.png") no-repeat center center;
+    background: url("/placement/boats/1.webp") no-repeat center center;
     background-size: contain;
   }
   &#boat2 {
-    background: url("/placement/boats/2.png") no-repeat center center;
+    background: url("/placement/boats/2.webp") no-repeat center center;
     background-size: contain;
   }
   &#boat3 {
-    background: url("/placement/boats/3.png") no-repeat center center;
+    background: url("/placement/boats/3.webp") no-repeat center center;
     background-size: contain;
   }
   &#boat4 {
-    background: url("/placement/boats/4.png") no-repeat center center;
+    background: url("/placement/boats/4.webp") no-repeat center center;
     background-size: contain;
   }
   &#boat5 {
-    background: url("/placement/boats/5.png") no-repeat center center;
+    background: url("/placement/boats/5.webp") no-repeat center center;
     background-size: contain;
   }
 

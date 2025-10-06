@@ -111,7 +111,7 @@ export default {
 
 <style lang="less">
 body.fight #app {
-  background: url("/fight/bg.jpg") no-repeat center center fixed;
+  background: url("/fight/bg.webp") no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -119,25 +119,25 @@ body.fight #app {
   opacity: 1;
 }
 body.fight.SimpleSam #app {
-  background: url("/fight/SimpleSam/bg.jpg") no-repeat center center fixed;
+  background: url("/fight/SimpleSam/bg.webp") no-repeat center center fixed;
   -webkit-background-size: cover;
 }
 body.fight.JackTheBurned #app {
-  background: url("/fight/JackTheBurned/bg.jpg") no-repeat center center fixed;
+  background: url("/fight/JackTheBurned/bg.webp") no-repeat center center fixed;
   background-size: cover;
 
   .shadow {
-    background: url("/fight/JackTheBurned/shadow.png") no-repeat center center
+    background: url("/fight/JackTheBurned/shadow.webp") no-repeat center center
       fixed;
     background-size: cover;
   }
 }
 body.fight.MamanBrigitte #app {
-  background: url("/fight/MamanBrigitte/bg.jpg") no-repeat center center fixed;
+  background: url("/fight/MamanBrigitte/bg.webp") no-repeat center center fixed;
   background-size: cover;
 
   .shadow {
-    background: url("/fight/MamanBrigitte/shadow.png") no-repeat center center
+    background: url("/fight/MamanBrigitte/shadow.webp") no-repeat center center
       fixed;
     background-size: cover;
   }
@@ -152,7 +152,7 @@ body.fight.MamanBrigitte #app {
   right: 0;
   mix-blend-mode: multiply;
   pointer-events: none;
-  background: url("/fight/shadow.png") no-repeat center center fixed;
+  background: url("/fight/shadow.webp") no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;

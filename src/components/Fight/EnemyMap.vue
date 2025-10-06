@@ -40,13 +40,13 @@
           >
             <img
               rel="preload"
-              :src="publicPath + 'boats/' + enemy.className + '/destroyed.png'"
+              :src="publicPath + 'boats/' + enemy.className + '/destroyed.webp'"
               v-if="isDestroyed(n, m)"
               class="coin destroyed"
             />
             <img
               rel="preload"
-              :src="publicPath + 'boats/' + enemy.className + '/hit.png'"
+              :src="publicPath + 'boats/' + enemy.className + '/hit.webp'"
               v-if="
                 playerMap.hitMap[n - 1][m - 1] == 'hit' && !isDestroyed(n, m)
               "
@@ -259,7 +259,7 @@ export default {
 .canvas {
   transform: rotate(-6deg);
   position: absolute;
-  background: url("/placement/map.png") no-repeat center center;
+  background: url("/placement/map.webp") no-repeat center center;
   background-size: contain;
 
   &.disabled {
@@ -269,7 +269,7 @@ export default {
   }
 
   .frame {
-    background: url("/placement/frame.png") no-repeat center center;
+    background: url("/placement/frame.webp") no-repeat center center;
     background-size: contain;
     position: absolute;
     display: block;

@@ -126,14 +126,14 @@ export default {
 .canvas {
   transform: rotate(-6deg);
   position: absolute;
-  background: url("/placement/map.png") no-repeat center center;
+  background: url("/placement/map.webp") no-repeat center center;
   background-size: contain;
   /*border: 1px solid black;*/
   &:hover {
     cursor: pointer;
   }
   .frame {
-    background: url("/placement/frame.png") no-repeat center center;
+    background: url("/placement/frame.webp") no-repeat center center;
     background-size: contain;
     position: absolute;
     display: block;
@@ -164,15 +164,15 @@ export default {
   height: 100%;
 
   &.hovered {
-    background: url("/boats/player/hover.png") no-repeat center center;
+    background: url("/boats/player/hover.webp") no-repeat center center;
     background-size: contain;
     &.koClick {
-      background: url("/boats/player/ko.png") no-repeat center center;
+      background: url("/boats/player/ko.webp") no-repeat center center;
       background-size: contain;
     }
   }
   &.placed {
-    background: url("/boats/player/ok.png") no-repeat center center;
+    background: url("/boats/player/ok.webp") no-repeat center center;
     background-size: contain;
   }
 }

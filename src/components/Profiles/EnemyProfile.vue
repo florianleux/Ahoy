@@ -6,7 +6,7 @@
     <div class="health">
       <img
         rel="preload"
-        :src="publicPath + 'boats/' + enemy.className + '/ok.png'"
+        :src="publicPath + 'boats/' + enemy.className + '/ok.webp'"
         alt=""
         class="coin"
       />
@@ -15,7 +15,7 @@
     <img
       rel="preload"
       :src="
-        publicPath + 'players/' + enemy.className + '/' + enemy.mood + '.png'
+        publicPath + 'players/' + enemy.className + '/' + enemy.mood + '.webp'
       "
       alt=""
       class="picture"
@@ -24,7 +24,7 @@
     <div class="infos">
       <img
         rel="preload"
-        :src="publicPath + 'players/plank.png'"
+        :src="publicPath + 'players/plank.webp'"
         class="plank"
       />
       <div class="name">{{ $t(enemy.name) }}</div>

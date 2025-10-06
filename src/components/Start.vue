@@ -2,7 +2,7 @@
   <v-row class="start-page">
     <img
       class="player-img"
-      :src="publicPath + 'home/players/' + playerIdentity + '.png'"
+      :src="publicPath + 'home/players/' + playerIdentity + '.webp'"
     />
 
     <v-card class="home-card rounded-lg" outlined elevation="24">
