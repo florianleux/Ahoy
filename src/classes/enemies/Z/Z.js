@@ -21,10 +21,8 @@ export class Z extends Enemy {
   }
 
   healBoat(boat, enemy) {
-    let _this = this;
-
-    boat.coords.forEach(function(coord) {
-      _this.map.boatMap[coord[1]].splice(coord[0], 1, false);
+    boat.coords.forEach(coord => {
+      this.map.boatMap[coord[1]].splice(coord[0], 1, false);
       enemy.map.hitMap[coord[1]].splice(coord[0], 1, "missed");
     });
 
@@ -33,15 +31,15 @@ export class Z extends Enemy {
     boat.hp = boat.size;
     this.health += boat.size;
 
-    var boatCoords = this.map._getRandomBoatCoords(boat, enemy.map.hitMap);
+    const boatCoords = this.map._getRandomBoatCoords(boat, enemy.map.hitMap);
 
     boat.coords = boatCoords;
 
-    boatCoords.forEach(function(boatCoord) {
-      var posX = boatCoord[0],
-        posY = boatCoord[1];
+    boatCoords.forEach(boatCoord => {
+      const posX = boatCoord[0];
+      const posY = boatCoord[1];
 
-      _this.map.boatMap[posY].splice(posX, 1, boat.id);
+      this.map.boatMap[posY].splice(posX, 1, boat.id);
     });
   }
 }

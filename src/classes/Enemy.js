@@ -36,11 +36,13 @@ export class Enemy extends Character {
   //Generate random coords (within playerMap limits and not already used in attack)
   _randomHit() {
     let ok = false;
+    let posX;
+    let posY;
 
     // If the coord has already been used to attack, try another random pair
     while (!ok) {
-      var posX = this._getRandomInt(1, this.map.width);
-      var posY = this._getRandomInt(1, this.map.height);
+      posX = this._getRandomInt(1, this.map.width);
+      posY = this._getRandomInt(1, this.map.height);
 
       if (!this.map.hitMap[posY - 1][posX - 1]) {
         ok = true;

@@ -13,11 +13,11 @@ export class Game {
   settings = false;
 
   enemyList = [
-    new Z(),
     new SimpleSam(),
     new ChisanaKaizoku(),
     new JackTheBurned(),
-    new MamanBrigitte()
+    new MamanBrigitte(),
+    new Z()
   ];
 
   //Starting a new game
@@ -81,77 +81,77 @@ export class Game {
   _enemyTurn() {
     //Calculating the enemy delay for this turn
     //Used to fake a "thinking time" for the IA
-    let enemyDelay = this._randomDelay(1000, 2500),
-      _this = this;
+    const enemyDelay = this._randomDelay(1000, 2500);
 
     // Locking the player attack on his map
-    _this.player.attackLock = false;
+    this.player.attackLock = false;
 
     // Using the enemy className attribute to differentiate them because
     // the name is translated and the constructor.name is not available in production
     switch (this.enemyList[this.level].className) {
       case "SimpleSam":
-        setTimeout(function() {
-          var enemyAttackResult = _this.player.enemy.generateAttack(
-            _this.player
+        setTimeout(() => {
+          const enemyAttackResult = this.player.enemy.generateAttack(
+            this.player
           );
-          _this.player.enemy.setMoodAttacking(enemyAttackResult);
-          _this.player.setMoodAttacked(enemyAttackResult);
-          setTimeout(function() {
-            _this.player.mood = "default";
-            _this.player.enemy.mood = "default";
+          this.player.enemy.setMoodAttacking(enemyAttackResult);
+          this.player.setMoodAttacked(enemyAttackResult);
+          setTimeout(() => {
+            this.player.mood = "default";
+            this.player.enemy.mood = "default";
 
             //Simple Sam Power : if there is a HIT, he attacks again.
             if (enemyAttackResult === "HIT") {
-              _this.player.enemy.mainPower.activate();
-              _this._enemyTurn();
+              this.player.enemy.mainPower.activate();
+              this._enemyTurn();
             } else {
-              _this.nextRound();
+              this.nextRound();
             }
           }, 800);
         }, enemyDelay);
         break;
 
-      case "JackTheBurned":
-        enemyDelay = this._randomDelay(1000, 2200);
+      case "JackTheBurned": {
+        const jackEnemyDelay = this._randomDelay(1000, 2200);
 
-        setTimeout(function() {
-          var enemyAttackResult = _this.player.enemy.generateAttack(
-            _this.player
+        setTimeout(() => {
+          const enemyAttackResult = this.player.enemy.generateAttack(
+            this.player
           );
-          _this.player.enemy.setMoodAttacking(enemyAttackResult);
-          _this.player.setMoodAttacked(enemyAttackResult);
-          setTimeout(function() {
-            _this.player.mood = "default";
-            _this.player.enemy.mood = "default";
+          this.player.enemy.setMoodAttacking(enemyAttackResult);
+          this.player.setMoodAttacked(enemyAttackResult);
+          setTimeout(() => {
+            this.player.mood = "default";
+            this.player.enemy.mood = "default";
             if (
               enemyAttackResult === "HIT" &&
-              !_this.player.enemy.powerActivated
+              !this.player.enemy.powerActivated
             ) {
               // Randomizing a probability to activate the power : 50%
-              let powerActivation = _this.player.enemy.activatePower();
-              setTimeout(function() {
+              const powerActivation = this.player.enemy.activatePower();
+              setTimeout(() => {
                 //Jack the Burned power : If the power is activated, he attacks again around his initial hit
                 if (powerActivation) {
-                  _this.player.enemy.fire(
-                    _this.player,
-                    _this.player.enemy.lastHit[0],
-                    _this.player.enemy.lastHit[1]
+                  this.player.enemy.fire(
+                    this.player,
+                    this.player.enemy.lastHit[0],
+                    this.player.enemy.lastHit[1]
                   );
-                  _this.player.enemy.powerActivated = true;
-                  _this.nextRound();
+                  this.player.enemy.powerActivated = true;
+                  this.nextRound();
                 } else {
-                  _this.player.enemy.powerActivated = false;
-                  _this.nextRound();
+                  this.player.enemy.powerActivated = false;
+                  this.nextRound();
                 }
               }, 500);
             } else {
-              _this.player.enemy.powerActivated = false;
-              _this.nextRound();
+              this.player.enemy.powerActivated = false;
+              this.nextRound();
             }
           }, 600);
-        }, enemyDelay);
+        }, jackEnemyDelay);
         break;
+      }
 
       default:
         this._defaultEnemyTurn();
@@ -160,19 +160,18 @@ export class Game {
   }
 
   _defaultEnemyTurn() {
-    let enemyDelay = this._randomDelay(1000, 2500),
-      _this = this;
+    const enemyDelay = this._randomDelay(1000, 2500);
 
-    setTimeout(function() {
-      var enemyAttackResult = _this.player.enemy.generateAttack(_this.player);
+    setTimeout(() => {
+      const enemyAttackResult = this.player.enemy.generateAttack(this.player);
 
       // Setting mood for profile picture of enemy and player
-      _this.player.enemy.setMoodAttacking(enemyAttackResult);
-      _this.player.setMoodAttacked(enemyAttackResult);
-      setTimeout(function() {
-        _this.player.mood = "default";
-        _this.player.enemy.mood = "default";
-        _this.nextRound();
+      this.player.enemy.setMoodAttacking(enemyAttackResult);
+      this.player.setMoodAttacked(enemyAttackResult);
+      setTimeout(() => {
+        this.player.mood = "default";
+        this.player.enemy.mood = "default";
+        this.nextRound();
       }, 1000);
     }, enemyDelay);
   }

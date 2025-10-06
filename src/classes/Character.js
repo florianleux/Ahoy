@@ -36,7 +36,7 @@ export class Character {
   }
 
   attack(target, x, y) {
-    var hit = target.map.boatMap[y - 1][x - 1];
+    const hit = target.map.boatMap[y - 1][x - 1];
 
     if (!hit) {
       this.map.hitMap[[y - 1]].splice([x - 1], 1, "missed");

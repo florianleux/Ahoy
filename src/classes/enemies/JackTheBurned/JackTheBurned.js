@@ -29,8 +29,8 @@ export class JackTheBurned extends Enemy {
 
   fire(target, posX, posY) {
     let ok = false;
-    var fireDirection = this.mathHelper.getRandomIntMax(3);
-    var i = 0;
+    let fireDirection = this.mathHelper.getRandomIntMax(3);
+    let i = 0;
 
     while (!ok && i < 4) {
       switch (fireDirection) {

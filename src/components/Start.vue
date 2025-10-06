@@ -75,9 +75,8 @@ export default {
   },
   methods: {
     newGame() {
-      var _this = this;
       if (this.savedGame) {
-        let savedGameDetected = confirm(_this.$t("alert_partie_existante"));
+        const savedGameDetected = confirm(this.$t("alert_partie_existante"));
 
         if (!savedGameDetected) {
           return false;
