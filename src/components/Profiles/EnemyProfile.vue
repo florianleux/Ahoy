@@ -1,24 +1,24 @@
 <template>
-  <div class="enemy profile" :class="{ active: enemy.turn }">
+  <div class="enemy profile" :class="{ active: game.player.enemy.turn }">
     <div class="power">
-      <span v-if="enemy.mainPower.active">Pouvoir activé !</span>
+      <span v-if="game.player.enemy.mainPower.active">Pouvoir activé !</span>
     </div>
     <div class="health">
       <img
         rel="preload"
-        :src="assetUrl('boats/' + enemy.className + '/ok.webp')"
+        :src="assetUrl('boats/' + game.player.enemy.className + '/ok.webp')"
         alt=""
         class="coin"
       />
-      <span class="value">{{ enemy.health }}</span>
+      <span class="value">{{ game.player.enemy.health }}</span>
     </div>
     <img
       rel="preload"
       :src="
-        assetUrl('players/' + enemy.className + '/' + enemy.mood + '.webp')"
+        assetUrl('players/' + game.player.enemy.className + '/' + game.player.enemy.mood + '.webp')"
       alt=""
       class="picture"
-      :class="enemy.className"
+      :class="game.player.enemy.className"
     />
     <div class="infos">
       <img
@@ -26,25 +26,15 @@
         :src="assetUrl('players/plank.webp')"
         class="plank"
       />
-      <div class="name">{{ $t(enemy.name) }}</div>
-      <div class="phrase">"{{ $t(enemy.phrase) }}"</div>
+      <div class="name">{{ $t(game.player.enemy.name) }}</div>
+      <div class="phrase">"{{ $t(game.player.enemy.phrase) }}"</div>
     </div>
   </div>
 </template>
 
-<script>
+<script setup>
 import { assetUrl } from "@/utils/assets";
 import { game } from "@/game.js";
-export default {
-  name: "EnemyProfile",
-  methods: { assetUrl },
-  data: function() {
-    return {
-      game,
-      enemy: game.player.enemy
-    };
-  }
-};
 </script>
 
 <style scoped lang="less">

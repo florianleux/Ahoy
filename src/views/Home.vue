@@ -4,15 +4,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import Start from "@/components/Start.vue";
-
-export default {
-  name: "Home",
-  components: {
-    Start
-  }
-};
 </script>
 <style lang="less">
 body.home {

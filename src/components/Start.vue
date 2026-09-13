@@ -66,70 +66,63 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { computed, ref } from "vue";
+import { useI18n } from "vue-i18n";
+import { useRouter } from "vue-router";
 import { assetUrl } from "@/utils/assets";
 import { game } from "@/game.js";
 import { Game } from "@/classes/Game.js";
 import { audioManager } from "@/utils/AudioManager";
 
-export default {
-  data() {
-    return {
-      playerName: "",
-      playerIdentity: "male",
-      // v-text-field showed nothing until the field was touched, even though
-      // the empty name already failed its rules and kept the button disabled.
-      nameTouched: false,
-      nameRules: [
-        v => v.length > 1 || "Votre nom doit comporter au minimum 1 caractère",
-        v =>
-          v.length < 15 || "Votre nom doit comporter au maximum 15 caractères"
-      ],
-      // null when the slot is empty or holds an old-format save, which is what
-      // keeps the resume button disabled instead of letting it throw.
-      savedGame: Game.readSave()
-    };
-  },
-  computed: {
-    // The first failing rule wins, which is the order v-text-field displayed
-    // them in.
-    nameError() {
-      for (const rule of this.nameRules) {
-        const result = rule(this.playerName);
-        if (result !== true) {
-          return result;
-        }
-      }
-      return null;
-    },
-    // What v-form put in `valid`.
-    valid() {
-      return this.nameError === null;
-    }
-  },
-  methods: {
-    assetUrl,
-    newGame() {
-      if (this.savedGame) {
-        const savedGameDetected = confirm(this.$t("alert_partie_existante"));
+const NAME_RULES = [
+  v => v.length > 1 || "Votre nom doit comporter au minimum 1 caractère",
+  v => v.length < 15 || "Votre nom doit comporter au maximum 15 caractères"
+];
 
-        if (!savedGameDetected) {
-          return false;
-        }
-      }
-      audioManager.playSound("click");
-      audioManager.playMusic("home");
-      game.newGame(this.playerName, this.playerIdentity);
-      this.$router.push({ name: "PreFight" });
-    },
-    loadGame() {
-      game.loadGame(this.savedGame);
-      audioManager.playSound("click");
-      audioManager.playMusic("home");
-      this.$router.push({ name: "PreFight" });
+const router = useRouter();
+const { t } = useI18n();
+
+const playerName = ref("");
+const playerIdentity = ref("male");
+// v-text-field showed nothing until the field was touched, even though the
+// empty name already failed its rules and kept the button disabled.
+const nameTouched = ref(false);
+// null when the slot is empty or holds an old-format save, which is what keeps
+// the resume button disabled instead of letting it throw.
+const savedGame = ref(Game.readSave());
+
+// The first failing rule wins, which is the order v-text-field displayed them
+// in.
+const nameError = computed(() => {
+  for (const rule of NAME_RULES) {
+    const result = rule(playerName.value);
+    if (result !== true) {
+      return result;
     }
   }
-};
+  return null;
+});
+
+// What v-form put in `valid`.
+const valid = computed(() => nameError.value === null);
+
+function newGame() {
+  if (savedGame.value && !confirm(t("alert_partie_existante"))) {
+    return false;
+  }
+  audioManager.playSound("click");
+  audioManager.playMusic("home");
+  game.newGame(playerName.value, playerIdentity.value);
+  router.push({ name: "PreFight" });
+}
+
+function loadGame() {
+  game.loadGame(savedGame.value);
+  audioManager.playSound("click");
+  audioManager.playMusic("home");
+  router.push({ name: "PreFight" });
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

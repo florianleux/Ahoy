@@ -13,24 +13,18 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { useRouter } from "vue-router";
 import EnemiesList from "../components/PreFight/EnemiesList.vue";
 import CurrentEnemy from "../components/PreFight/CurrentEnemy.vue";
 import { audioManager } from "@/utils/AudioManager";
 
-export default {
-  name: "PreFight",
-  components: {
-    EnemiesList,
-    CurrentEnemy
-  },
-  methods: {
-    goPlacement: function() {
-      audioManager.playSound("click");
-      this.$router.push({ name: "Placement" });
-    }
-  }
-};
+const router = useRouter();
+
+function goPlacement() {
+  audioManager.playSound("click");
+  router.push({ name: "Placement" });
+}
 </script>
 
 <style lang="less">

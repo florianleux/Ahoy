@@ -5,7 +5,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { computed } from "vue";
 import { assetUrl } from "@/utils/assets";
 import { game } from "@/game.js";
 
@@ -35,18 +36,13 @@ const FIXED = [
 
 const PER_ENEMY = ["wanted.webp", "default.webp"];
 
-export default {
-  name: "Preloader",
-  computed: {
-    paths() {
-      const enemy = game.enemyList[game.level];
-      const enemyPaths = enemy
-        ? PER_ENEMY.map(file => `players/${enemy.className}/${file}`)
-        : [];
-      return [...FIXED, ...enemyPaths].map(assetUrl);
-    }
-  }
-};
+const paths = computed(() => {
+  const enemy = game.enemyList[game.level];
+  const enemyPaths = enemy
+    ? PER_ENEMY.map(file => `players/${enemy.className}/${file}`)
+    : [];
+  return [...FIXED, ...enemyPaths].map(assetUrl);
+});
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

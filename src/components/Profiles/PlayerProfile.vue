@@ -1,33 +1,23 @@
 <template>
-  <div class="player profile" :class="{ active: player.turn }">
+  <div class="player profile" :class="{ active: game.player.turn }">
     <div class="power">
       <div class="logo"></div>
     </div>
     <div class="health">
-      {{ player.health }}
+      {{ game.player.health }}
     </div>
-    <img rel="preload" :src="assetUrl('players/' + player.identity + '/' + player.mood + '.webp')" alt="" :class="player.identity" class="picture" />
+    <img rel="preload" :src="assetUrl('players/' + game.player.identity + '/' + game.player.mood + '.webp')" alt="" :class="game.player.identity" class="picture" />
     <div class="infos">
       <img rel="preload" :src="assetUrl('players/plank.webp')" class="plank" />
-      <div class="name">{{ player.name }}</div>
-      <div class="phrase">"{{ player.phrase }}"</div>
+      <div class="name">{{ game.player.name }}</div>
+      <div class="phrase">"{{ game.player.phrase }}"</div>
     </div>
   </div>
 </template>
 
-<script>
+<script setup>
 import { assetUrl } from "@/utils/assets";
 import { game } from "@/game.js";
-export default {
-  name: "ProfilePlayer",
-  methods: { assetUrl },
-  data: function () {
-    return {
-      game,
-      player: game.player
-    };
-  }
-};
 </script>
 
 <style scoped lang="less">

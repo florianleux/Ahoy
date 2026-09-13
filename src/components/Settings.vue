@@ -53,7 +53,8 @@
   </dialog>
 </template>
 
-<script>
+<script setup>
+import { computed, onMounted, onUnmounted, ref, useTemplateRef } from "vue";
 import { game } from "@/game.js";
 import {
   isFullscreen,
@@ -62,43 +63,27 @@ import {
 } from "@/utils/fullscreen";
 import { currentLocale, setLocale } from "@/plugins/i18n";
 
-export default {
-  name: "Settings",
-  data: function() {
-    return {
-      game,
-      fullScreen: Boolean(isFullscreen())
-    };
-  },
-  computed: {
-    // Reads the ref, so the radios follow a change made anywhere.
-    locale() {
-      return currentLocale();
-    }
-  },
-  methods: {
-    setLocale,
-    // fullScreen mirrors the browser, never the click: the checkbox is put
-    // back the way the state says and only the fullscreenchange listener moves
-    // it. Without this the box would stay ticked after a request the browser
-    // refused, and the next click would toggle the wrong way.
-    onFullscreenToggle(event) {
-      event.target.checked = this.fullScreen;
-      toggleFullscreen();
-    }
-  },
-  created() {
-    this.stopWatchingFullscreen = onFullscreenChange(() => {
-      this.fullScreen = Boolean(isFullscreen());
-    });
-  },
-  mounted() {
-    this.$refs.dialog.showModal();
-  },
-  beforeDestroy() {
-    this.stopWatchingFullscreen();
-  }
-};
+const dialog = useTemplateRef("dialog");
+const fullScreen = ref(Boolean(isFullscreen()));
+
+// Reads the ref, so the radios follow a change made anywhere.
+const locale = computed(() => currentLocale());
+
+// fullScreen mirrors the browser, never the click: the checkbox is put back the
+// way the state says and only the fullscreenchange listener moves it. Without
+// this the box would stay ticked after a request the browser refused, and the
+// next click would toggle the wrong way.
+function onFullscreenToggle(event) {
+  event.target.checked = fullScreen.value;
+  toggleFullscreen();
+}
+
+const stopWatchingFullscreen = onFullscreenChange(() => {
+  fullScreen.value = Boolean(isFullscreen());
+});
+
+onMounted(() => dialog.value.showModal());
+onUnmounted(stopWatchingFullscreen);
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

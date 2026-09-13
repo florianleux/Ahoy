@@ -37,7 +37,7 @@
         VICTOIRE !
       </div>
       <div class="game-dialog-text">
-        <div>Bravo {{ player.name }} !</div>
+        <div>Bravo {{ game.player.name }} !</div>
         <div>Vous avez vaincu la flotte ennemie !</div>
       </div>
       <div class="game-dialog-actions">
@@ -57,8 +57,8 @@
         DÉFAITE...
       </div>
       <div class="game-dialog-text">
-        <div>Dommage {{ player.name }} !</div>
-        <div>Votre adversaire {{ enemy.name }} a exterminé votre flotte...</div>
+        <div>Dommage {{ game.player.name }} !</div>
+        <div>Votre adversaire {{ game.player.enemy.name }} a exterminé votre flotte...</div>
       </div>
       <div class="game-dialog-actions">
         <button type="button" class="dialog-action" @click="rerun">
@@ -69,82 +69,72 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { onMounted, onUnmounted, useTemplateRef, watch } from "vue";
+import { useRouter } from "vue-router";
 import { game } from "@/game.js";
 import PlayerMap from "@/components/Fight/PlayerMap.vue";
 import EnemyMap from "@/components/Fight/EnemyMap.vue";
 import PlayerProfile from "@/components/Profiles/PlayerProfile.vue";
 import EnemyProfile from "@/components/Profiles/EnemyProfile.vue";
 
-export default {
-  name: "Fight",
-  components: {
-    PlayerMap,
-    EnemyMap,
-    PlayerProfile,
-    EnemyProfile
-  },
-  data: function() {
-    return {
-      game,
-      enemy: game.player?.enemy || null,
-      player: game.player || null
-    };
-  },
-  watch: {
-    "player.victory": function() {
-      this.syncDialog("victory");
-    },
-    "player.defeat": function() {
-      this.syncDialog("defeat");
-    }
-  },
-  methods: {
-    // A <dialog> only opens through showModal(), and both calls throw when the
-    // element is already in the state they ask for.
-    syncDialog: function(name) {
-      const dialog = this.$refs[name];
-      if (this.player[name] === dialog.open) {
-        return;
-      }
-      if (this.player[name]) {
-        dialog.showModal();
-      } else {
-        dialog.close();
-      }
-    },
-    nextLevel: function() {
-      this.game.nextLevel();
-      this.$router.push({ name: "PreFight" });
-    },
-    rerun: function() {
-      this.game.rerun();
-      this.$router.push({ name: "Placement" });
-    }
-  },
-  created() {
-    // Safety check - redirect if no player
-    if (!game.player) {
-      this.$router.push({ name: "Home" });
-    }
-  },
-  mounted() {
-    // Add enemy class to body (base class already set by router guard)
-    if (this.enemy) {
-      document.body.classList.add(this.enemy.className);
-    }
-    // A watcher never fires for the initial value, so a fight resumed on a
-    // finished state still gets its window.
-    this.syncDialog("victory");
-    this.syncDialog("defeat");
-  },
-  beforeDestroy() {
-    // Remove enemy class from body when leaving the page
-    if (this.enemy) {
-      document.body.classList.remove(this.enemy.className);
-    }
-  }
+const router = useRouter();
+const dialogs = {
+  victory: useTemplateRef("victory"),
+  defeat: useTemplateRef("defeat")
 };
+
+// Safety check - redirect if no player
+if (!game.player) {
+  router.push({ name: "Home" });
+}
+
+// A <dialog> only opens through showModal(), and both calls throw when the
+// element is already in the state they ask for.
+function syncDialog(name) {
+  const dialog = dialogs[name].value;
+  if (!dialog || game.player[name] === dialog.open) {
+    return;
+  }
+  if (game.player[name]) {
+    dialog.showModal();
+  } else {
+    dialog.close();
+  }
+}
+
+watch(() => game.player?.victory, () => syncDialog("victory"));
+watch(() => game.player?.defeat, () => syncDialog("defeat"));
+
+function nextLevel() {
+  game.nextLevel();
+  router.push({ name: "PreFight" });
+}
+
+function rerun() {
+  game.rerun();
+  router.push({ name: "Placement" });
+}
+
+// The enemy class on <body> is what swaps the fight backdrop; the router guard
+// has already put the page class there.
+const enemyClass = game.player?.enemy?.className;
+
+onMounted(() => {
+  if (enemyClass) {
+    document.body.classList.add(enemyClass);
+  }
+  // A watcher never fires for the initial value, so a fight resumed on a
+  // finished state still gets its window.
+  syncDialog("victory");
+  syncDialog("defeat");
+});
+
+onUnmounted(() => {
+  if (enemyClass) {
+    document.body.classList.remove(enemyClass);
+  }
+});
 </script>
 
 <style lang="less">

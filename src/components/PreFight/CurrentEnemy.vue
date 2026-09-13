@@ -4,28 +4,28 @@
       <div class="infos">
         <div class="grid-row name-zone">
           <div class="grid-col label">{{ $t("nom") }}</div>
-          <div class="grid-col value">{{ $t(selectedEnemy.name) }}</div>
+          <div class="grid-col value">{{ $t(enemy.name) }}</div>
         </div>
         <div class="grid-row mojo-zone">
           <div class="grid-col label">{{ $t("mojo") }}</div>
-          <div class="grid-col value">"{{ $t(selectedEnemy.phrase) }}"</div>
+          <div class="grid-col value">"{{ $t(enemy.phrase) }}"</div>
         </div>
         <div class="grid-row nature-zone">
           <div class="grid-col label">{{ $t("signe_particulier") }}</div>
-          <div class="grid-col value">{{ $t(selectedEnemy.nature) }}</div>
+          <div class="grid-col value">{{ $t(enemy.nature) }}</div>
         </div>
         <div class="grid-row fleet">
           <div class="grid-col label">{{ $t("flotte") }}</div>
           <div class="grid-col value">
             <div
-              v-for="(boat, index) in selectedEnemy.fleet.boats"
+              v-for="(boat, index) in enemy.fleet.boats"
               :key="index"
               class="boat"
             >
               <span v-for="n in boat.size" :key="n">
                 <img
                   rel="preload"
-                  :src="assetUrl('boats/' + selectedEnemy.className + '/ok.webp')"
+                  :src="assetUrl('boats/' + enemy.className + '/ok.webp')"
                   alt=""
                   width="30"
                   class="coin"
@@ -38,19 +38,19 @@
           <div>
             <div class="grid-row">
               <div class="grid-col label">
-                {{ $t("pouvoir_" + selectedEnemy.mainPower.type) }}
+                {{ $t("pouvoir_" + enemy.mainPower.type) }}
               </div>
               <div class="grid-col value">
-                {{ $t(selectedEnemy.mainPower.name) }}
+                {{ $t(enemy.mainPower.name) }}
               </div>
             </div>
             <div
               class="grid-row description"
-              v-html="$t(selectedEnemy.mainPower.description)"
+              v-html="$t(enemy.mainPower.description)"
             ></div>
           </div>
           <div
-            v-for="(power, index) in selectedEnemy.secondaryPowers"
+            v-for="(power, index) in enemy.secondaryPowers"
             :key="index"
           >
             <div class="grid-row">
@@ -70,7 +70,7 @@
     <div class="grid-col grid-col-5">
       <img
         rel="preload"
-        :src="assetUrl('players/' + selectedEnemy.className + '/wanted.webp')"
+        :src="assetUrl('players/' + enemy.className + '/wanted.webp')"
         alt=""
         class="wanted"
         height="470px"
@@ -79,19 +79,14 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { computed } from "vue";
 import { assetUrl } from "@/utils/assets";
 import { game } from "@/game.js";
-export default {
-  name: "CurrentEnemy",
-  methods: { assetUrl },
-  data: function() {
-    return {
-      game,
-      selectedEnemy: game.enemyList[game.level]
-    };
-  }
-};
+
+// Derived rather than captured: it re-reads on every level change, unlike the
+// data() copy it replaces, which froze the enemy at creation.
+const enemy = computed(() => game.enemyList[game.level]);
 </script>
 
 <style scoped lang="less">

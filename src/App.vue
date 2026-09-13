@@ -46,57 +46,42 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { onMounted, onUnmounted, ref, useTemplateRef, watch } from "vue";
 import { game } from "@/game.js";
 import Preloader from "@/components/Preloader.vue";
 import Settings from "@/components/Settings.vue";
 
 const MIN_PLAYABLE_WIDTH = 1100;
 
-export default {
-  name: "App",
-  components: {
-    Preloader,
-    Settings
-  },
-  data: function() {
-    return {
-      game,
-      displayKO: window.innerWidth <= MIN_PLAYABLE_WIDTH
-    };
-  },
-  watch: {
-    displayKO: "syncKO"
-  },
-  methods: {
-    onResize() {
-      this.displayKO = window.innerWidth <= MIN_PLAYABLE_WIDTH;
-    },
-    // A <dialog> only opens through showModal(), and both calls throw when the
-    // element is already in the state they ask for.
-    syncKO() {
-      const dialog = this.$refs.ko;
-      if (this.displayKO === dialog.open) {
-        return;
-      }
-      if (this.displayKO) {
-        dialog.showModal();
-      } else {
-        dialog.close();
-      }
-    }
-  },
-  created() {
-    window.addEventListener("resize", this.onResize);
-  },
-  // A watcher never fires for the initial value, so the first open is ours.
-  mounted() {
-    this.syncKO();
-  },
-  beforeDestroy() {
-    window.removeEventListener("resize", this.onResize);
+const ko = useTemplateRef("ko");
+const displayKO = ref(window.innerWidth <= MIN_PLAYABLE_WIDTH);
+
+function onResize() {
+  displayKO.value = window.innerWidth <= MIN_PLAYABLE_WIDTH;
+}
+
+// A <dialog> only opens through showModal(), and both calls throw when the
+// element is already in the state they ask for.
+function syncKO() {
+  const dialog = ko.value;
+  if (displayKO.value === dialog.open) {
+    return;
   }
-};
+  if (displayKO.value) {
+    dialog.showModal();
+  } else {
+    dialog.close();
+  }
+}
+
+watch(displayKO, syncKO);
+
+window.addEventListener("resize", onResize);
+
+// A watcher never fires for the initial value, so the first open is ours.
+onMounted(syncKO);
+onUnmounted(() => window.removeEventListener("resize", onResize));
 </script>
 
 <style lang="less">

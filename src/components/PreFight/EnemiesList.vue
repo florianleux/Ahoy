@@ -3,11 +3,11 @@
     <div class="grid-row">
       <div
         class="grid-col enemy"
-        v-for="(enemy, index) in enemies"
+        v-for="(enemy, index) in game.enemyList"
         :key="index"
       >
-        <div class="name" v-if="index > level">???</div>
-        <div class="name" v-else :class="{ defeated: index < level }">
+        <div class="name" v-if="index > game.level">???</div>
+        <div class="name" v-else :class="{ defeated: index < game.level }">
           {{ $t(enemy.name) }}
         </div>
       </div>
@@ -15,17 +15,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { game } from "@/game.js";
-export default {
-  name: "EnemiesList",
-  data: function() {
-    return {
-      enemies: game.enemyList,
-      level: game.level
-    };
-  }
-};
 </script>
 
 <style scoped lang="less">
