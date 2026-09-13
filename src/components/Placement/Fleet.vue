@@ -48,7 +48,7 @@ export default {
     return {
       game: this.$game,
       fleet: this.$game.player.fleet,
-      publicPath: process.env.BASE_URL,
+      publicPath: import.meta.env.BASE_URL,
       boatPositions: {
         1: { x: 1309, y: 758, width: 286, height: 143 },
         2: { x: 1326, y: 613, width: 286, height: 143 },

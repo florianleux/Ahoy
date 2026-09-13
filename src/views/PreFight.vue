@@ -14,8 +14,8 @@
 </template>
 
 <script>
-import EnemiesList from "../components/PreFight/EnemiesList";
-import CurrentEnemy from "../components/PreFight/CurrentEnemy";
+import EnemiesList from "../components/PreFight/EnemiesList.vue";
+import CurrentEnemy from "../components/PreFight/CurrentEnemy.vue";
 import { audioManager } from "@/utils/AudioManager";
 
 export default {

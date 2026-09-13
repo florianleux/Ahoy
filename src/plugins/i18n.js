@@ -1,9 +1,6 @@
-import Vue from "vue";
-import VueI18n from "vue-i18n";
+import { createI18n } from "vue-i18n";
 import en from "@/locales/en.json";
 import fr from "@/locales/fr.json";
-
-Vue.use(VueI18n);
 
 export const fallBackLocale = "en";
 
@@ -14,7 +11,11 @@ export const languages = {
 
 const messages = Object.assign(languages);
 
-const i18n = new VueI18n({
+const i18n = createI18n({
+  // Legacy mode keeps $t and $i18n.locale working from the Options API.
+  // Composition mode, and persisting the locale, are #57.
+  legacy: true,
+  globalInjection: true,
   locale: getBrowserLocale(),
   fallbackLocale: fallBackLocale,
   messages

@@ -1,14 +1,15 @@
 import { fileURLToPath, URL } from "node:url";
+import vue from "@vitejs/plugin-vue";
 import { defineConfig } from "vitest/config";
 
+// One config for the app and the tests: vitest reads vite.config, so the alias
+// and the Vue plugin cannot drift apart between the two.
 export default defineConfig({
+  plugins: [vue()],
   resolve: {
-    // Same "@" alias as vue-cli, so test imports match the app's.
     alias: { "@": fileURLToPath(new URL("./src", import.meta.url)) }
   },
   test: {
-    // No Vue plugin: nothing here mounts a component, and @vitejs/plugin-vue2
-    // is incompatible with the Vite version this project is heading towards.
     // jsdom is needed by anything touching Audio or localStorage.
     environment: "jsdom",
     include: ["tests/**/*.spec.js"],

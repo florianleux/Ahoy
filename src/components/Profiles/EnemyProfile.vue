@@ -40,7 +40,7 @@ export default {
     return {
       game: this.$game,
       enemy: this.$game.player.enemy,
-      publicPath: process.env.BASE_URL
+      publicPath: import.meta.env.BASE_URL
     };
   }
 };

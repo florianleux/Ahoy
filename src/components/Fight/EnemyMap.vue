@@ -93,7 +93,7 @@ export default {
         MISSED: "A l'eau !"
       },
       attackMessage: false,
-      publicPath: process.env.BASE_URL,
+      publicPath: import.meta.env.BASE_URL,
       enemyClass: this.$game.enemyList[this.$game.level].className,
       baseCoords: { x: 370, y: 180, width: 500, height: 500 },
       canvasStyle: {},

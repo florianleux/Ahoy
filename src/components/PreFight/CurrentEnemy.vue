@@ -93,7 +93,7 @@ export default {
   data: function() {
     return {
       game: this.$game,
-      publicPath: process.env.BASE_URL,
+      publicPath: import.meta.env.BASE_URL,
       selectedEnemy: this.$game.enemyList[this.$game.level]
     };
   }

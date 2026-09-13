@@ -1,11 +1,9 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
+import { createRouter, createWebHashHistory } from "vue-router";
+import { game } from "@/game.js";
 import Home from "../views/Home.vue";
 import Placement from "../views/Placement.vue";
 import Fight from "../views/Fight.vue";
 import PreFight from "../views/PreFight.vue";
-
-Vue.use(VueRouter);
 
 const routes = [
   {
@@ -38,7 +36,10 @@ const routes = [
   }
 ];
 
-const router = new VueRouter({
+const router = createRouter({
+  // Hash, because vue-router 3 defaulted to it and this app never asked for
+  // anything else. Whether it should become history is #56's call.
+  history: createWebHashHistory(),
   routes
 });
 
@@ -82,8 +83,8 @@ router.beforeEach((to, from, next) => {
   const protectedRoutes = ["Placement", "PreFight", "Fight"];
 
   if (protectedRoutes.includes(to.name)) {
-    // Check if game is initialized (using global Vue instance)
-    if (!window.vueApp || !window.vueApp.$game || !window.vueApp.$game.player) {
+    // Check if game is initialized
+    if (!game.player) {
       // Clean up all classes before redirecting
       cleanupAllPageClasses();
       cleanupEnemyClasses();

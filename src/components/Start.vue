@@ -82,7 +82,7 @@ export default {
         v =>
           v.length < 15 || "Votre nom doit comporter au maximum 15 caractères"
       ],
-      publicPath: process.env.BASE_URL,
+      publicPath: import.meta.env.BASE_URL,
       savedGame: localStorage.ahoyGame
     };
   },

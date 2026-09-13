@@ -68,7 +68,7 @@ export default {
       enemyMap: this.$game.player.enemy.map,
       enemyFleet: this.$game.player.enemy.fleet,
       target: null,
-      publicPath: process.env.BASE_URL,
+      publicPath: import.meta.env.BASE_URL,
       baseCoords: { x: 500, y: 215, width: 475, height: 475 },
       canvasStyle: {},
       lineStyle: {}

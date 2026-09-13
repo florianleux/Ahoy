@@ -4,25 +4,26 @@ Guide pour travailler sur **Ahoy!** — bataille navale au thème pirate.
 
 ## Le projet
 
-SPA **Vue 2.7 + Vuetify 2 + Vue CLI 4**, déployée sur Netlify (`netlify.toml` : publish `dist`, redirect SPA `/* → /index.html`).
+SPA **Vue 3.5 + Vite 8**, sans framework UI, déployée sur Netlify (`netlify.toml` : publish `dist`, redirect SPA `/* → /index.html`).
 
 Le jeu est **desktop uniquement** : `src/App.vue` affiche une modale bloquante en dessous de 1100px de large. Ne pas supposer qu'il est responsive.
 
 ## Commandes
 
 ```bash
-npm run serve       # dev server
+npm run dev         # dev server Vite
 npm run build       # build prod → dist/
+npm run preview     # sert le build
 npm test            # vitest run
 npm run test:watch  # vitest en watch
-npm run lint        # ⚠ AUTO-FIX par défaut, voir ci-dessous
 ```
+
+**Pas de lint pour l'instant** : ESLint 6 ne comprend pas les SFC Vue 3 et a été retiré avec Vue CLI. ESLint 9 en flat config revient avec #63. D'ici là, aucune barrière de formatage automatique.
 
 - Tests : **Vitest** (`vitest.config.mjs`, specs dans `tests/**/*.spec.js`, alias `@` identique à celui de vue-cli). Environnement `jsdom`. Couverture volontairement minimale au départ — les classes de `src/classes/` sont du JS pur sans dépendance Vue, ce sont les seams naturels ; les composants demandent `@vue/test-utils` et le valent rarement ici.
 - **Pas de typecheck** : JS pur, pas de TypeScript.
-- `npm run lint` **corrige les fichiers sans demander**. Le repo a déjà ~26 warnings Prettier préexistants : le lancer produit donc un diff parasite bien au-delà de la modification en cours. Pour se contenter de vérifier : `npx vue-cli-service lint --no-fix` — le compte doit rester à 26, s'il monte les nouveaux warnings sont les tiens.
-- `.nvmrc` indique Node 16, mais le build passe aussi sur Node 22. Netlify est épinglé sur 16 (`netlify.toml`).
-- `.npmrc` force `legacy-peer-deps=true` — nécessaire pour installer, ne pas retirer.
+- **Node 24** (`.nvmrc`, `netlify.toml`). Le socle l'exige : `vue-i18n` 11 demande Node >= 22, Node 20 est EOL et Node 22 en maintenance.
+- **Pas de `.npmrc`** : `npm install` réussit sans `legacy-peer-deps`. S'il se met à échouer, l'arbre de dépendances est faux — le corriger, pas remettre le drapeau.
 
 ## Architecture
 
@@ -72,7 +73,8 @@ Modèle de référence : `src/classes/enemies/SimpleSam/`.
 - `Game._enemyTurn()` dispatche sur `this.enemyList[this.level].className`, **pas** sur `constructor.name` : ce dernier est mangé par la minification en production. Ne jamais « simplifier » vers `constructor.name`.
 - `Game.js` contient `this.player.enemy.turn & !this.player.enemy.defeat` — un ET **bit-à-bit**, pas logique. Bug potentiel connu ; ne pas corriger à l'aveugle sans tester le cycle de tours.
 - Les tours ennemis sont une cascade de `setTimeout` imbriqués : toute modification du timing doit être vérifiée en jeu.
-- **Vue 2** : pas de Composition API, pas de `<script setup>`. Les propriétés ajoutées après coup à un objet ne sont pas réactives — utiliser `Vue.set`, ou le `splice` déjà employé dans `Map.js`.
+- **Migration Vue 3 en cours** : les composants sont encore en Options API, la conversion en `<script setup>` est un ticket à part. La branche d'intégration est `migration/vue3` ; le jeu n'est pas promis vert avant #64.
+- **Réactivité cassée pour l'instant** : `src/game.js` exporte une instance `Game` brute. Vue 3 n'observe plus un objet sur place comme Vue 2, donc deux composants en obtiennent des proxies distincts et une mutation faite dans un composant ne relance pas le rendu d'un autre. Symptôme vu : les cinq bateaux posés, `putBoats === size`, et le bouton « A l'abordage » qui reste désactivé. Corrigé par la racine `reactive()` unique de #56.
 - `animate.css` est importé pour son CSS seul dans `main.js` — les transitions de combat utilisent ses classes `animate__*`. Ne pas le passer à `Vue.use()` : il n'expose pas d'`install`.
 
 ## Workflow et skills

@@ -23,7 +23,7 @@ export default {
     return {
       game: this.$game,
       player: this.$game.player,
-      publicPath: process.env.BASE_URL
+      publicPath: import.meta.env.BASE_URL
     };
   }
 };
