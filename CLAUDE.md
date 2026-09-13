@@ -16,9 +16,12 @@ npm run build       # build prod → dist/
 npm run preview     # sert le build
 npm test            # vitest run
 npm run test:watch  # vitest en watch
+npm run typecheck   # vue-tsc --noEmit
+npm run lint        # eslint --fix + prettier --write
+npm run lint:check  # signale sans corriger
 ```
 
-**Pas de lint pour l'instant** : ESLint 6 ne comprend pas les SFC Vue 3 et a été retiré avec Vue CLI. ESLint 9 en flat config revient avec #63. D'ici là, aucune barrière de formatage automatique.
+**Lint** : `npm run lint` corrige (`eslint --fix` puis `prettier --write`), `npm run lint:check` se contente de signaler — c'est la variante pour vérifier sans toucher aux fichiers. **Le compte attendu est zéro** : plus de warnings de référence, le repo est propre. Si `lint:check` sort quelque chose, c'est à toi.
 
 - Tests : **Vitest** (configuré dans `vite.config.js`, specs dans `tests/**/*.spec.js`). Environnement `jsdom`. Les classes de `src/classes/` sont du TypeScript sans dépendance Vue, ce sont les seams naturels ; les composants demandent `@vue/test-utils` et le valent rarement ici.
 - **Typecheck** : `npm run typecheck` (`vue-tsc --noEmit`). Il est aussi la première moitié de `npm run build` — **le build échoue sur une erreur de type**, il ne la contourne pas.
