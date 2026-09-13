@@ -3,7 +3,6 @@ import App from "./App.vue";
 // Animation classes used by the fight transitions (animate__tada, animate__fadeOut).
 import "animate.css";
 import router from "./router";
-import vuetify from "./plugins/vuetify";
 import { Game } from "@/classes/Game.js";
 import i18n from "@/plugins/i18n";
 
@@ -21,6 +20,5 @@ const pageClasses = ['home', 'placement', 'pre-fight', 'fight'];
 window.vueApp = new Vue({
   i18n,
   router,
-  vuetify,
   render: h => h(App)
 }).$mount("#app");

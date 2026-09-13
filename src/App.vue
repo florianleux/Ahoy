@@ -1,15 +1,5 @@
 <template>
-  <!--
-    The Vuetify classes and data-app are kept without <v-app>: every Vuetify
-    rule is prefixed with .v-application, and its dialogs look up [data-app] to
-    detach themselves. The remaining Vuetify components (dialogs, cards,
-    buttons, inputs) still need both. They go away with Vuetify itself.
-  -->
-  <div
-    id="app"
-    class="v-application v-application--is-ltr theme--light"
-    data-app="true"
-  >
+  <div id="app">
     <i
       id="help"
       class="mdi mdi-help-circle"
@@ -113,6 +103,52 @@ export default {
 @import "./styles/button.less";
 @import "./styles/dialog.less";
 
+// Reset. It used to arrive with vuetify/styles, not with <v-app>, and four
+// things in it were load-bearing for a game positioned to the pixel:
+//
+//   - border-box, which every width and padding in this project assumes;
+//   - the permanent scrollbar, which keeps the viewport 15px narrower and so
+//     fixes what the 1920-wide reference design converts against;
+//   - zeroed margins, without which the UA's own margins move every heading
+//     and paragraph;
+//   - `font: inherit` on form controls, which is what stops buttons and inputs
+//     from falling back to the system font.
+//
+// The rest of Vuetify's reset was normalize.css for browsers this game does
+// not target, and is deliberately not carried over.
+html {
+  box-sizing: border-box;
+  // Always present, so the page never jumps and the width never changes.
+  overflow-y: scroll;
+  // The game is laid out in fixed pixels with negative margins; Vuetify hid
+  // the horizontal overflow that produces, and so must we.
+  overflow-x: hidden;
+  // Explicit because the `*` rule below would otherwise set the root to 25px
+  // and take every rem with it. Vuetify was quietly holding this at 16.
+  font-size: 16px;
+  // Vuetify set both; the antialiasing visibly thins the pirate fonts.
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
 @baseFontSize: 25px;
 
 //Fonts Déclaration
@@ -133,6 +169,15 @@ export default {
 
 #app {
   min-height: 100vh;
+  // .theme--light.v-application's text colour, which everything that sets none
+  // of its own inherits.
+  color: rgba(0, 0, 0, 0.87);
+  // The last of .v-application's own box. It reads as vestigial -- Vuetify laid
+  // out a drawer and a main pane with it -- but it is load-bearing here: as a
+  // flex container it makes every .grid-row shrink to its content instead of
+  // filling the page, and the placement row wraps onto two lines because of it.
+  display: flex;
+  position: relative;
   // Vuetify's .v-application set this, and the page's vertical rhythm depends
   // on it: without it every line box shrinks to the font's natural height.
   line-height: 1.5;
