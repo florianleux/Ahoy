@@ -8,7 +8,7 @@
       </div>
 
       <div
-        v-for="(boat, index) in game.player.fleet.boats"
+        v-for="(boat, index) in player.fleet.boats"
         :key="index"
         :id="'boat' + boat.id"
         class="boat"
@@ -24,7 +24,7 @@
         >
           X
         </div>
-        <div class="name">Bateau n°{{ game.player.fleet.size - index }}</div>
+        <div class="name">Bateau n°{{ player.fleet.size - index }}</div>
       </div>
     </div>
     <div class="tooltip" v-if="game.help" style="bottom: 10%;">
@@ -36,16 +36,22 @@
   </div>
 </template>
 
-<script setup>
-import { ref } from "vue";
+<script setup lang="ts">
+import { computed, ref } from "vue";
 import _ from "lodash";
-import { assetUrl } from "@/utils/assets";
-import { game } from "@/game";
+import { currentPlayer, game } from "@/game";
 import { audioManager } from "@/utils/AudioManager";
 import { useResponsivePosition } from "@/composables/useResponsivePosition";
+import type { BaseCoords, BoxStyle } from "@/composables/useResponsivePosition";
+import type { Boat } from "@/classes/Boat";
+import type { BoatId } from "@/classes/types";
+
+const player = computed(currentPlayer);
 
 // Where each boat sits in the rack, in reference-design coordinates.
-const BOAT_POSITIONS = {
+const BOAT_IDS: BoatId[] = [1, 2, 3, 4, 5];
+
+const BOAT_POSITIONS: Record<BoatId, BaseCoords> = {
   1: { x: 1309, y: 758, width: 286, height: 143 },
   2: { x: 1326, y: 613, width: 286, height: 143 },
   3: { x: 1343, y: 470, width: 284, height: 142 },
@@ -56,32 +62,34 @@ const BOAT_POSITIONS = {
 // A ref replaced wholesale rather than mutated in place, which is what the
 // $forceUpdate here was standing in for: Vue 2 could not see new keys added to
 // an object after the fact.
-const boatStyles = ref({});
+const boatStyles = ref<Partial<Record<BoatId, BoxStyle>>>({});
 
 const { calculatePosition } = useResponsivePosition(() => {
-  const styles = {};
-  Object.keys(BOAT_POSITIONS).forEach(boatId => {
+  const styles: Partial<Record<BoatId, BoxStyle>> = {};
+  BOAT_IDS.forEach(boatId => {
     styles[boatId] = calculatePosition(BOAT_POSITIONS[boatId]);
   });
   boatStyles.value = styles;
 });
 
 // Start with the first boat in hand.
-game.player.fleet.selectBoat(_.find(game.player.fleet.boats, ["selected", false]));
+currentPlayer().fleet.selectBoat(
+  _.find(currentPlayer().fleet.boats, ["selected", false]) ?? null
+);
 
-function getBoatStyle(boatId) {
-  return boatStyles.value[boatId] || {};
+function getBoatStyle(boatId: BoatId) {
+  return boatStyles.value[boatId] ?? {};
 }
 
-function selectBoat(boat) {
+function selectBoat(boat: Boat) {
   audioManager.playSound("click");
   if (!boat.placed) {
-    game.player.fleet.selectBoat(boat);
+    currentPlayer().fleet.selectBoat(boat);
   }
 }
 
-function removeBoat(boat) {
-  game.player.map.removeBoat(boat, game.player.fleet);
+function removeBoat(boat: Boat) {
+  currentPlayer().map.removeBoat(boat, currentPlayer().fleet);
 }
 </script>
 

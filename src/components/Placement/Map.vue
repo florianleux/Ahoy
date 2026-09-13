@@ -2,7 +2,7 @@
   <div
     class="grid-row"
     id="map"
-    v-if="game.player.map.hoverMap[9]"
+    v-if="player.map.hoverMap[9]"
     @wheel.prevent="throttledRotateBoat"
     @click.right.prevent="throttledRotateBoat"
   >
@@ -43,9 +43,9 @@
           @mouseleave="leaveMap"
           @click="clickSquare"
           v-bind:class="{
-            hovered: game.player.map.hoverMap[n - 1][m - 1],
-            placed: game.player.map.boatMap[n - 1][m - 1],
-            koClick: !game.player.map.okClick
+            hovered: player.map.hoverMap[n - 1][m - 1],
+            placed: player.map.boatMap[n - 1][m - 1],
+            koClick: !player.map.okClick
           }"
         ></div>
       </div>
@@ -53,19 +53,22 @@
   </div>
 </template>
 
-<script setup>
-import { onBeforeUnmount, ref } from "vue";
+<script setup lang="ts">
+import { computed, onBeforeUnmount, ref } from "vue";
 import _ from "lodash";
-import { game } from "@/game";
+import { currentEnemy, currentPlayer, game } from "@/game";
 import { useResponsivePosition } from "@/composables/useResponsivePosition";
+import type { BoxStyle } from "@/composables/useResponsivePosition";
+
+const player = computed(currentPlayer);
 
 const BASE_COORDS = { x: 500, y: 215, width: 475, height: 475 };
 
-const canvasStyle = ref({});
-const lineStyle = ref({});
+const canvasStyle = ref<Partial<BoxStyle>>({});
+const lineStyle = ref<{ height?: string }>({});
 // The last square the pointer was over, so a rotation can redraw the preview
 // where the boat already is.
-let target = null;
+let target: HTMLElement | null = null;
 
 const { calculatePosition, calculateLineHeight } = useResponsivePosition(() => {
   canvasStyle.value = calculatePosition(BASE_COORDS);
@@ -73,33 +76,34 @@ const { calculatePosition, calculateLineHeight } = useResponsivePosition(() => {
 });
 
 // The enemy lays its fleet out once, when this board appears.
-game.player.enemy.map.generateRandomMap(game.player.enemy.fleet);
+currentEnemy().map.generateRandomMap(currentEnemy().fleet);
 
-function hoverSquare(event) {
-  target = event.target;
-  game.player.map.hoverSquare(event.target, game.player.fleet);
+function hoverSquare(event: MouseEvent) {
+  target = event.target as HTMLElement;
+  currentPlayer().map.hoverSquare(target, currentPlayer().fleet);
 }
 
-function clickSquare(event) {
-  game.player.map.putBoat(event.target, game.player.fleet);
+function clickSquare(event: MouseEvent) {
+  const square = event.target as HTMLElement;
+  currentPlayer().map.putBoat(square, currentPlayer().fleet);
 
-  const nextUnplaced = _.find(game.player.fleet.boats, ["placed", false]);
+  const nextUnplaced = _.find(currentPlayer().fleet.boats, ["placed", false]);
   if (nextUnplaced) {
-    game.player.fleet.selectBoat(nextUnplaced);
+    currentPlayer().fleet.selectBoat(nextUnplaced);
   }
-  game.player.map.hoverSquare(event.target, game.player.fleet);
+  currentPlayer().map.hoverSquare(square, currentPlayer().fleet);
 }
 
 function rotateBoat() {
-  const selected = game.player.fleet.selectedBoat;
+  const selected = currentPlayer().fleet.selectedBoat;
   if (selected) {
     selected.horizontal = !selected.horizontal;
-    game.player.map.hoverSquare(target, game.player.fleet);
+    currentPlayer().map.hoverSquare(target, currentPlayer().fleet);
   }
 }
 
 function leaveMap() {
-  game.player.map.hoverMap = game.player.map._resetMap();
+  currentPlayer().map.hoverMap = currentPlayer().map._resetHoverMap();
 }
 
 const throttledRotateBoat = _.throttle(rotateBoat, 200, {

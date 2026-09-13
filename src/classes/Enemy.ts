@@ -106,7 +106,7 @@ export class Enemy extends Character {
     return [posX, posY];
   }
 
-  private _nextDirection(): void {
+  _nextDirection(): void {
     this.hitStrike = 1;
     this.directionIndex++;
     if (this.directionIndex > 3) {
@@ -114,7 +114,7 @@ export class Enemy extends Character {
     }
   }
 
-  private _forgetTarget(): void {
+  _forgetTarget(): void {
     this.firstHit = null;
     this.hitStrike = 0;
     this.directionIndex = 0;
@@ -166,7 +166,7 @@ export class Enemy extends Character {
     }
   }
 
-  private _turnAtEdge(): void {
+  _turnAtEdge(): void {
     this.directionIndex++;
     this.hitStrike = 1;
   }

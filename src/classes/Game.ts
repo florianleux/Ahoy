@@ -21,6 +21,21 @@ export interface SavedGame {
   level: number;
 }
 
+// The guard the save slot is read through. It checks all three fields, so what
+// comes back is a SavedGame or nothing -- no assertion in between, and an old
+// nested save simply fails it.
+function isSavedGame(value: unknown): value is SavedGame {
+  if (typeof value !== "object" || value === null) {
+    return false;
+  }
+  const { name, identity, level } = value as Record<keyof SavedGame, unknown>;
+  return (
+    typeof name === "string" &&
+    (identity === "male" || identity === "female") &&
+    Number.isInteger(level)
+  );
+}
+
 export class Game {
   player: Player | null = null;
   round = 0;
@@ -42,15 +57,7 @@ export class Game {
   static readSave(): SavedGame | null {
     try {
       const saved: unknown = JSON.parse(localStorage.ahoyGame);
-      if (typeof saved !== "object" || saved === null) {
-        return null;
-      }
-      const candidate = saved as Partial<SavedGame>;
-      const usable =
-        typeof candidate.name === "string" &&
-        (candidate.identity === "male" || candidate.identity === "female") &&
-        Number.isInteger(candidate.level);
-      return usable ? (candidate as SavedGame) : null;
+      return isSavedGame(saved) ? saved : null;
     } catch {
       return null;
     }
@@ -172,7 +179,7 @@ export class Game {
   }
 
   // Hits let him shoot again, in the same turn, until he misses.
-  private _simpleSamTurn(): void {
+  _simpleSamTurn(): void {
     const player = this.player;
     const enemy = player?.enemy;
     if (!player || !enemy) {
@@ -200,7 +207,7 @@ export class Game {
   }
 
   // A hit has a chance of setting fire to an adjacent square, once per turn.
-  private _jackTheBurnedTurn(): void {
+  _jackTheBurnedTurn(): void {
     const player = this.player;
     const enemy = player?.enemy;
     if (!player || !enemy || !(enemy instanceof JackTheBurned)) {

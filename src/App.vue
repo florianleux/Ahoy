@@ -46,7 +46,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { onMounted, onUnmounted, ref, useTemplateRef, watch } from "vue";
 import { game } from "@/game";
 import Preloader from "@/components/Preloader.vue";
@@ -65,7 +65,7 @@ function onResize() {
 // element is already in the state they ask for.
 function syncKO() {
   const dialog = ko.value;
-  if (displayKO.value === dialog.open) {
+  if (!dialog || displayKO.value === dialog.open) {
     return;
   }
   if (displayKO.value) {

@@ -16,6 +16,6 @@ export class PlayerProfileHelper {
   getPhrase(): string {
     return this.phrasesList[
       this.mathHelper.getRandomIntMax(this.phrasesList.length - 1)
-    ] as string;
+    ];
   }
 }

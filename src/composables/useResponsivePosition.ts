@@ -1,4 +1,25 @@
 import { onBeforeUnmount, onMounted, ref } from "vue";
+import type { Ref } from "vue";
+
+export interface BaseCoords {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
+export interface BoxStyle {
+  top: string;
+  left: string;
+  width: string;
+  height: string;
+}
+
+export interface ResponsivePosition {
+  scale: Ref<number>;
+  calculatePosition: (baseCoords: BaseCoords) => BoxStyle;
+  calculateLineHeight: (totalHeight: number, rows?: number) => string;
+}
 
 // The game is drawn against a 1920x1080 reference and converted to absolute
 // pixels at runtime. Whichever axis is the tighter fit sets the scale, and the
@@ -12,12 +33,12 @@ const BASE_HEIGHT = 1080;
 // always true, and a board that forgot to override it got a listener calling a
 // no-op: no error, just a board that never moved. Taking the callback as an
 // argument makes registering it part of calling this at all.
-export function useResponsivePosition(onResize) {
+export function useResponsivePosition(onResize: () => void): ResponsivePosition {
   const scale = ref(1);
   let xOffset = 0;
   let yOffset = 0;
 
-  function calculatePosition(baseCoords) {
+  function calculatePosition(baseCoords: BaseCoords): BoxStyle {
     const xScale = window.innerWidth / BASE_WIDTH;
     const yScale = window.innerHeight / BASE_HEIGHT;
 
@@ -44,7 +65,7 @@ export function useResponsivePosition(onResize) {
 
   // Reads the scale left by the last calculatePosition, which every caller runs
   // first.
-  function calculateLineHeight(totalHeight, rows = 10) {
+  function calculateLineHeight(totalHeight: number, rows = 10): string {
     return `${(totalHeight * scale.value) / rows}px`;
   }
 

@@ -4,6 +4,8 @@ import fr from "@/locales/fr.json";
 
 export const fallBackLocale = "en";
 
+export type Locale = "en" | "fr";
+
 export const languages = {
   en: en,
   fr: fr
@@ -16,16 +18,16 @@ const STORAGE_KEY = "ahoyLocale";
 // The stored choice wins over the browser. Reading localStorage can throw
 // outright in Safari's private mode, so a failure here just means "nothing
 // stored" rather than no game at all.
-function storedLocale() {
+function storedLocale(): Locale | null {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
-    return stored in languages ? stored : null;
+    return stored !== null && stored in languages ? (stored as Locale) : null;
   } catch {
     return null;
   }
 }
 
-function getBrowserLocale(options = {}) {
+function getBrowserLocale(options: { countryCodeOnly?: boolean } = {}): string | undefined {
   // Country code only: "fr-FR" resolves to "fr" rather than missing the
   // messages and falling back to English.
   const defaultOptions = { countryCodeOnly: true };
@@ -61,7 +63,7 @@ const i18n = createI18n({
 // The only way the locale is written. Under legacy: false it is a ref, and the
 // choice has to outlive the reload -- which it did not before: the browser was
 // re-detected on every load and the settings window had no lasting effect.
-export function setLocale(locale) {
+export function setLocale(locale: Locale): void {
   i18n.global.locale.value = locale;
   try {
     localStorage.setItem(STORAGE_KEY, locale);
@@ -70,7 +72,7 @@ export function setLocale(locale) {
   }
 }
 
-export function currentLocale() {
+export function currentLocale(): string {
   return i18n.global.locale.value;
 }
 

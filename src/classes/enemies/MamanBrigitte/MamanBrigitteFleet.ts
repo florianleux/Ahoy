@@ -3,7 +3,7 @@ import { Fleet } from "@/classes/Fleet";
 import type { BoatId } from "@/classes/types";
 
 export class MamanBrigitteFleet extends Fleet {
-  protected override _populateFleet(): void {
+  override _populateFleet(): void {
     this.size = 4;
     for (let i = 1; i <= this.size; i++) {
       this.boats.push(new Boat(5, i as BoatId));

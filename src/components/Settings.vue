@@ -53,7 +53,7 @@
   </dialog>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref, useTemplateRef } from "vue";
 import { game } from "@/game";
 import {
@@ -73,8 +73,8 @@ const locale = computed(() => currentLocale());
 // way the state says and only the fullscreenchange listener moves it. Without
 // this the box would stay ticked after a request the browser refused, and the
 // next click would toggle the wrong way.
-function onFullscreenToggle(event) {
-  event.target.checked = fullScreen.value;
+function onFullscreenToggle(event: Event) {
+  (event.target as HTMLInputElement).checked = fullScreen.value;
   toggleFullscreen();
 }
 
@@ -82,7 +82,7 @@ const stopWatchingFullscreen = onFullscreenChange(() => {
   fullScreen.value = Boolean(isFullscreen());
 });
 
-onMounted(() => dialog.value.showModal());
+onMounted(() => dialog.value?.showModal());
 onUnmounted(stopWatchingFullscreen);
 </script>
 

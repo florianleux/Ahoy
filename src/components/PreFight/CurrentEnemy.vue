@@ -35,7 +35,8 @@
           </div>
         </div>
         <div class="powers-zone">
-          <div>
+          <!-- Every enemy is built with one, but the type says it can be absent. -->
+          <div v-if="enemy.mainPower">
             <div class="grid-row">
               <div class="grid-col label">
                 {{ $t("pouvoir_" + enemy.mainPower.type) }}
@@ -79,7 +80,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { computed } from "vue";
 import { assetUrl } from "@/utils/assets";
 import { game } from "@/game";

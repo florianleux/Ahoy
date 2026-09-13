@@ -1,24 +1,24 @@
 <template>
-  <div class="enemy profile" :class="{ active: game.player.enemy.turn }">
+  <div class="enemy profile" :class="{ active: enemy.turn }">
     <div class="power">
-      <span v-if="game.player.enemy.mainPower.active">Pouvoir activé !</span>
+      <span v-if="enemy.mainPower?.active">Pouvoir activé !</span>
     </div>
     <div class="health">
       <img
         rel="preload"
-        :src="assetUrl('boats/' + game.player.enemy.className + '/ok.webp')"
+        :src="assetUrl('boats/' + enemy.className + '/ok.webp')"
         alt=""
         class="coin"
       />
-      <span class="value">{{ game.player.enemy.health }}</span>
+      <span class="value">{{ enemy.health }}</span>
     </div>
     <img
       rel="preload"
       :src="
-        assetUrl('players/' + game.player.enemy.className + '/' + game.player.enemy.mood + '.webp')"
+        assetUrl('players/' + enemy.className + '/' + enemy.mood + '.webp')"
       alt=""
       class="picture"
-      :class="game.player.enemy.className"
+      :class="enemy.className"
     />
     <div class="infos">
       <img
@@ -26,15 +26,18 @@
         :src="assetUrl('players/plank.webp')"
         class="plank"
       />
-      <div class="name">{{ $t(game.player.enemy.name) }}</div>
-      <div class="phrase">"{{ $t(game.player.enemy.phrase) }}"</div>
+      <div class="name">{{ $t(enemy.name) }}</div>
+      <div class="phrase">"{{ $t(enemy.phrase ?? "") }}"</div>
     </div>
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import { computed } from "vue";
 import { assetUrl } from "@/utils/assets";
-import { game } from "@/game";
+import { currentEnemy } from "@/game";
+
+const enemy = computed(currentEnemy);
 </script>
 
 <style scoped lang="less">

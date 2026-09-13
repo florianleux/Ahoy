@@ -5,11 +5,14 @@ import { assetUrl } from "@/utils/assets";
  * Prevents memory leaks by reusing audio instances
  */
 
+interface AudioOptions {
+  volume?: number;
+  loop?: boolean;
+}
+
 class AudioManager {
-  constructor() {
-    this.sounds = {};
-    this.music = {};
-  }
+  private sounds: Record<string, HTMLAudioElement> = {};
+  private music: Record<string, HTMLAudioElement> = {};
 
   /**
    * Load and cache a sound effect
@@ -18,7 +21,7 @@ class AudioManager {
    * @param {Object} options - Optional settings (volume, loop)
    * @returns {Audio} The audio instance
    */
-  loadSound(key, path, options = {}) {
+  loadSound(key: string, path: string, options: AudioOptions = {}): HTMLAudioElement {
     if (!this.sounds[key]) {
       this.sounds[key] = new Audio(path);
       if (options.volume !== undefined) {
@@ -38,7 +41,7 @@ class AudioManager {
    * @param {Object} options - Optional settings (volume, loop)
    * @returns {Audio} The audio instance
    */
-  loadMusic(key, path, options = {}) {
+  loadMusic(key: string, path: string, options: AudioOptions = {}): HTMLAudioElement {
     if (!this.music[key]) {
       this.music[key] = new Audio(path);
       if (options.volume !== undefined) {
@@ -56,7 +59,7 @@ class AudioManager {
    * @param {string} key - Sound identifier
    * @returns {Promise}
    */
-  playSound(key) {
+  playSound(key: string): Promise<void> | undefined {
     if (this.sounds[key]) {
       this.sounds[key].currentTime = 0;
       return this.sounds[key].play().catch(err => {
@@ -70,7 +73,7 @@ class AudioManager {
    * @param {string} key - Music identifier
    * @returns {Promise}
    */
-  playMusic(key) {
+  playMusic(key: string): Promise<void> | undefined {
     if (this.music[key]) {
       return this.music[key].play().catch(err => {
         console.warn(`Could not play music ${key}:`, err);
@@ -82,7 +85,7 @@ class AudioManager {
    * Stop a sound effect
    * @param {string} key - Sound identifier
    */
-  stopSound(key) {
+  stopSound(key: string): void {
     if (this.sounds[key]) {
       this.sounds[key].pause();
       this.sounds[key].currentTime = 0;
@@ -93,7 +96,7 @@ class AudioManager {
    * Stop background music
    * @param {string} key - Music identifier
    */
-  stopMusic(key) {
+  stopMusic(key: string): void {
     if (this.music[key]) {
       this.music[key].pause();
       this.music[key].currentTime = 0;
@@ -103,7 +106,7 @@ class AudioManager {
   /**
    * Stop all music
    */
-  stopAllMusic() {
+  stopAllMusic(): void {
     Object.values(this.music).forEach(audio => {
       audio.pause();
       audio.currentTime = 0;
@@ -115,7 +118,7 @@ class AudioManager {
    * @param {string} key - Sound identifier
    * @param {number} volume - Volume (0-1)
    */
-  setSoundVolume(key, volume) {
+  setSoundVolume(key: string, volume: number): void {
     if (this.sounds[key]) {
       this.sounds[key].volume = Math.max(0, Math.min(1, volume));
     }
@@ -126,7 +129,7 @@ class AudioManager {
    * @param {string} key - Music identifier
    * @param {number} volume - Volume (0-1)
    */
-  setMusicVolume(key, volume) {
+  setMusicVolume(key: string, volume: number): void {
     if (this.music[key]) {
       this.music[key].volume = Math.max(0, Math.min(1, volume));
     }
@@ -137,7 +140,7 @@ class AudioManager {
    * @param {string} key - Sound identifier
    * @returns {Audio|undefined}
    */
-  getSound(key) {
+  getSound(key: string): HTMLAudioElement | undefined {
     return this.sounds[key];
   }
 
@@ -146,14 +149,14 @@ class AudioManager {
    * @param {string} key - Music identifier
    * @returns {Audio|undefined}
    */
-  getMusic(key) {
+  getMusic(key: string): HTMLAudioElement | undefined {
     return this.music[key];
   }
 
   /**
    * Clean up all audio resources
    */
-  cleanup() {
+  cleanup(): void {
     // Clean up sounds
     Object.values(this.sounds).forEach(audio => {
       audio.pause();
@@ -172,7 +175,7 @@ class AudioManager {
   /**
    * Preload all game sounds
    */
-  preloadGameSounds() {
+  preloadGameSounds(): void {
     this.loadSound("click", assetUrl("music/click.wav"), { volume: 1 });
     this.loadSound("hit", assetUrl("music/hit.wav"), { volume: 0.7 });
     this.loadSound("destroyed", assetUrl("music/hit.wav"), { volume: 0.7 });

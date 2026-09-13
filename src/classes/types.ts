@@ -1,5 +1,12 @@
 import fr from "@/locales/fr.json";
 
+// A note that belongs with the domain rather than with any one class: nothing
+// in src/classes/ carries private or protected members. The single Game
+// instance lives behind reactive(), which hands back a structural view of the
+// class, and a structural type can never satisfy a class that has non-public
+// members -- passing a boat read out of the root back into Map.removeBoat would
+// stop compiling. Underscore-prefixed names mark what is internal instead.
+
 // Every piece of text the domain carries is a key into the message catalogue,
 // never the text itself -- the classes are language-agnostic and the templates
 // translate. Deriving the type from fr.json means a dead or misspelt key fails

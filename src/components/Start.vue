@@ -66,16 +66,17 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
 import { assetUrl } from "@/utils/assets";
 import { game } from "@/game";
 import { Game } from "@/classes/Game";
+import type { Identity } from "@/classes/Player";
 import { audioManager } from "@/utils/AudioManager";
 
-const NAME_RULES = [
+const NAME_RULES: Array<(v: string) => true | string> = [
   v => v.length > 1 || "Votre nom doit comporter au minimum 1 caractère",
   v => v.length < 15 || "Votre nom doit comporter au maximum 15 caractères"
 ];
@@ -84,7 +85,7 @@ const router = useRouter();
 const { t } = useI18n();
 
 const playerName = ref("");
-const playerIdentity = ref("male");
+const playerIdentity = ref<Identity>("male");
 // v-text-field showed nothing until the field was touched, even though the
 // empty name already failed its rules and kept the button disabled.
 const nameTouched = ref(false);
@@ -118,6 +119,9 @@ function newGame() {
 }
 
 function loadGame() {
+  if (!savedGame.value) {
+    return;
+  }
   game.loadGame(savedGame.value);
   audioManager.playSound("click");
   audioManager.playMusic("home");

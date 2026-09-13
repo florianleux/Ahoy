@@ -37,7 +37,7 @@
         VICTOIRE !
       </div>
       <div class="game-dialog-text">
-        <div>Bravo {{ game.player.name }} !</div>
+        <div>Bravo {{ player.name }} !</div>
         <div>Vous avez vaincu la flotte ennemie !</div>
       </div>
       <div class="game-dialog-actions">
@@ -57,8 +57,8 @@
         DÉFAITE...
       </div>
       <div class="game-dialog-text">
-        <div>Dommage {{ game.player.name }} !</div>
-        <div>Votre adversaire {{ game.player.enemy.name }} a exterminé votre flotte...</div>
+        <div>Dommage {{ player.name }} !</div>
+        <div>Votre adversaire {{ enemy.name }} a exterminé votre flotte...</div>
       </div>
       <div class="game-dialog-actions">
         <button type="button" class="dialog-action" @click="rerun">
@@ -69,55 +69,69 @@
   </div>
 </template>
 
-<script setup>
-import { onMounted, onUnmounted, useTemplateRef, watch } from "vue";
+<script setup lang="ts">
+import { computed, onMounted, onUnmounted, useTemplateRef, watch } from "vue";
 import { useRouter } from "vue-router";
-import { game } from "@/game";
+import { currentEnemy, currentPlayer, game } from "@/game";
 import PlayerMap from "@/components/Fight/PlayerMap.vue";
 import EnemyMap from "@/components/Fight/EnemyMap.vue";
 import PlayerProfile from "@/components/Profiles/PlayerProfile.vue";
 import EnemyProfile from "@/components/Profiles/EnemyProfile.vue";
 
 const router = useRouter();
-const dialogs = {
-  victory: useTemplateRef("victory"),
-  defeat: useTemplateRef("defeat")
-};
 
-// Safety check - redirect if no player
+// Safety check - redirect if no player. Reads the root rather than the computed
+// below, which is an object and therefore always truthy.
 if (!game.player) {
   router.push({ name: "Home" });
 }
 
+const player = computed(currentPlayer);
+const enemy = computed(currentEnemy);
+
+type Outcome = "victory" | "defeat";
+
+const dialogs: Record<Outcome, ReturnType<typeof useTemplateRef<HTMLDialogElement>>> = {
+  victory: useTemplateRef<HTMLDialogElement>("victory"),
+  defeat: useTemplateRef<HTMLDialogElement>("defeat")
+};
+
 // A <dialog> only opens through showModal(), and both calls throw when the
 // element is already in the state they ask for.
-function syncDialog(name) {
-  const dialog = dialogs[name].value;
-  if (!dialog || game.player[name] === dialog.open) {
+function syncDialog(outcome: Outcome): void {
+  const dialog = dialogs[outcome].value;
+  if (!dialog || !game.player || game.player[outcome] === dialog.open) {
     return;
   }
-  if (game.player[name]) {
+  if (game.player[outcome]) {
     dialog.showModal();
   } else {
     dialog.close();
   }
 }
 
-watch(() => game.player?.victory, () => syncDialog("victory"));
-watch(() => game.player?.defeat, () => syncDialog("defeat"));
+watch(
+  () => game.player?.victory,
+  () => syncDialog("victory")
+);
+watch(
+  () => game.player?.defeat,
+  () => syncDialog("defeat")
+);
 
-function nextLevel() {
+function nextLevel(): void {
   game.nextLevel();
   router.push({ name: "PreFight" });
 }
 
-function rerun() {
+function rerun(): void {
   game.rerun();
   router.push({ name: "Placement" });
 }
 
 // The enemy class on <body> is what swaps the fight backdrop; the router guard
-// has already put the page class there.
+// has already put the page class there. Captured once so the class removed on
+// the way out is the one that was added.
 const enemyClass = game.player?.enemy?.className;
 
 onMounted(() => {

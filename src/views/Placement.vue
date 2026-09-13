@@ -28,7 +28,7 @@
           type="button"
           class="game-button start-fight"
           id="startFight"
-          :disabled="game.player.fleet.size != game.player.fleet.putBoats"
+          :disabled="player.fleet.size != player.fleet.putBoats"
           @click="startFight"
         >
           A L'ABORDAGE !
@@ -39,15 +39,17 @@
   </div>
 </template>
 
-<script setup>
-import { ref } from "vue";
+<script setup lang="ts">
+import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
-import { game } from "@/game";
+import { currentPlayer } from "@/game";
 import MapVue from "@/components/Placement/Map.vue";
 import Fleet from "@/components/Placement/Fleet.vue";
 import PlayerProfile from "@/components/Profiles/PlayerProfile.vue";
 import { audioManager } from "@/utils/AudioManager";
 import { useResponsivePosition } from "@/composables/useResponsivePosition";
+
+const player = computed(currentPlayer);
 
 const BASE_COORDS = { x: 540, y: 720, width: 475, height: 170 };
 

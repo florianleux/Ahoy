@@ -1,11 +1,12 @@
 import { createRouter, createWebHistory } from "vue-router";
+import type { RouteRecordRaw } from "vue-router";
 import { game } from "@/game";
 import Home from "../views/Home.vue";
 import Placement from "../views/Placement.vue";
 import Fight from "../views/Fight.vue";
 import PreFight from "../views/PreFight.vue";
 
-const routes = [
+const routes: RouteRecordRaw[] = [
   {
     path: "/",
     name: "Home",
@@ -42,16 +43,16 @@ const router = createRouter({
 });
 
 // Helper function to clean up enemy classes from body
-const cleanupEnemyClasses = () => {
-  const enemyClasses = ['SimpleSam', 'JackTheBurned', 'MamanBrigitte', 'ChisanaKaizoku', 'Z'];
+const cleanupEnemyClasses = (): void => {
+  const enemyClasses: string[] = ['SimpleSam', 'JackTheBurned', 'MamanBrigitte', 'ChisanaKaizoku', 'Z'];
   enemyClasses.forEach(className => {
     document.body.classList.remove(className);
   });
 };
 
 // Helper function to clean up all page classes from body
-const cleanupAllPageClasses = () => {
-  const pageClasses = ['home', 'placement', 'pre-fight', 'fight'];
+const cleanupAllPageClasses = (): void => {
+  const pageClasses: string[] = ['home', 'placement', 'pre-fight', 'fight'];
   pageClasses.forEach(className => {
     document.body.classList.remove(className);
   });
@@ -60,7 +61,7 @@ const cleanupAllPageClasses = () => {
 // Navigation guard to set body class
 router.beforeEach((to, from, next) => {
   // Remove old body class
-  if (from.meta && from.meta.bodyClass) {
+  if (typeof from.meta.bodyClass === "string") {
     document.body.classList.remove(from.meta.bodyClass);
   }
 
@@ -68,7 +69,7 @@ router.beforeEach((to, from, next) => {
   cleanupEnemyClasses();
 
   // Add new body class
-  if (to.meta && to.meta.bodyClass) {
+  if (typeof to.meta.bodyClass === "string") {
     document.body.classList.add(to.meta.bodyClass);
   }
 
@@ -76,7 +77,7 @@ router.beforeEach((to, from, next) => {
 });
 
 // Route guards to protect game-related routes
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, _from, next) => {
   // Each route says for itself whether it needs a started game, rather than a
   // list here that has to be kept in step with the routes above.
   if (to.meta.requiresGame) {

@@ -13,7 +13,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useRouter } from "vue-router";
 import EnemiesList from "../components/PreFight/EnemiesList.vue";
 import CurrentEnemy from "../components/PreFight/CurrentEnemy.vue";

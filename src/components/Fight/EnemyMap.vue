@@ -2,13 +2,13 @@
   <div
     class="grid-row"
     id="map"
-    v-if="game.player.enemy.map.boatMap[9]"
-    :class="{ disabled: !game.player.turn }"
+    v-if="enemy.map.boatMap[9]"
+    :class="{ disabled: !player.turn }"
   >
     <div class="grid-col grid-col-12">
       <div
         class="enemy canvas"
-        :class="{ disabled: game.player.attackLock }"
+        :class="{ disabled: player.attackLock }"
         :style="canvasStyle"
       >
         <div class="attack-result">
@@ -33,23 +33,23 @@
             @mouseover="hoverSquare"
             @click="attack(m, n)"
             v-bind:class="{
-              hit: game.player.map.hitMap[n - 1][m - 1] === 'hit',
-              missed: game.player.map.hitMap[n - 1][m - 1] === 'missed',
-              placed: game.player.enemy.map.boatMap[n - 1][m - 1],
+              hit: player.map.hitMap[n - 1][m - 1] === 'hit',
+              missed: player.map.hitMap[n - 1][m - 1] === 'missed',
+              placed: enemy.map.boatMap[n - 1][m - 1],
               destroyed: destroyedMap[n - 1][m - 1]
             }"
           >
             <img
               rel="preload"
-              :src="assetUrl('boats/' + game.player.enemy.className + '/destroyed.webp')"
+              :src="assetUrl('boats/' + enemy.className + '/destroyed.webp')"
               v-if="isDestroyed(n, m)"
               class="coin destroyed"
             />
             <img
               rel="preload"
-              :src="assetUrl('boats/' + game.player.enemy.className + '/hit.webp')"
+              :src="assetUrl('boats/' + enemy.className + '/hit.webp')"
               v-if="
-                game.player.map.hitMap[n - 1][m - 1] == 'hit' &&
+                player.map.hitMap[n - 1][m - 1] == 'hit' &&
                   !isDestroyed(n, m)
               "
               class="coin hit "
@@ -74,65 +74,73 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { computed, ref } from "vue";
-import _ from "lodash";
 import { assetUrl } from "@/utils/assets";
-import { game } from "@/game";
+import { currentEnemy, currentPlayer, game } from "@/game";
 import { useResponsivePosition } from "@/composables/useResponsivePosition";
+import type { BoxStyle } from "@/composables/useResponsivePosition";
+import type { AttackResult } from "@/classes/types";
+
+const player = computed(currentPlayer);
+const enemy = computed(currentEnemy);
 
 const BASE_COORDS = { x: 370, y: 180, width: 500, height: 500 };
 
-const ATTACK_MESSAGES = {
+const ATTACK_MESSAGES: Record<AttackResult, string> = {
   HIT: "Touché !",
   DESTROYED: " Touché ! Coulé !",
+  ENDGAME: " Touché ! Coulé !",
   MISSED: "A l'eau !"
 };
 
-const canvasStyle = ref({});
-const lineStyle = ref({});
-const attackMessage = ref(false);
+const canvasStyle = ref<Partial<BoxStyle>>({});
+const lineStyle = ref<{ height?: string }>({});
+const attackMessage = ref<string | false>(false);
 
 const { calculatePosition, calculateLineHeight } = useResponsivePosition(() => {
   canvasStyle.value = calculatePosition(BASE_COORDS);
   lineStyle.value = { height: calculateLineHeight(BASE_COORDS.height) };
 });
 
-const destroyedMap = computed(() => {
-  const enemyMap = game.player.enemy.map;
-  return enemyMap.boatMap.map(line =>
+const destroyedMap = computed(() =>
+  currentEnemy().map.boatMap.map(line =>
     line.map(boatId =>
-      boatId ? game.player.enemy.fleet.boats[boatId - 1].destroyed : false
+      typeof boatId === "number"
+        ? currentEnemy().fleet.boats[boatId - 1].destroyed
+        : false
     )
-  );
-});
+  )
+);
 
-function isDestroyed(n, m) {
-  const boatId = game.player.enemy.map.boatMap[n - 1][m - 1];
-  return boatId ? game.player.enemy.fleet.boats[boatId - 1].destroyed : false;
+function isDestroyed(n: number, m: number): boolean {
+  const boatId = currentEnemy().map.boatMap[n - 1][m - 1];
+  return typeof boatId === "number"
+    ? currentEnemy().fleet.boats[boatId - 1].destroyed
+    : false;
 }
 
-function hoverSquare() {}
+function hoverSquare(): void {}
 
-function nextRound(time) {
+function nextRound(time: number): void {
   setTimeout(() => {
-    game.player.enemy.mood = "default";
+    currentEnemy().setDefaultMood();
     attackMessage.value = false;
-    game.player.mood = "default";
+    currentPlayer().setDefaultMood();
     game.nextRound();
   }, time);
 }
 
-function attack(x, y) {
-  const player = game.player;
-  const enemy = player.enemy;
+function attack(x: number, y: number): void {
+  const player = currentPlayer();
+  const enemy = currentEnemy();
 
   if (player.attackLock) {
-    return false;
+    return;
   }
 
   if (player.map.hitMap[y - 1][x - 1] || !player.turn) {
-    return false;
+    return;
   }
 
   player.attackLock = true;
@@ -151,14 +159,20 @@ function attack(x, y) {
         break;
       }
       const destroyedBoatId = enemy.map.boatMap[y - 1][x - 1];
-      const destroyedBoat = _.find(enemy.fleet.boats, { id: destroyedBoatId });
+      const destroyedBoat = enemy.fleet.boats.find(
+        boat => boat.id === destroyedBoatId
+      );
 
-      if (destroyedBoat.doomed) {
-        const aliveBoats = _.filter(player.fleet.boats, ["destroyed", false]);
+      if (destroyedBoat?.doomed) {
+        const aliveBoats = player.fleet.boats.filter(boat => !boat.destroyed);
         const randomAliveBoat =
           aliveBoats[Math.floor(Math.random() * aliveBoats.length)];
 
         setTimeout(() => {
+          if (!randomAliveBoat) {
+            nextRound(1200);
+            return;
+          }
           randomAliveBoat.coords.forEach(coord => {
             enemy.map.hitMap[coord[1]][coord[0]] = "hit";
           });
@@ -171,8 +185,7 @@ function attack(x, y) {
     }
 
     case "ChisanaKaizoku": {
-      const randPower = Math.random();
-      if (!enemy.map.hitMap[y - 1][x - 1] && randPower >= 0.5) {
+      if (!enemy.map.hitMap[y - 1][x - 1] && Math.random() >= 0.5) {
         setTimeout(() => {
           enemy.attack(player, x, y, false);
           setTimeout(() => nextRound(1200), 500);
@@ -184,11 +197,14 @@ function attack(x, y) {
     }
 
     case "Z": {
-      const randPower = Math.random();
-      if (attackResult === "DESTROYED" && randPower > 0) {
+      if (attackResult === "DESTROYED") {
         const destroyedBoatId = enemy.map.boatMap[y - 1][x - 1];
-        const destroyedBoat = _.find(enemy.fleet.boats, { id: destroyedBoatId });
-        setTimeout(() => enemy.healBoat(destroyedBoat, player), 1500);
+        const destroyedBoat = enemy.fleet.boats.find(
+          boat => boat.id === destroyedBoatId
+        );
+        if (destroyedBoat) {
+          setTimeout(() => enemy.healBoat(destroyedBoat, player), 1500);
+        }
       }
       nextRound(1200);
       break;

@@ -5,7 +5,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { computed } from "vue";
 import { assetUrl } from "@/utils/assets";
 import { game } from "@/game";

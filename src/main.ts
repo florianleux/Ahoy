@@ -6,8 +6,8 @@ import router from "./router";
 import i18n from "@/plugins/i18n";
 
 // Clean up any residual classes from body on app initialization
-const enemyClasses = ['SimpleSam', 'JackTheBurned', 'MamanBrigitte', 'ChisanaKaizoku', 'Z'];
-const pageClasses = ['home', 'placement', 'pre-fight', 'fight'];
+const enemyClasses: string[] = ['SimpleSam', 'JackTheBurned', 'MamanBrigitte', 'ChisanaKaizoku', 'Z'];
+const pageClasses: string[] = ['home', 'placement', 'pre-fight', 'fight'];
 [...enemyClasses, ...pageClasses].forEach(className => {
   document.body.classList.remove(className);
 });

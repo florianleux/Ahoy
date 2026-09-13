@@ -1,11 +1,13 @@
 import { Character } from "@/classes/Character";
 import { PlayerProfileHelper } from "@/classes/helpers/PlayerProfileHelper";
-import type { Enemy } from "@/classes/Enemy";
+// The union rather than the base class, so that checking className narrows to
+// the one enemy that has the power being reached for.
+import type { GameEnemy } from "@/classes/Game";
 
 export type Identity = "male" | "female";
 
 export class Player extends Character {
-  enemy: Enemy | null = null;
+  enemy: GameEnemy | null = null;
   turn = true;
   identity: Identity;
   profileHelper = new PlayerProfileHelper();

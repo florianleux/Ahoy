@@ -1,23 +1,26 @@
 <template>
-  <div class="player profile" :class="{ active: game.player.turn }">
+  <div class="player profile" :class="{ active: player.turn }">
     <div class="power">
       <div class="logo"></div>
     </div>
     <div class="health">
-      {{ game.player.health }}
+      {{ player.health }}
     </div>
-    <img rel="preload" :src="assetUrl('players/' + game.player.identity + '/' + game.player.mood + '.webp')" alt="" :class="game.player.identity" class="picture" />
+    <img rel="preload" :src="assetUrl('players/' + player.identity + '/' + player.mood + '.webp')" alt="" :class="player.identity" class="picture" />
     <div class="infos">
       <img rel="preload" :src="assetUrl('players/plank.webp')" class="plank" />
-      <div class="name">{{ game.player.name }}</div>
-      <div class="phrase">"{{ game.player.phrase }}"</div>
+      <div class="name">{{ player.name }}</div>
+      <div class="phrase">"{{ player.phrase }}"</div>
     </div>
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import { computed } from "vue";
 import { assetUrl } from "@/utils/assets";
-import { game } from "@/game";
+import { currentPlayer } from "@/game";
+
+const player = computed(currentPlayer);
 </script>
 
 <style scoped lang="less">

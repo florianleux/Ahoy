@@ -14,7 +14,7 @@ export class Map {
   okClick = false;
 
   constructor() {
-    this.hoverMap = this._resetMap().map(line => line.map(() => false));
+    this.hoverMap = this._resetHoverMap();
     this.boatMap = this._resetMap();
     this.hitMap = this._resetMap();
   }
@@ -25,7 +25,7 @@ export class Map {
       return false;
     }
 
-    this.hoverMap = this._resetMap().map(line => line.map(() => false));
+    this.hoverMap = this._resetHoverMap();
     this.okClick = true;
 
     const posX = Number(square.dataset.x) - 1;
@@ -102,6 +102,14 @@ export class Map {
     selectedBoat.placed = true;
     fleet.putBoats++;
     fleet.selectBoat(null);
+  }
+
+  // The hover overlay is booleans, not cells, so it gets its own blank grid --
+  // assigning a Cell[][] to it used to pass unnoticed.
+  _resetHoverMap(): boolean[][] {
+    return Array.from({ length: this.height }, () =>
+      Array.from({ length: this.width }, () => false)
+    );
   }
 
   _resetMap(): Cell[][] {

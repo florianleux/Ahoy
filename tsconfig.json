@@ -20,8 +20,7 @@
     "verbatimModuleSyntax": true,
     "skipLibCheck": true,
     "noEmit": true,
-    "allowJs": true,
-    "checkJs": false,
+    "allowJs": false,
     "jsx": "preserve",
     "paths": {
       "@/*": [
@@ -31,8 +30,8 @@
   },
   "include": [
     "src/**/*.ts",
-    "src/**/*.vue",
-    "tests/**/*.js"
+    "src/**/*.d.ts",
+    "src/**/*.vue"
   ],
   "exclude": [
     "node_modules",

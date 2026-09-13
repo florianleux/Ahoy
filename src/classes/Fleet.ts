@@ -25,7 +25,7 @@ export class Fleet {
     }
   }
 
-  protected _populateFleet(): void {
+  _populateFleet(): void {
     for (let i = 1; i <= this.size; i++) {
       this.boats.push(new Boat(i + 1, i as BoatId));
     }

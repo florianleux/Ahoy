@@ -5,6 +5,6 @@
 // this is that copy, once.
 const BASE = import.meta.env.BASE_URL;
 
-export function assetUrl(path) {
-  return BASE + String(path).replace(/^\/+/, "");
+export function assetUrl(path: string): string {
+  return BASE + path.replace(/^\/+/, "");
 }
