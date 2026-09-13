@@ -21,7 +21,7 @@ const i18n = new VueI18n({
 });
 
 function getBrowserLocale(options = {}) {
-  const defaultOptions = { countryCodeOnly: false };
+  const defaultOptions = { countryCodeOnly: true };
 
   const opt = { ...defaultOptions, ...options };
 

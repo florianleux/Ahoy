@@ -59,7 +59,7 @@ export class Game {
     this.player.enemy.turn = !this.player.enemy.turn;
     this.round++;
 
-    if (this.player.enemy.turn & !this.player.enemy.defeat) {
+    if (this.player.enemy.turn && !this.player.enemy.defeat) {
       this._enemyTurn();
     }
   };
