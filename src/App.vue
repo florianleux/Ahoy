@@ -47,6 +47,7 @@
 </template>
 
 <script>
+import { game } from "@/game.js";
 import Preloader from "@/components/Preloader.vue";
 import Settings from "@/components/Settings.vue";
 
@@ -60,7 +61,7 @@ export default {
   },
   data: function() {
     return {
-      game: this.$game,
+      game,
       displayKO: window.innerWidth <= MIN_PLAYABLE_WIDTH
     };
   },

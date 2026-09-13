@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory } from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 import { game } from "@/game.js";
 import Home from "../views/Home.vue";
 import Placement from "../views/Placement.vue";
@@ -18,28 +18,26 @@ const routes = [
     name: "Placement",
     component: Placement,
     props: true,
-    meta: { bodyClass: "placement" }
+    meta: { bodyClass: "placement", requiresGame: true }
   },
   {
     path: "/pre-fight",
     name: "PreFight",
     component: PreFight,
     props: true,
-    meta: { bodyClass: "pre-fight" }
+    meta: { bodyClass: "pre-fight", requiresGame: true }
   },
   {
     path: "/fight",
     name: "Fight",
     component: Fight,
     props: true,
-    meta: { bodyClass: "fight" }
+    meta: { bodyClass: "fight", requiresGame: true }
   }
 ];
 
 const router = createRouter({
-  // Hash, because vue-router 3 defaulted to it and this app never asked for
-  // anything else. Whether it should become history is #56's call.
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes
 });
 
@@ -79,11 +77,9 @@ router.beforeEach((to, from, next) => {
 
 // Route guards to protect game-related routes
 router.beforeEach((to, from, next) => {
-  // Routes that require an initialized game
-  const protectedRoutes = ["Placement", "PreFight", "Fight"];
-
-  if (protectedRoutes.includes(to.name)) {
-    // Check if game is initialized
+  // Each route says for itself whether it needs a started game, rather than a
+  // list here that has to be kept in step with the routes above.
+  if (to.meta.requiresGame) {
     if (!game.player) {
       // Clean up all classes before redirecting
       cleanupAllPageClasses();

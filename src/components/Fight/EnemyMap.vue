@@ -74,6 +74,7 @@
 </template>
 
 <script>
+import { game } from "@/game.js";
 import _ from "lodash";
 import { responsivePositionMixin } from "@/mixins/responsivePosition";
 
@@ -82,11 +83,11 @@ export default {
   mixins: [responsivePositionMixin],
   data: function() {
     return {
-      game: this.$game,
-      enemyMap: this.$game.player.enemy.map,
-      player: this.$game.player,
-      playerMap: this.$game.player.map,
-      enemy: this.$game.player.enemy,
+      game,
+      enemyMap: game.player.enemy.map,
+      player: game.player,
+      playerMap: game.player.map,
+      enemy: game.player.enemy,
       attackMessages: {
         HIT: "Touché !",
         DESTROYED: " Touché ! Coulé !",
@@ -94,7 +95,7 @@ export default {
       },
       attackMessage: false,
       publicPath: import.meta.env.BASE_URL,
-      enemyClass: this.$game.enemyList[this.$game.level].className,
+      enemyClass: game.enemyList[game.level].className,
       baseCoords: { x: 370, y: 180, width: 500, height: 500 },
       canvasStyle: {},
       lineStyle: {}
@@ -131,7 +132,7 @@ export default {
         _this.attackMessage = false;
         _this.player.mood = "default";
 
-        _this.$game.nextRound();
+        game.nextRound();
       }, time);
     },
     attack: function(x, y) {

@@ -49,6 +49,7 @@
 </template>
 
 <script>
+import { game } from "@/game.js";
 import { responsivePositionMixin } from "@/mixins/responsivePosition";
 
 export default {
@@ -56,12 +57,12 @@ export default {
   mixins: [responsivePositionMixin],
   data: function() {
     return {
-      game: this.$game,
-      fleet: this.$game.player.fleet,
-      player: this.$game.player,
-      enemy: this.$game.player.enemy,
-      playerMap: this.$game.player.map,
-      enemyMap: this.$game.player.enemy.map,
+      game,
+      fleet: game.player.fleet,
+      player: game.player,
+      enemy: game.player.enemy,
+      playerMap: game.player.map,
+      enemyMap: game.player.enemy.map,
       target: null,
       baseCoords: { x: 1065, y: 290, width: 340, height: 340 },
       canvasStyle: {},

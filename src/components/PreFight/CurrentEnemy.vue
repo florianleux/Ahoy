@@ -88,13 +88,14 @@
 </template>
 
 <script>
+import { game } from "@/game.js";
 export default {
   name: "CurrentEnemy",
   data: function() {
     return {
-      game: this.$game,
+      game,
       publicPath: import.meta.env.BASE_URL,
-      selectedEnemy: this.$game.enemyList[this.$game.level]
+      selectedEnemy: game.enemyList[game.level]
     };
   }
 };

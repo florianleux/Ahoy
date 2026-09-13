@@ -17,12 +17,13 @@
 </template>
 
 <script>
+import { game } from "@/game.js";
 export default {
   name: "ProfilePlayer",
   data: function () {
     return {
-      game: this.$game,
-      player: this.$game.player,
+      game,
+      player: game.player,
       publicPath: import.meta.env.BASE_URL
     };
   }

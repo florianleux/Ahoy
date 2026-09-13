@@ -52,6 +52,7 @@
 </template>
 
 <script>
+import { game } from "@/game.js";
 import {
   isFullscreen,
   onFullscreenChange,
@@ -62,7 +63,7 @@ export default {
   name: "Settings",
   data: function() {
     return {
-      game: this.$game,
+      game,
       fullScreen: Boolean(isFullscreen())
     };
   },

@@ -70,6 +70,7 @@
 </template>
 
 <script>
+import { game } from "@/game.js";
 import PlayerMap from "@/components/Fight/PlayerMap.vue";
 import EnemyMap from "@/components/Fight/EnemyMap.vue";
 import PlayerProfile from "@/components/Profiles/PlayerProfile.vue";
@@ -85,9 +86,9 @@ export default {
   },
   data: function() {
     return {
-      game: this.$game,
-      enemy: this.$game.player?.enemy || null,
-      player: this.$game.player || null
+      game,
+      enemy: game.player?.enemy || null,
+      player: game.player || null
     };
   },
   watch: {
@@ -123,7 +124,7 @@ export default {
   },
   created() {
     // Safety check - redirect if no player
-    if (!this.$game.player) {
+    if (!game.player) {
       this.$router.push({ name: "Home" });
     }
   },

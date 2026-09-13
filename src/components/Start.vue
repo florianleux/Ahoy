@@ -67,6 +67,8 @@
 </template>
 
 <script>
+import { game } from "@/game.js";
+import { Game } from "@/classes/Game.js";
 import { audioManager } from "@/utils/AudioManager";
 
 export default {
@@ -83,7 +85,9 @@ export default {
           v.length < 15 || "Votre nom doit comporter au maximum 15 caractères"
       ],
       publicPath: import.meta.env.BASE_URL,
-      savedGame: localStorage.ahoyGame
+      // null when the slot is empty or holds an old-format save, which is what
+      // keeps the resume button disabled instead of letting it throw.
+      savedGame: Game.readSave()
     };
   },
   computed: {
@@ -114,11 +118,11 @@ export default {
       }
       audioManager.playSound("click");
       audioManager.playMusic("home");
-      this.$game.newGame(this.playerName, this.playerIdentity);
+      game.newGame(this.playerName, this.playerIdentity);
       this.$router.push({ name: "PreFight" });
     },
     loadGame() {
-      this.$game.loadGame(JSON.parse(this.savedGame));
+      game.loadGame(this.savedGame);
       audioManager.playSound("click");
       audioManager.playMusic("home");
       this.$router.push({ name: "PreFight" });

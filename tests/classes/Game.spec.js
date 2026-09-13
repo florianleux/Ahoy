@@ -46,7 +46,7 @@ describe("Game", () => {
     expect(game.player.identity).toBe("female");
     expect(game.player.enemy).toBe(game.enemyList[0]);
     expect(game.level).toBe(0);
-    expect(JSON.parse(localStorage.ahoyGame).player.name).toBe("Anne Bonny");
+    expect(JSON.parse(localStorage.ahoyGame).name).toBe("Anne Bonny");
   });
 
   it("moves on to the next enemy, resets the player and gives them the turn", () => {

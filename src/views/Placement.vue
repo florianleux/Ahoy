@@ -40,6 +40,7 @@
 </template>
 
 <script>
+import { game } from "@/game.js";
 import MapVue from "@/components/Placement/Map.vue";
 import Fleet from "@/components/Placement/Fleet.vue";
 import PlayerProfile from "@/components/Profiles/PlayerProfile.vue";
@@ -56,9 +57,9 @@ export default {
   },
   data: function() {
     return {
-      game: this.$game,
-      player: this.$game.player || null,
-      playerFleet: this.$game.player?.fleet || null,
+      game,
+      player: game.player || null,
+      playerFleet: game.player?.fleet || null,
       helpZoneStyle: {}
     };
   },
@@ -74,7 +75,7 @@ export default {
   },
   created() {
     // Safety check - redirect if no player
-    if (!this.$game.player) {
+    if (!game.player) {
       this.$router.push({ name: "Home" });
     }
   },

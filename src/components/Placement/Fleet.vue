@@ -37,6 +37,7 @@
 </template>
 
 <script>
+import { game } from "@/game.js";
 import _ from "lodash";
 import { audioManager } from "@/utils/AudioManager";
 import { responsivePositionMixin } from "@/mixins/responsivePosition";
@@ -46,8 +47,8 @@ export default {
   mixins: [responsivePositionMixin],
   data: function() {
     return {
-      game: this.$game,
-      fleet: this.$game.player.fleet,
+      game,
+      fleet: game.player.fleet,
       publicPath: import.meta.env.BASE_URL,
       boatPositions: {
         1: { x: 1309, y: 758, width: 286, height: 143 },
@@ -63,11 +64,11 @@ export default {
     selectBoat: function(boat) {
       audioManager.playSound("click");
       if (!boat.placed) {
-        this.$game.player.fleet.selectBoat(boat);
+        game.player.fleet.selectBoat(boat);
       }
     },
     removeBoat: function(boat) {
-      this.$game.player.map.removeBoat(boat, this.$game.player.fleet);
+      game.player.map.removeBoat(boat, game.player.fleet);
     },
     getBoatStyle(boatId) {
       return this.boatStyles[boatId] || {};
@@ -87,8 +88,8 @@ export default {
     window.dispatchEvent(new Event("resize"));
   },
   beforeCreate: function() {
-    this.$game.player.fleet.selectBoat(
-      _.find(this.$game.player.fleet.boats, ["selected", false])
+    game.player.fleet.selectBoat(
+      _.find(game.player.fleet.boats, ["selected", false])
     );
   }
 };

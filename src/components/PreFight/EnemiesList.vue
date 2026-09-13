@@ -16,12 +16,13 @@
 </template>
 
 <script>
+import { game } from "@/game.js";
 export default {
   name: "EnemiesList",
   data: function() {
     return {
-      enemies: this.$game.enemyList,
-      level: this.$game.level
+      enemies: game.enemyList,
+      level: game.level
     };
   }
 };

@@ -20,11 +20,38 @@ export class Game {
     new Z()
   ];
 
+  // Reads the save slot, or null when there is nothing usable in it: empty,
+  // unreadable (Safari private mode throws), or written in the shape a previous
+  // version used. There is no migration -- an old save is simply not offered.
+  static readSave() {
+    try {
+      const saved = JSON.parse(localStorage.ahoyGame);
+      const usable =
+        saved !== null &&
+        typeof saved.name === "string" &&
+        typeof saved.identity === "string" &&
+        Number.isInteger(saved.level);
+      return usable ? saved : null;
+    } catch {
+      return null;
+    }
+  }
+
   //Starting a new game
   newGame(playerName, playerIdentity) {
     this.player = new Player(playerName, playerIdentity);
     this.player.enemy = this.enemyList[0];
-    localStorage.ahoyGame = JSON.stringify(this);
+    this._save();
+  }
+
+  // Only what loadGame reads back. The old format stringified the whole Game --
+  // fleets, maps, the five enemies -- of which three fields were ever used.
+  _save() {
+    localStorage.ahoyGame = JSON.stringify({
+      name: this.player.name,
+      identity: this.player.identity,
+      level: this.level
+    });
   }
 
   //Going to next enemy
@@ -38,8 +65,7 @@ export class Game {
     //Updating ennemy to the next on in the list
     this.player.enemy = this.enemyList[this.level];
 
-    //Saving the current Game object to Localstorage
-    localStorage.ahoyGame = JSON.stringify(this);
+    this._save();
   }
 
   // Rerunning the current level in case of defeat
@@ -64,9 +90,9 @@ export class Game {
     }
   };
 
-  // Loading a Game Object from LocalStorage
+  // Loading a saved game, in the flat shape readSave() hands back.
   loadGame = function(savedGame) {
-    this.player = new Player(savedGame.player.name, savedGame.player.identity);
+    this.player = new Player(savedGame.name, savedGame.identity);
     this.player.enemy = this.enemyList[savedGame.level];
     this.level = savedGame.level;
   };

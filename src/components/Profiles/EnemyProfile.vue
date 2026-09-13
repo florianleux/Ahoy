@@ -34,12 +34,13 @@
 </template>
 
 <script>
+import { game } from "@/game.js";
 export default {
   name: "EnemyProfile",
   data: function() {
     return {
-      game: this.$game,
-      enemy: this.$game.player.enemy,
+      game,
+      enemy: game.player.enemy,
       publicPath: import.meta.env.BASE_URL
     };
   }

@@ -54,6 +54,7 @@
 </template>
 
 <script>
+import { game } from "@/game.js";
 import _ from "lodash";
 import { responsivePositionMixin } from "@/mixins/responsivePosition";
 
@@ -62,11 +63,11 @@ export default {
   mixins: [responsivePositionMixin],
   data: function() {
     return {
-      game: this.$game,
-      playerFleet: this.$game.player.fleet,
-      playerMap: this.$game.player.map,
-      enemyMap: this.$game.player.enemy.map,
-      enemyFleet: this.$game.player.enemy.fleet,
+      game,
+      playerFleet: game.player.fleet,
+      playerMap: game.player.map,
+      enemyMap: game.player.enemy.map,
+      enemyFleet: game.player.enemy.fleet,
       target: null,
       publicPath: import.meta.env.BASE_URL,
       baseCoords: { x: 500, y: 215, width: 475, height: 475 },
@@ -77,23 +78,23 @@ export default {
   methods: {
     hoverSquare: function(event) {
       this.target = event.target;
-      this.playerMap.hoverSquare(event.target, this.$game.player.fleet);
+      this.playerMap.hoverSquare(event.target, game.player.fleet);
     },
     clickSquare: function(event) {
-      this.playerMap.putBoat(event.target, this.$game.player.fleet);
+      this.playerMap.putBoat(event.target, game.player.fleet);
 
-      if (_.find(this.$game.player.fleet.boats, ["placed", false])) {
-        this.$game.player.fleet.selectBoat(
-          _.find(this.$game.player.fleet.boats, ["placed", false])
+      if (_.find(game.player.fleet.boats, ["placed", false])) {
+        game.player.fleet.selectBoat(
+          _.find(game.player.fleet.boats, ["placed", false])
         );
       }
-      this.playerMap.hoverSquare(event.target, this.$game.player.fleet);
+      this.playerMap.hoverSquare(event.target, game.player.fleet);
     },
     rotateBoat: function() {
       if (this.playerFleet.selectedBoat) {
         this.playerFleet.selectedBoat.horizontal = !this.playerFleet
           .selectedBoat.horizontal;
-        this.playerMap.hoverSquare(this.target, this.$game.player.fleet);
+        this.playerMap.hoverSquare(this.target, game.player.fleet);
       }
     },
     leaveMap() {
