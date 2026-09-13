@@ -22,9 +22,9 @@ const prefixedDocument = document as PrefixedDocument;
 export function isFullscreen(): boolean {
   return Boolean(
     document.fullscreenElement ||
-      prefixedDocument.webkitFullscreenElement ||
-      prefixedDocument.mozFullScreenElement ||
-      prefixedDocument.msFullscreenElement
+    prefixedDocument.webkitFullscreenElement ||
+    prefixedDocument.mozFullScreenElement ||
+    prefixedDocument.msFullscreenElement
   );
 }
 

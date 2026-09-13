@@ -8,11 +8,7 @@ import type { Identity } from "@/classes/Player";
 
 // The order is the order of the levels.
 export type GameEnemy =
-  | SimpleSam
-  | ChisanaKaizoku
-  | JackTheBurned
-  | MamanBrigitte
-  | Z;
+  SimpleSam | ChisanaKaizoku | JackTheBurned | MamanBrigitte | Z;
 
 // Exactly the three fields loadGame reads back.
 export interface SavedGame {
@@ -188,22 +184,25 @@ export class Game {
 
     player.attackLock = false;
 
-    setTimeout(() => {
-      const enemyAttackResult = enemy.generateAttack(player);
-      enemy.setMoodAttacking(enemyAttackResult);
-      player.setMoodAttacked(enemyAttackResult);
-      setTimeout(() => {
-        player.setDefaultMood();
-        enemy.setDefaultMood();
+    setTimeout(
+      () => {
+        const enemyAttackResult = enemy.generateAttack(player);
+        enemy.setMoodAttacking(enemyAttackResult);
+        player.setMoodAttacked(enemyAttackResult);
+        setTimeout(() => {
+          player.setDefaultMood();
+          enemy.setDefaultMood();
 
-        if (enemyAttackResult === "HIT") {
-          enemy.mainPower?.activate();
-          this._enemyTurn();
-        } else {
-          this.nextRound();
-        }
-      }, 800);
-    }, this._randomDelay(1000, 2500));
+          if (enemyAttackResult === "HIT") {
+            enemy.mainPower?.activate();
+            this._enemyTurn();
+          } else {
+            this.nextRound();
+          }
+        }, 800);
+      },
+      this._randomDelay(1000, 2500)
+    );
   }
 
   // A hit has a chance of setting fire to an adjacent square, once per turn.
@@ -216,32 +215,35 @@ export class Game {
 
     player.attackLock = false;
 
-    setTimeout(() => {
-      const enemyAttackResult = enemy.generateAttack(player);
-      enemy.setMoodAttacking(enemyAttackResult);
-      player.setMoodAttacked(enemyAttackResult);
-      setTimeout(() => {
-        player.setDefaultMood();
-        enemy.setDefaultMood();
-
-        if (enemyAttackResult !== "HIT" || enemy.powerActivated) {
-          enemy.powerActivated = false;
-          this.nextRound();
-          return;
-        }
-
-        const powerActivation = enemy.activatePower();
+    setTimeout(
+      () => {
+        const enemyAttackResult = enemy.generateAttack(player);
+        enemy.setMoodAttacking(enemyAttackResult);
+        player.setMoodAttacked(enemyAttackResult);
         setTimeout(() => {
-          if (powerActivation && enemy.lastHit) {
-            enemy.fire(player, enemy.lastHit[0], enemy.lastHit[1]);
-            enemy.powerActivated = true;
-          } else {
+          player.setDefaultMood();
+          enemy.setDefaultMood();
+
+          if (enemyAttackResult !== "HIT" || enemy.powerActivated) {
             enemy.powerActivated = false;
+            this.nextRound();
+            return;
           }
-          this.nextRound();
-        }, 500);
-      }, 600);
-    }, this._randomDelay(1000, 2200));
+
+          const powerActivation = enemy.activatePower();
+          setTimeout(() => {
+            if (powerActivation && enemy.lastHit) {
+              enemy.fire(player, enemy.lastHit[0], enemy.lastHit[1]);
+              enemy.powerActivated = true;
+            } else {
+              enemy.powerActivated = false;
+            }
+            this.nextRound();
+          }, 500);
+        }, 600);
+      },
+      this._randomDelay(1000, 2200)
+    );
   }
 
   _defaultEnemyTurn(): void {
@@ -253,16 +255,19 @@ export class Game {
 
     player.attackLock = false;
 
-    setTimeout(() => {
-      const enemyAttackResult = enemy.generateAttack(player);
+    setTimeout(
+      () => {
+        const enemyAttackResult = enemy.generateAttack(player);
 
-      enemy.setMoodAttacking(enemyAttackResult);
-      player.setMoodAttacked(enemyAttackResult);
-      setTimeout(() => {
-        player.setDefaultMood();
-        enemy.setDefaultMood();
-        this.nextRound();
-      }, 1000);
-    }, this._randomDelay(1000, 2500));
+        enemy.setMoodAttacking(enemyAttackResult);
+        player.setMoodAttacked(enemyAttackResult);
+        setTimeout(() => {
+          player.setDefaultMood();
+          enemy.setDefaultMood();
+          this.nextRound();
+        }, 1000);
+      },
+      this._randomDelay(1000, 2500)
+    );
   }
 }

@@ -33,7 +33,9 @@ const BASE_HEIGHT = 1080;
 // always true, and a board that forgot to override it got a listener calling a
 // no-op: no error, just a board that never moved. Taking the callback as an
 // argument makes registering it part of calling this at all.
-export function useResponsivePosition(onResize: () => void): ResponsivePosition {
+export function useResponsivePosition(
+  onResize: () => void
+): ResponsivePosition {
   const scale = ref(1);
   let xOffset = 0;
   let yOffset = 0;

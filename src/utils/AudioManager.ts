@@ -21,7 +21,11 @@ class AudioManager {
    * @param {Object} options - Optional settings (volume, loop)
    * @returns {Audio} The audio instance
    */
-  loadSound(key: string, path: string, options: AudioOptions = {}): HTMLAudioElement {
+  loadSound(
+    key: string,
+    path: string,
+    options: AudioOptions = {}
+  ): HTMLAudioElement {
     if (!this.sounds[key]) {
       this.sounds[key] = new Audio(path);
       if (options.volume !== undefined) {
@@ -41,7 +45,11 @@ class AudioManager {
    * @param {Object} options - Optional settings (volume, loop)
    * @returns {Audio} The audio instance
    */
-  loadMusic(key: string, path: string, options: AudioOptions = {}): HTMLAudioElement {
+  loadMusic(
+    key: string,
+    path: string,
+    options: AudioOptions = {}
+  ): HTMLAudioElement {
     if (!this.music[key]) {
       this.music[key] = new Audio(path);
       if (options.volume !== undefined) {
@@ -181,7 +189,10 @@ class AudioManager {
     this.loadSound("destroyed", assetUrl("music/hit.wav"), { volume: 0.7 });
     this.loadSound("missed", assetUrl("music/missed.mp3"), { volume: 0.7 });
     this.loadSound("placed", assetUrl("music/placed.wav"), { volume: 1 });
-    this.loadMusic("home", assetUrl("music/home.wav"), { volume: 0.15, loop: true });
+    this.loadMusic("home", assetUrl("music/home.wav"), {
+      volume: 0.15,
+      loop: true
+    });
   }
 }
 

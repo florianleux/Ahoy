@@ -30,7 +30,7 @@ function goPlacement() {
 <style lang="less">
 body.pre-fight {
   overflow: hidden;
-  
+
   #app {
     background: url("/placement/bg.webp") no-repeat center center fixed;
     -webkit-background-size: cover;
@@ -58,9 +58,9 @@ body.pre-fight {
 
 .start-placement {
   position: fixed;
-      bottom: 70px;
-      right: 50%;
-      margin:auto;
-      margin-right: -107px;
-  }
-</style>  
+  bottom: 70px;
+  right: 50%;
+  margin: auto;
+  margin-right: -107px;
+}
+</style>

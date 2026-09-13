@@ -1,12 +1,9 @@
 <template>
-  <div class="grid-row" id="map" v-if="player.map.boatMap[9]">
+  <div v-if="player.map.boatMap[9]" id="map" class="grid-row">
     <div
-      class="tooltip"
       v-if="game.help"
-      style="transform: rotate(10deg);
-    transition: auto;
-    top: 90%;
-    right: 15%;"
+      class="tooltip"
+      style="transform: rotate(10deg); transition: auto; top: 90%; right: 15%"
     >
       <span class="text"
         >Sur la carte de droite, vous voyez les cases sur lesquelles votre
@@ -29,14 +26,14 @@
         <div v-if="!enemy.attackMessage">&nbsp;</div>
       </div>
       <div class="frame"></div>
-      <div class="line" v-for="n in 10" :key="n" :style="lineStyle">
+      <div v-for="n in 10" :key="n" class="line" :style="lineStyle">
         <div
+          v-for="m in 10"
+          :key="m"
           class="square"
           :data-y="n"
           :data-x="m"
-          v-for="m in 10"
-          :key="m"
-          v-bind:class="{
+          :class="{
             placed: player.map.boatMap[n - 1][m - 1],
             hit: enemy.map.hitMap[n - 1][m - 1] == 'hit',
             missed: enemy.map.hitMap[n - 1][m - 1] == 'missed',

@@ -1,9 +1,7 @@
 <template>
   <div>
     <div class="shadow"></div>
-    <h1 class="page-title">
-      COMBAT !
-    </h1>
+    <h1 class="page-title">COMBAT !</h1>
     <div class="grid-row map-line">
       <div class="grid-col grid-col-6">
         <EnemyMap></EnemyMap>
@@ -12,10 +10,10 @@
         <PlayerMap></PlayerMap>
       </div>
     </div>
-    <div class="tooltip" v-if="game.help" style="right:190px;bottom: 85px;">
+    <div v-if="game.help" class="tooltip" style="right: 190px; bottom: 85px">
       <span class="text">...et celles de votre adversaire ! </span>
     </div>
-    <div class="tooltip" v-if="game.help" style="left : 180px; bottom: 85px ">
+    <div v-if="game.help" class="tooltip" style="left: 180px; bottom: 85px">
       <span class="text"
         >Voici le nombre de cases de bateaux <br />non coulés qu'il vous
         reste...</span
@@ -33,9 +31,7 @@
       aria-labelledby="victory-title"
       @cancel.prevent
     >
-      <div id="victory-title" class="game-dialog-title">
-        VICTOIRE !
-      </div>
+      <div id="victory-title" class="game-dialog-title">VICTOIRE !</div>
       <div class="game-dialog-text">
         <div>Bravo {{ player.name }} !</div>
         <div>Vous avez vaincu la flotte ennemie !</div>
@@ -53,9 +49,7 @@
       aria-labelledby="defeat-title"
       @cancel.prevent
     >
-      <div id="defeat-title" class="game-dialog-title">
-        DÉFAITE...
-      </div>
+      <div id="defeat-title" class="game-dialog-title">DÉFAITE...</div>
       <div class="game-dialog-text">
         <div>Dommage {{ player.name }} !</div>
         <div>Votre adversaire {{ enemy.name }} a exterminé votre flotte...</div>
@@ -91,7 +85,10 @@ const enemy = computed(currentEnemy);
 
 type Outcome = "victory" | "defeat";
 
-const dialogs: Record<Outcome, ReturnType<typeof useTemplateRef<HTMLDialogElement>>> = {
+const dialogs: Record<
+  Outcome,
+  ReturnType<typeof useTemplateRef<HTMLDialogElement>>
+> = {
   victory: useTemplateRef<HTMLDialogElement>("victory"),
   defeat: useTemplateRef<HTMLDialogElement>("defeat")
 };

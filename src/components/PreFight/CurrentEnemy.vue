@@ -50,10 +50,7 @@
               v-html="$t(enemy.mainPower.description)"
             ></div>
           </div>
-          <div
-            v-for="(power, index) in enemy.secondaryPowers"
-            :key="index"
-          >
+          <div v-for="(power, index) in enemy.secondaryPowers" :key="index">
             <div class="grid-row">
               <div class="grid-col label">
                 {{ $t("pouvoir_" + power.type) }}

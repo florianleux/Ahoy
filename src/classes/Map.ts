@@ -177,7 +177,10 @@ export class Map {
       boat.horizontal = Math.random() > 0.5;
 
       if (boat.horizontal) {
-        const centerX = this._getRandomInt(half, this.width - half - remain - 1);
+        const centerX = this._getRandomInt(
+          half,
+          this.width - half - remain - 1
+        );
         const centerY = this._getRandomInt(0, this.height - 1);
 
         const min = centerX - half;

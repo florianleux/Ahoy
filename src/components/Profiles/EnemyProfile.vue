@@ -14,18 +14,13 @@
     </div>
     <img
       rel="preload"
-      :src="
-        assetUrl('players/' + enemy.className + '/' + enemy.mood + '.webp')"
+      :src="assetUrl('players/' + enemy.className + '/' + enemy.mood + '.webp')"
       alt=""
       class="picture"
       :class="enemy.className"
     />
     <div class="infos">
-      <img
-        rel="preload"
-        :src="assetUrl('players/plank.webp')"
-        class="plank"
-      />
+      <img rel="preload" :src="assetUrl('players/plank.webp')" class="plank" />
       <div class="name">{{ $t(enemy.name) }}</div>
       <div class="phrase">"{{ $t(enemy.phrase ?? "") }}"</div>
     </div>

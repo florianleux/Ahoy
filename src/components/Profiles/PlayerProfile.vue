@@ -6,7 +6,15 @@
     <div class="health">
       {{ player.health }}
     </div>
-    <img rel="preload" :src="assetUrl('players/' + player.identity + '/' + player.mood + '.webp')" alt="" :class="player.identity" class="picture" />
+    <img
+      rel="preload"
+      :src="
+        assetUrl('players/' + player.identity + '/' + player.mood + '.webp')
+      "
+      alt=""
+      :class="player.identity"
+      class="picture"
+    />
     <div class="infos">
       <img rel="preload" :src="assetUrl('players/plank.webp')" class="plank" />
       <div class="name">{{ player.name }}</div>

@@ -1,8 +1,8 @@
 <template>
   <div
-    class="grid-row"
-    id="map"
     v-if="enemy.map.boatMap[9]"
+    id="map"
+    class="grid-row"
     :class="{ disabled: !player.turn }"
   >
     <div class="grid-col grid-col-12">
@@ -23,44 +23,43 @@
         </div>
 
         <div class="frame"></div>
-        <div class="line" v-for="n in 10" :key="n" :style="lineStyle">
+        <div v-for="n in 10" :key="n" class="line" :style="lineStyle">
           <div
+            v-for="m in 10"
+            :key="m"
             class="square"
             :data-y="n"
             :data-x="m"
-            v-for="m in 10"
-            :key="m"
-            @mouseover="hoverSquare"
-            @click="attack(m, n)"
-            v-bind:class="{
+            :class="{
               hit: player.map.hitMap[n - 1][m - 1] === 'hit',
               missed: player.map.hitMap[n - 1][m - 1] === 'missed',
               placed: enemy.map.boatMap[n - 1][m - 1],
               destroyed: destroyedMap[n - 1][m - 1]
             }"
+            @mouseover="hoverSquare"
+            @click="attack(m, n)"
           >
             <img
+              v-if="isDestroyed(n, m)"
               rel="preload"
               :src="assetUrl('boats/' + enemy.className + '/destroyed.webp')"
-              v-if="isDestroyed(n, m)"
               class="coin destroyed"
             />
             <img
+              v-if="
+                player.map.hitMap[n - 1][m - 1] == 'hit' && !isDestroyed(n, m)
+              "
               rel="preload"
               :src="assetUrl('boats/' + enemy.className + '/hit.webp')"
-              v-if="
-                player.map.hitMap[n - 1][m - 1] == 'hit' &&
-                  !isDestroyed(n, m)
-              "
-              class="coin hit "
+              class="coin hit"
             />
           </div>
         </div>
       </div>
       <div
-        class="tooltip"
         v-if="game.help"
-        style="top: 90%;left: 19%;transform: rotate(-6deg);"
+        class="tooltip"
+        style="top: 90%; left: 19%; transform: rotate(-6deg)"
       >
         <span class="text"
           >Durant votre tour, cliquez dans une case de la carte pour attaquer

@@ -10,7 +10,7 @@ import Start from "@/components/Start.vue";
 <style lang="less">
 body.home {
   overflow: hidden;
-  
+
   #app {
     background: url("/home/bg.webp") no-repeat center center fixed;
     -webkit-background-size: cover;

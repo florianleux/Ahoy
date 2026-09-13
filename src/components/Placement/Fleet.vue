@@ -2,24 +2,24 @@
   <div id="fleet">
     <!--    <p>Votre flotte</p>-->
 
-    <div class="grid-row boats" id="boats">
-      <div class="tooltip" v-if="game.help" style="top: 10%;">
+    <div id="boats" class="grid-row boats">
+      <div v-if="game.help" class="tooltip" style="top: 10%">
         <span class="text">Cliquez sur un bateau pour le sélectionner</span>
       </div>
 
       <div
         v-for="(boat, index) in player.fleet.boats"
-        :key="index"
         :id="'boat' + boat.id"
+        :key="index"
         class="boat"
         :class="{ selected: boat.selected, disabled: boat.disabled }"
         :style="getBoatStyle(boat.id)"
         @click="selectBoat(boat)"
       >
         <div
+          v-if="boat.placed"
           class="remove-button"
           title="Supprimer le placement du bateau"
-          v-if="boat.placed"
           @click="removeBoat(boat)"
         >
           X
@@ -27,7 +27,7 @@
         <div class="name">Bateau n°{{ player.fleet.size - index }}</div>
       </div>
     </div>
-    <div class="tooltip" v-if="game.help" style="bottom: 10%;">
+    <div v-if="game.help" class="tooltip" style="bottom: 10%">
       <span class="text"
         >Vous pouvez modifier sa position en cliquant sur la croix à droite de
         son nom.</span
@@ -181,12 +181,24 @@ function removeBoat(boat: Boat) {
 
 @-webkit-keyframes glow {
   from {
-    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073,
-      0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
+    text-shadow:
+      0 0 10px #fff,
+      0 0 20px #fff,
+      0 0 30px #e60073,
+      0 0 40px #e60073,
+      0 0 50px #e60073,
+      0 0 60px #e60073,
+      0 0 70px #e60073;
   }
   to {
-    text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6,
-      0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
+    text-shadow:
+      0 0 20px #fff,
+      0 0 30px #ff4da6,
+      0 0 40px #ff4da6,
+      0 0 50px #ff4da6,
+      0 0 60px #ff4da6,
+      0 0 70px #ff4da6,
+      0 0 80px #ff4da6;
   }
 }
 </style>

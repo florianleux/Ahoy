@@ -2,12 +2,12 @@
   <div>
     <div class="grid-row">
       <div
-        class="grid-col enemy"
         v-for="(enemy, index) in game.enemyList"
         :key="index"
+        class="grid-col enemy"
       >
-        <div class="name" v-if="index > game.level">???</div>
-        <div class="name" v-else :class="{ defeated: index < game.level }">
+        <div v-if="index > game.level" class="name">???</div>
+        <div v-else class="name" :class="{ defeated: index < game.level }">
           {{ $t(enemy.name) }}
         </div>
       </div>

@@ -1,29 +1,22 @@
 <template>
   <div
-    class="grid-row"
-    id="map"
     v-if="player.map.hoverMap[9]"
+    id="map"
+    class="grid-row"
     @wheel.prevent="throttledRotateBoat"
     @click.right.prevent="throttledRotateBoat"
   >
     <div
-      class="tooltip"
       v-if="game.help"
-      style="right: 50%;bottom: 50%;margin-bottom: 25px;"
+      class="tooltip"
+      style="right: 50%; bottom: 50%; margin-bottom: 25px"
     >
       <span class="text"
         >Cliquez sur la carte pour placer le bateau sélectionné.</span
       >
     </div>
 
-    <div
-      class="tooltip"
-      style="
-    bottom: 10%;
-    left: 20%;
-"
-      v-if="game.help"
-    >
+    <div v-if="game.help" class="tooltip" style="bottom: 10%; left: 20%">
       <span class="text"
         >Une fois votre flotte placée, cliquez sur le bouton pour démarrer le
         combat !</span
@@ -32,21 +25,21 @@
 
     <div class="canvas" :style="canvasStyle">
       <div class="frame"></div>
-      <div class="line" v-for="n in 10" :key="n" :style="lineStyle">
+      <div v-for="n in 10" :key="n" class="line" :style="lineStyle">
         <div
+          v-for="m in 10"
+          :key="m"
           class="square"
           :data-y="n"
           :data-x="m"
-          v-for="m in 10"
-          :key="m"
-          @mouseover="hoverSquare"
-          @mouseleave="leaveMap"
-          @click="clickSquare"
-          v-bind:class="{
+          :class="{
             hovered: player.map.hoverMap[n - 1][m - 1],
             placed: player.map.boatMap[n - 1][m - 1],
             koClick: !player.map.okClick
           }"
+          @mouseover="hoverSquare"
+          @mouseleave="leaveMap"
+          @click="clickSquare"
         ></div>
       </div>
     </div>

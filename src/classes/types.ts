@@ -31,11 +31,7 @@ export type AttackResult = "MISSED" | "HIT" | "DESTROYED" | "ENDGAME";
 // minification eats. Making it a union turns that convention into a rule the
 // compiler enforces.
 export type EnemyClassName =
-  | "SimpleSam"
-  | "ChisanaKaizoku"
-  | "JackTheBurned"
-  | "MamanBrigitte"
-  | "Z";
+  "SimpleSam" | "ChisanaKaizoku" | "JackTheBurned" | "MamanBrigitte" | "Z";
 
 export type Direction = "UP" | "DOWN" | "RIGHT" | "LEFT";
 

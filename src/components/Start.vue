@@ -14,10 +14,10 @@
       <form class="start-form" @submit.prevent>
         <div class="name-field">
           <input
+            v-model="playerName"
             type="text"
             class="name-input"
             :placeholder="$t('votre_nom_de_pirate')"
-            v-model="playerName"
             required
             @input="nameTouched = true"
           />
@@ -32,29 +32,29 @@
         <div class="label">{{ $t("vous_etes") }}</div>
         <div class="identity-input">
           <label class="identity-choice">
-            <input type="radio" value="male" v-model="playerIdentity" />
+            <input v-model="playerIdentity" type="radio" value="male" />
             {{ $t("un_homme") }}
           </label>
           <label class="identity-choice">
-            <input type="radio" value="female" v-model="playerIdentity" />
+            <input v-model="playerIdentity" type="radio" value="female" />
             {{ $t("une_femme") }}
           </label>
         </div>
 
         <div class="actions">
           <button
+            id="startButton"
             type="button"
             class="game-button start-game"
-            id="startButton"
             :disabled="!valid"
             @click="newGame"
           >
             {{ $t("nouvelle_partie") }}
           </button>
           <button
+            id="loadButton"
             type="button"
             class="game-button load-game"
-            id="loadButton"
             :disabled="!savedGame"
             @click="loadGame"
           >
@@ -144,8 +144,10 @@ function loadGame() {
   border: 3px solid #d09c5f;
   // rounded-lg, and the elevation-24 of the v-card it was.
   border-radius: 8px;
-  box-shadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2),
-    0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12);
+  box-shadow:
+    0 11px 15px -7px rgba(0, 0, 0, 0.2),
+    0 24px 38px 3px rgba(0, 0, 0, 0.14),
+    0 9px 46px 8px rgba(0, 0, 0, 0.12);
   color: #502218;
   padding-bottom: 50px;
 }

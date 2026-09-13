@@ -44,7 +44,13 @@ const router = createRouter({
 
 // Helper function to clean up enemy classes from body
 const cleanupEnemyClasses = (): void => {
-  const enemyClasses: string[] = ['SimpleSam', 'JackTheBurned', 'MamanBrigitte', 'ChisanaKaizoku', 'Z'];
+  const enemyClasses: string[] = [
+    "SimpleSam",
+    "JackTheBurned",
+    "MamanBrigitte",
+    "ChisanaKaizoku",
+    "Z"
+  ];
   enemyClasses.forEach(className => {
     document.body.classList.remove(className);
   });
@@ -52,7 +58,7 @@ const cleanupEnemyClasses = (): void => {
 
 // Helper function to clean up all page classes from body
 const cleanupAllPageClasses = (): void => {
-  const pageClasses: string[] = ['home', 'placement', 'pre-fight', 'fight'];
+  const pageClasses: string[] = ["home", "placement", "pre-fight", "fight"];
   pageClasses.forEach(className => {
     document.body.classList.remove(className);
   });

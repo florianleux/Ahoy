@@ -27,7 +27,9 @@ function storedLocale(): Locale | null {
   }
 }
 
-function getBrowserLocale(options: { countryCodeOnly?: boolean } = {}): string | undefined {
+function getBrowserLocale(
+  options: { countryCodeOnly?: boolean } = {}
+): string | undefined {
   // Country code only: "fr-FR" resolves to "fr" rather than missing the
   // messages and falling back to English.
   const defaultOptions = { countryCodeOnly: true };

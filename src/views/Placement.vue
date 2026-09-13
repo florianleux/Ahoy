@@ -1,9 +1,7 @@
 <template>
   <div>
     <div class="shadow"></div>
-    <h1 class="page-title">
-      Phase de placement
-    </h1>
+    <h1 class="page-title">Phase de placement</h1>
     <div class="grid-row">
       <div class="grid-col grid-col-8">
         <MapVue></MapVue>
@@ -13,7 +11,7 @@
       </div>
     </div>
 
-    <div class="help-zone" id="helpZone" :style="helpZoneStyle">
+    <div id="helpZone" class="help-zone" :style="helpZoneStyle">
       <div class="grid-row">
         <div class="grid-col">
           <div class="help-placement">
@@ -25,9 +23,9 @@
       </div>
       <div class="grid-row">
         <button
+          id="startFight"
           type="button"
           class="game-button start-fight"
-          id="startFight"
           :disabled="player.fleet.size != player.fleet.putBoats"
           @click="startFight"
         >

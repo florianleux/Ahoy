@@ -12,8 +12,8 @@
     ></i>
     <div
       v-if="game.help"
-      @click="game.help = !game.help"
       class="help-mask"
+      @click="game.help = !game.help"
     ></div>
     <Settings v-if="game.settings"></Settings>
     <Preloader></Preloader>
@@ -28,9 +28,7 @@
       aria-labelledby="ko-title"
       @cancel.prevent
     >
-      <div id="ko-title" class="game-dialog-title">
-        Oups...
-      </div>
+      <div id="ko-title" class="game-dialog-title">Oups...</div>
       <div class="game-dialog-text">
         <div>
           Malheureusement, Ahoy! est actuellement seulement jouable sur grand
