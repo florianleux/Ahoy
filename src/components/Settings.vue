@@ -24,7 +24,8 @@
               type="radio"
               name="locale"
               value="en"
-              v-model="$i18n.locale"
+              :checked="locale === 'en'"
+              @change="setLocale('en')"
             />
             {{ $t("anglais") }}
           </label>
@@ -33,7 +34,8 @@
               type="radio"
               name="locale"
               value="fr"
-              v-model="$i18n.locale"
+              :checked="locale === 'fr'"
+              @change="setLocale('fr')"
             />
             {{ $t("francais") }}
           </label>
@@ -58,6 +60,7 @@ import {
   onFullscreenChange,
   toggleFullscreen
 } from "@/utils/fullscreen";
+import { currentLocale, setLocale } from "@/plugins/i18n";
 
 export default {
   name: "Settings",
@@ -67,7 +70,14 @@ export default {
       fullScreen: Boolean(isFullscreen())
     };
   },
+  computed: {
+    // Reads the ref, so the radios follow a change made anywhere.
+    locale() {
+      return currentLocale();
+    }
+  },
   methods: {
+    setLocale,
     // fullScreen mirrors the browser, never the click: the checkbox is put
     // back the way the state says and only the fullscreenchange listener moves
     // it. Without this the box would stay ticked after a request the browser
