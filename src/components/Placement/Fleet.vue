@@ -37,6 +37,7 @@
 </template>
 
 <script>
+import { assetUrl } from "@/utils/assets";
 import { game } from "@/game.js";
 import _ from "lodash";
 import { audioManager } from "@/utils/AudioManager";
@@ -49,7 +50,6 @@ export default {
     return {
       game,
       fleet: game.player.fleet,
-      publicPath: import.meta.env.BASE_URL,
       boatPositions: {
         1: { x: 1309, y: 758, width: 286, height: 143 },
         2: { x: 1326, y: 613, width: 286, height: 143 },
@@ -61,6 +61,7 @@ export default {
     };
   },
   methods: {
+    assetUrl,
     selectBoat: function(boat) {
       audioManager.playSound("click");
       if (!boat.placed) {

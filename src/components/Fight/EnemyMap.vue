@@ -41,13 +41,13 @@
           >
             <img
               rel="preload"
-              :src="publicPath + 'boats/' + enemy.className + '/destroyed.webp'"
+              :src="assetUrl('boats/' + enemy.className + '/destroyed.webp')"
               v-if="isDestroyed(n, m)"
               class="coin destroyed"
             />
             <img
               rel="preload"
-              :src="publicPath + 'boats/' + enemy.className + '/hit.webp'"
+              :src="assetUrl('boats/' + enemy.className + '/hit.webp')"
               v-if="
                 playerMap.hitMap[n - 1][m - 1] == 'hit' && !isDestroyed(n, m)
               "
@@ -74,6 +74,7 @@
 </template>
 
 <script>
+import { assetUrl } from "@/utils/assets";
 import { game } from "@/game.js";
 import _ from "lodash";
 import { responsivePositionMixin } from "@/mixins/responsivePosition";
@@ -94,7 +95,6 @@ export default {
         MISSED: "A l'eau !"
       },
       attackMessage: false,
-      publicPath: import.meta.env.BASE_URL,
       enemyClass: game.enemyList[game.level].className,
       baseCoords: { x: 370, y: 180, width: 500, height: 500 },
       canvasStyle: {},
@@ -123,6 +123,7 @@ export default {
     }
   },
   methods: {
+    assetUrl,
     hoverSquare: function() {},
     nextRound(time) {
       let _this = this;

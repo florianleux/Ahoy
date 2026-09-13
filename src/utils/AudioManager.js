@@ -1,3 +1,5 @@
+import { assetUrl } from "@/utils/assets";
+
 /**
  * AudioManager - Singleton for managing game audio
  * Prevents memory leaks by reusing audio instances
@@ -171,12 +173,12 @@ class AudioManager {
    * Preload all game sounds
    */
   preloadGameSounds() {
-    this.loadSound("click", "/music/click.wav", { volume: 1 });
-    this.loadSound("hit", "/music/hit.wav", { volume: 0.7 });
-    this.loadSound("destroyed", "/music/hit.wav", { volume: 0.7 });
-    this.loadSound("missed", "/music/missed.mp3", { volume: 0.7 });
-    this.loadSound("placed", "/music/placed.wav", { volume: 1 });
-    this.loadMusic("home", "/music/home.wav", { volume: 0.15, loop: true });
+    this.loadSound("click", assetUrl("music/click.wav"), { volume: 1 });
+    this.loadSound("hit", assetUrl("music/hit.wav"), { volume: 0.7 });
+    this.loadSound("destroyed", assetUrl("music/hit.wav"), { volume: 0.7 });
+    this.loadSound("missed", assetUrl("music/missed.mp3"), { volume: 0.7 });
+    this.loadSound("placed", assetUrl("music/placed.wav"), { volume: 1 });
+    this.loadMusic("home", assetUrl("music/home.wav"), { volume: 0.15, loop: true });
   }
 }
 

@@ -54,6 +54,7 @@
 </template>
 
 <script>
+import { assetUrl } from "@/utils/assets";
 import { game } from "@/game.js";
 import _ from "lodash";
 import { responsivePositionMixin } from "@/mixins/responsivePosition";
@@ -69,13 +70,13 @@ export default {
       enemyMap: game.player.enemy.map,
       enemyFleet: game.player.enemy.fleet,
       target: null,
-      publicPath: import.meta.env.BASE_URL,
       baseCoords: { x: 500, y: 215, width: 475, height: 475 },
       canvasStyle: {},
       lineStyle: {}
     };
   },
   methods: {
+    assetUrl,
     hoverSquare: function(event) {
       this.target = event.target;
       this.playerMap.hoverSquare(event.target, game.player.fleet);

@@ -2,7 +2,7 @@
   <div class="grid-row start-page">
     <img
       class="player-img"
-      :src="publicPath + 'home/players/' + playerIdentity + '.webp'"
+      :src="assetUrl('home/players/' + playerIdentity + '.webp')"
     />
 
     <section class="home-card">
@@ -67,6 +67,7 @@
 </template>
 
 <script>
+import { assetUrl } from "@/utils/assets";
 import { game } from "@/game.js";
 import { Game } from "@/classes/Game.js";
 import { audioManager } from "@/utils/AudioManager";
@@ -84,7 +85,6 @@ export default {
         v =>
           v.length < 15 || "Votre nom doit comporter au maximum 15 caractères"
       ],
-      publicPath: import.meta.env.BASE_URL,
       // null when the slot is empty or holds an old-format save, which is what
       // keeps the resume button disabled instead of letting it throw.
       savedGame: Game.readSave()
@@ -108,6 +108,7 @@ export default {
     }
   },
   methods: {
+    assetUrl,
     newGame() {
       if (this.savedGame) {
         const savedGameDetected = confirm(this.$t("alert_partie_existante"));

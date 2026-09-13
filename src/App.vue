@@ -155,12 +155,12 @@ textarea {
 //Fonts Déclaration
 @font-face {
   font-family: "Roman Antique";
-  src: url("assets/fonts/EnchantedLand.otf") format("opentype");
+  src: url("@/assets/fonts/EnchantedLand.otf") format("opentype");
 }
 
 @font-face {
   font-family: "Space Comics";
-  src: url("assets/fonts/SpaceComics.ttf") format("truetype");
+  src: url("@/assets/fonts/SpaceComics.ttf") format("truetype");
 }
 
 * {

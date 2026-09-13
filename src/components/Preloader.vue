@@ -1,35 +1,50 @@
 <template>
   <!--  Preloading images-->
   <div id="preloader">
-    <img rel="preload" :src="publicPath + 'home/bg.webp'" />
-    <img rel="preload" :src="publicPath + 'home/players/male.webp'" />
-    <img rel="preload" :src="publicPath + 'home/players/female.webp'" />
-    <img rel="preload" :src="publicPath + 'placement/bg.webp'" />
-    <img rel="preload" :src="publicPath + 'fight/bg.webp'" />
-    <img rel="preload" :src="publicPath + 'placement/shadow.webp'" />
-    <img rel="preload" :src="publicPath + 'fight/shadow.webp'" />
-    <img rel="preload" :src="publicPath + 'players/SimpleSam/wanted.webp'" />
-    <img rel="preload" :src="publicPath + 'placement/boats/1.webp'" />
-    <img rel="preload" :src="publicPath + 'placement/boats/2.webp'" />
-    <img rel="preload" :src="publicPath + 'placement/boats/3.webp'" />
-    <img rel="preload" :src="publicPath + 'placement/boats/4.webp'" />
-    <img rel="preload" :src="publicPath + 'placement/boats/5.webp'" />
-    <img rel="preload" :src="publicPath + 'placement/map.webp'" />
-    <img rel="preload" :src="publicPath + 'placement/frame.webp'" />
-    <img rel="preload" :src="publicPath + 'players/female/default.webp'" />
-    <img rel="preload" :src="publicPath + 'players/male/default.webp'" />
-    <img rel="preload" :src="publicPath + 'players/plank.webp'" />
-    <img rel="preload" :src="publicPath + 'players/SimpleSam/default.webp'" />
+    <img v-for="path in paths" :key="path" rel="preload" :src="path" />
   </div>
 </template>
 
 <script>
+import { assetUrl } from "@/utils/assets";
+import { game } from "@/game.js";
+
+// What the first screens need before they are shown. Fixed paths on one side;
+// on the other, the ones that depend on which enemy is next, derived from
+// enemyList rather than written out -- adding an enemy used to mean remembering
+// to come and edit this list too.
+const FIXED = [
+  "home/bg.webp",
+  "home/players/male.webp",
+  "home/players/female.webp",
+  "placement/bg.webp",
+  "fight/bg.webp",
+  "placement/shadow.webp",
+  "fight/shadow.webp",
+  "placement/boats/1.webp",
+  "placement/boats/2.webp",
+  "placement/boats/3.webp",
+  "placement/boats/4.webp",
+  "placement/boats/5.webp",
+  "placement/map.webp",
+  "placement/frame.webp",
+  "players/female/default.webp",
+  "players/male/default.webp",
+  "players/plank.webp"
+];
+
+const PER_ENEMY = ["wanted.webp", "default.webp"];
+
 export default {
   name: "Preloader",
-  data() {
-    return {
-      publicPath: import.meta.env.BASE_URL
-    };
+  computed: {
+    paths() {
+      const enemy = game.enemyList[game.level];
+      const enemyPaths = enemy
+        ? PER_ENEMY.map(file => `players/${enemy.className}/${file}`)
+        : [];
+      return [...FIXED, ...enemyPaths].map(assetUrl);
+    }
   }
 };
 </script>

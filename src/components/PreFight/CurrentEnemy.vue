@@ -25,9 +25,7 @@
               <span v-for="n in boat.size" :key="n">
                 <img
                   rel="preload"
-                  :src="
-                    publicPath + 'boats/' + selectedEnemy.className + '/ok.webp'
-                  "
+                  :src="assetUrl('boats/' + selectedEnemy.className + '/ok.webp')"
                   alt=""
                   width="30"
                   class="coin"
@@ -72,13 +70,7 @@
     <div class="grid-col grid-col-5">
       <img
         rel="preload"
-        :src="
-          publicPath +
-            'players/' +
-            selectedEnemy.className +
-            '/' +
-            'wanted.webp'
-        "
+        :src="assetUrl('players/' + selectedEnemy.className + '/wanted.webp')"
         alt=""
         class="wanted"
         height="470px"
@@ -88,13 +80,14 @@
 </template>
 
 <script>
+import { assetUrl } from "@/utils/assets";
 import { game } from "@/game.js";
 export default {
   name: "CurrentEnemy",
+  methods: { assetUrl },
   data: function() {
     return {
       game,
-      publicPath: import.meta.env.BASE_URL,
       selectedEnemy: game.enemyList[game.level]
     };
   }

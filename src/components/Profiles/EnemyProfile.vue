@@ -6,7 +6,7 @@
     <div class="health">
       <img
         rel="preload"
-        :src="publicPath + 'boats/' + enemy.className + '/ok.webp'"
+        :src="assetUrl('boats/' + enemy.className + '/ok.webp')"
         alt=""
         class="coin"
       />
@@ -15,8 +15,7 @@
     <img
       rel="preload"
       :src="
-        publicPath + 'players/' + enemy.className + '/' + enemy.mood + '.webp'
-      "
+        assetUrl('players/' + enemy.className + '/' + enemy.mood + '.webp')"
       alt=""
       class="picture"
       :class="enemy.className"
@@ -24,7 +23,7 @@
     <div class="infos">
       <img
         rel="preload"
-        :src="publicPath + 'players/plank.webp'"
+        :src="assetUrl('players/plank.webp')"
         class="plank"
       />
       <div class="name">{{ $t(enemy.name) }}</div>
@@ -34,14 +33,15 @@
 </template>
 
 <script>
+import { assetUrl } from "@/utils/assets";
 import { game } from "@/game.js";
 export default {
   name: "EnemyProfile",
+  methods: { assetUrl },
   data: function() {
     return {
       game,
-      enemy: game.player.enemy,
-      publicPath: import.meta.env.BASE_URL
+      enemy: game.player.enemy
     };
   }
 };

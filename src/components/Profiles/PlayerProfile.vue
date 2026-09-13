@@ -6,10 +6,9 @@
     <div class="health">
       {{ player.health }}
     </div>
-    <img rel="preload" :src="publicPath + 'players/' + player.identity + '/' + player.mood + '.webp'
-      " alt="" :class="player.identity" class="picture" />
+    <img rel="preload" :src="assetUrl('players/' + player.identity + '/' + player.mood + '.webp')" alt="" :class="player.identity" class="picture" />
     <div class="infos">
-      <img rel="preload" :src="publicPath + 'players/plank.webp'" class="plank" />
+      <img rel="preload" :src="assetUrl('players/plank.webp')" class="plank" />
       <div class="name">{{ player.name }}</div>
       <div class="phrase">"{{ player.phrase }}"</div>
     </div>
@@ -17,14 +16,14 @@
 </template>
 
 <script>
+import { assetUrl } from "@/utils/assets";
 import { game } from "@/game.js";
 export default {
   name: "ProfilePlayer",
   data: function () {
     return {
       game,
-      player: game.player,
-      publicPath: import.meta.env.BASE_URL
+      player: game.player
     };
   }
 };
