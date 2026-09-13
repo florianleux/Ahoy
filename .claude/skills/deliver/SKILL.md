@@ -12,8 +12,8 @@ This harness orchestrates the pipeline from a GitHub issue to a merged PR. Each 
 Before starting any work, create a git worktree branched from the latest `main`:
 
 ```bash
-git fetch origin main
-git worktree add ../Ahoy-<issue-number> origin/main -b <type>/<issue-number>-<description>
+git fetch origin master
+git worktree add ../Ahoy-<issue-number> origin/master -b <type>/<issue-number>-<description>
 ```
 
 All implementation, commits, and PR creation happen inside this worktree. This keeps the main checkout clean and avoids interference from uncommitted changes on the issuing branch.
@@ -39,9 +39,9 @@ Load and follow the `grilling` skill. Key areas to cover:
 
 - Which layers does this touch? (`src/classes/` game logic, `src/views/`, `src/components/`, `src/router/`, `src/locales/`, `public/` assets)
 - Which domain terms are involved — `Character`, `Player`, `Enemy`, `Fleet`, `Boat`, `Map`, `Power`, `mood`, `round`, `level`. A term that doesn't exist yet gets named before it gets coded
-- Does this touch game state? It lives on `$game` (`Vue.prototype.$game`), **not** Vuex — see [`CLAUDE.md`](CLAUDE.md)
+- Does this touch game state? It lives on the reactive root exported by `src/game.ts`, read through `currentPlayer()` / `currentEnemy()` — **not** Vuex, and no longer `Vue.prototype.$game`. See [`CLAUDE.md`](CLAUDE.md)
 - Are there existing patterns to follow? (find a similar enemy, view or component and reuse its shape)
-- What are the TDD seams? The classes under `src/classes/` are plain JS with no Vue dependency — test those directly. Components need `@vue/test-utils` and are rarely worth it here
+- What are the TDD seams? The classes under `src/classes/` are TypeScript with no Vue dependency — test those directly. Components need `@vue/test-utils` and are rarely worth it here
 - Does this add or change i18n keys? `src/locales/fr.json` **and** `en.json` must stay in sync
 - New enemy? Follow the 7-step checklist in [`CLAUDE.md`](CLAUDE.md) — steps 4 and 6 are the easy ones to forget
 - Any design decisions that need the user's call?
@@ -71,7 +71,7 @@ Present the plan as a numbered checklist:
 
 ### 4. Implement with TDD
 
-Load and follow the `tdd` skill. For each step in the plan, run the red → green cycle at the TDD seams identified in step 2. Run single test files regularly and the full suite once at the end. There is **no typecheck** in this repo (plain JS, no TypeScript). Present progress after each step. If a step is complex or has subdecisions, pause and ask.
+Load and follow the `tdd` skill. For each step in the plan, run the red → green cycle at the TDD seams identified in step 2. Run single test files regularly and the full suite once at the end. Run `npm run typecheck` as you go — it is blocking in the build. Present progress after each step. If a step is complex or has subdecisions, pause and ask.
 
 **Gate 4**: All steps implemented and tests pass — present a summary of what was built.
 
@@ -123,12 +123,16 @@ Present a checklist:
 Before committing, run all quality checks — same order as CI:
 
 ```bash
-npx vue-cli-service lint --no-fix   # ⚠ never `npm run lint` — it auto-fixes the whole repo
+npm run lint:check   # ⚠ never `npm run lint` — it auto-fixes the whole repo
+npm run typecheck
 npm test
 npm run build
 ```
 
-There is no typecheck step (plain JS). The lint baseline is **26 pre-existing Prettier warnings** — that count must not go up; if it does, the new warnings are yours. If any check fails, fix and re-run.
+`npm run build` runs the typecheck first and fails on a type error, so it covers
+that too — the separate call is only to see the errors sooner. The expected
+count everywhere is **zero**: the repo is clean, so anything reported is yours.
+If any check fails, fix and re-run.
 
 **Gate 9**: Show quality check results.
 
@@ -141,7 +145,7 @@ Load and follow the `commit` skill. Conventional commits (`feat:`, `fix:`, `refa
 ### 11. Merge to main
 
 ```bash
-git checkout main
+git checkout master
 git merge --ff-only <type>/<issue-number>-<description>
 git worktree remove ../Ahoy-<issue-number>
 ```

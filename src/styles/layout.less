@@ -1,4 +1,4 @@
-// Flex layout replacing the Vuetify grid.
+// Flex layout, originally a like-for-like replacement of the Vuetify grid.
 //
 // Geometry is reproduced exactly rather than approximated: a row pulls its
 // edges out by 12px and every column pads its content by 12px, so adjacent
@@ -6,8 +6,10 @@
 // container. Column widths are percentages of that outflated row, which is
 // what makes the percentages add up to 100% without wrapping.
 //
-// Class names are deliberately not `row` / `col`: Vuetify's own CSS is still
-// loaded at this point and would stack its gutters on top of these.
+// Class names are `grid-row` / `grid-col` rather than `row` / `col` because
+// Vuetify's stylesheet was still loaded when they were written and would have
+// stacked its own gutters on top. It is gone now; the names stayed rather than
+// churn every template for nothing.
 
 .grid-row {
   display: flex;

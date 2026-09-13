@@ -70,8 +70,8 @@ Modèle de référence : `src/classes/enemies/SimpleSam/`.
 
 - **i18n** : clés en snake_case français (`nouvelle_partie`, `ss_main_power_name`). Les classes stockent la clé, le template fait `$t(...)`. Jamais de texte en dur dans `src/classes/`. Locale détectée depuis le navigateur, fallback `en`.
 - **Styles** : LESS dans les SFC (`<style scoped lang="less">`, ou non-scoped pour cibler `body.<page>`). Pas de Sass, malgré la présence de `sass-loader` dans les devDependencies.
-- **Positionnement** : design de référence **1920×1080**, converti à l'exécution par le mixin `src/mixins/responsivePosition.js`. Ne pas réintroduire jQuery : il a été retiré des dépendances.
-- **Assets** : servis depuis `public/`, référencés en **chemin absolu** (`/home/bg.webp`) — pas d'import webpack. Images en `.webp` (migration faite). Audio via le singleton `src/utils/AudioManager.js` : toujours passer par lui, ne jamais instancier `new Audio()`.
+- **Positionnement** : design de référence **1920×1080**, converti à l'exécution par le composable `src/composables/useResponsivePosition.ts`. Ne pas réintroduire jQuery : il a été retiré des dépendances.
+- **Assets** : servis depuis `public/`, référencés en **chemin absolu** (`/home/bg.webp`) — pas d'import géré par le bundler ; le préfixe passe par `assetUrl()` (`src/utils/assets.ts`). Images en `.webp` (migration faite). Audio via le singleton `src/utils/AudioManager.ts` : toujours passer par lui, ne jamais instancier `new Audio()`.
 - Tout listener `window` ajouté dans `created()` / `mounted()` doit être retiré dans `beforeDestroy()` — des fuites mémoire ont déjà été corrigées sur 6 composants.
 
 ## Pièges
