@@ -1,5 +1,5 @@
 <template>
-  <v-row justify="center">
+  <div class="grid-row grid-justify-center">
     <v-dialog v-model="game.settings" max-width="400">
       <v-card>
         <v-card-title class="settings-title">{{
@@ -22,7 +22,7 @@
         </v-card-text>
       </v-card>
     </v-dialog>
-  </v-row>
+  </div>
 </template>
 
 <script>

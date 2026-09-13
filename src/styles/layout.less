@@ -1,0 +1,43 @@
+// Flex layout replacing the Vuetify grid.
+//
+// Geometry is reproduced exactly rather than approximated: a row pulls its
+// edges out by 12px and every column pads its content by 12px, so adjacent
+// columns sit 24px apart while the outer edges stay flush with the row's
+// container. Column widths are percentages of that outflated row, which is
+// what makes the percentages add up to 100% without wrapping.
+//
+// Class names are deliberately not `row` / `col`: Vuetify's own CSS is still
+// loaded at this point and would stack its gutters on top of these.
+
+.grid-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: -12px;
+}
+
+// Two stacked rows would otherwise be pulled together by their negative
+// margins; Vuetify adds this back and the vertical rhythm depends on it.
+.grid-row + .grid-row {
+  margin-top: 12px;
+}
+
+.grid-col {
+  flex: 1 1 0;
+  max-width: 100%;
+  padding: 12px;
+}
+
+.grid-justify-center {
+  justify-content: center;
+}
+
+.grid-spacer {
+  flex-grow: 1;
+}
+
+each(range(1, 12), {
+  .grid-col-@{value} {
+    flex: 0 0 (@value * 100% / 12);
+    max-width: (@value * 100% / 12);
+  }
+});

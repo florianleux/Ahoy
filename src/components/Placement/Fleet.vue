@@ -2,7 +2,7 @@
   <div id="fleet">
     <!--    <p>Votre flotte</p>-->
 
-    <v-row id="boats" class="boats">
+    <div class="grid-row boats" id="boats">
       <div class="tooltip" v-if="game.help" style="top: 10%;">
         <span class="text">Cliquez sur un bateau pour le sélectionner</span>
       </div>
@@ -26,7 +26,7 @@
         </div>
         <div class="name">Bateau n°{{ fleet.size - index }}</div>
       </div>
-    </v-row>
+    </div>
     <div class="tooltip" v-if="game.help" style="bottom: 10%;">
       <span class="text"
         >Vous pouvez modifier sa position en cliquant sur la croix à droite de

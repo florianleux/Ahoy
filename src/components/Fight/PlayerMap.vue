@@ -1,5 +1,5 @@
 <template>
-  <v-row id="map" v-if="playerMap.boatMap[9]">
+  <div class="grid-row" id="map" v-if="playerMap.boatMap[9]">
     <div
       class="tooltip"
       v-if="game.help"
@@ -45,7 +45,7 @@
         ></div>
       </div>
     </div>
-  </v-row>
+  </div>
 </template>
 
 <script>

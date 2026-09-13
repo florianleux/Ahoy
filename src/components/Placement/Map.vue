@@ -1,5 +1,6 @@
 <template>
-  <v-row
+  <div
+    class="grid-row"
     id="map"
     v-if="playerMap.hoverMap[9]"
     @wheel.prevent="throttledRotateBoat"
@@ -49,7 +50,7 @@
         ></div>
       </div>
     </div>
-  </v-row>
+  </div>
 </template>
 
 <script>

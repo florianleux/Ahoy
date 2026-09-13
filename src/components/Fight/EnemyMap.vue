@@ -1,10 +1,11 @@
 <template>
-  <v-row
+  <div
+    class="grid-row"
     id="map"
     v-if="enemyMap.boatMap[9]"
     :class="{ disabled: !player.turn }"
   >
-    <v-col cols="12">
+    <div class="grid-col grid-col-12">
       <div
         class="enemy canvas"
         :class="{ disabled: player.attackLock }"
@@ -65,11 +66,11 @@
           votre adversaire.</span
         >
       </div>
-    </v-col>
+    </div>
     <!--    <v-btn @click="randomMap">-->
     <!--      RANDOM-->
     <!--    </v-btn>-->
-  </v-row>
+  </div>
 </template>
 
 <script>
@@ -284,7 +285,6 @@ export default {
 .coin {
   width: 100%;
 }
-
 
 .line {
   height: @grid-size / 10;
