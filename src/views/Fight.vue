@@ -52,7 +52,9 @@
       <div id="defeat-title" class="game-dialog-title">DÉFAITE...</div>
       <div class="game-dialog-text">
         <div>Dommage {{ player.name }} !</div>
-        <div>Votre adversaire {{ enemy.name }} a exterminé votre flotte...</div>
+        <div>
+          Votre adversaire {{ $t(enemy.name) }} a exterminé votre flotte...
+        </div>
       </div>
       <div class="game-dialog-actions">
         <button type="button" class="dialog-action" @click="rerun">
