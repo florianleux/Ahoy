@@ -64,7 +64,7 @@ Modèle de référence : `src/classes/enemies/SimpleSam/`.
 4. Instancier dans `enemyList` de `src/classes/Game.js` — **l'ordre du tableau = l'ordre des niveaux**.
 5. Images : `public/players/<ClassName>/` (`default`, `joy`, `despair`, `mocking`, `wanted` en `.webp`), `public/boats/<ClassName>/`, et `public/fight/<ClassName>/` si le décor change.
 6. Ajouter le `className` aux tableaux `enemyClasses` de `src/main.js` **et** `src/router/index.js` (nettoyage des classes body).
-7. Ajouter le `className` à l'union `EnemyClassName` (`src/classes/types.ts`) et à `GameEnemy` (`src/classes/Game.ts`), puis un `case` dans `_enemyTurn()`. Le `switch` est exhaustif : sans son `case`, **le typecheck échoue**. Un ennemi sans tour spécial met son `case` avec les autres sur `_defaultEnemyTurn()`.
+7. Ajouter le `className` à l'union `EnemyClassName` (`src/classes/types.ts`) et à `GameEnemy` (`src/classes/Game.ts`), puis **deux** `case` : un dans `_enemyTurn()` pour le tour de l'ennemi, un dans `_playerAttackReaction()` pour sa réaction au tir du joueur. Les deux `switch` sont exhaustifs : sans son `case`, **le typecheck échoue**. Un ennemi sans tour spécial met son `case` avec les autres sur `_defaultEnemyTurn()`, et un ennemi sans réaction le met sur `_endPlayerRound()`.
 
 ## Conventions
 
@@ -78,7 +78,8 @@ Modèle de référence : `src/classes/enemies/SimpleSam/`.
 
 - `Game._enemyTurn()` dispatche sur `this.enemyList[this.level].className`, **pas** sur `constructor.name` : ce dernier est mangé par la minification en production. Ne jamais « simplifier » vers `constructor.name`.
 - `Game.js` contient `this.player.enemy.turn & !this.player.enemy.defeat` — un ET **bit-à-bit**, pas logique. Bug potentiel connu ; ne pas corriger à l'aveugle sans tester le cycle de tours.
-- Les tours ennemis sont une cascade de `setTimeout` imbriqués : toute modification du timing doit être vérifiée en jeu.
+- Les deux moitiés du round vivent dans `Game` : `playerAttack()` résout le tir du joueur et la réaction de l'ennemi, `_enemyTurn()` le tour de l'ennemi. Les composants de combat n'ont plus de logique de round — `EnemyMap.vue` appelle `game.playerAttack(x, y)` et affiche le résultat.
+- Les tours sont une cascade de `setTimeout` imbriqués : toute modification du timing doit être vérifiée en jeu.
 - **Migration Vue 3 en cours** : les composants sont encore en Options API, la conversion en `<script setup>` est un ticket à part. La branche d'intégration est `migration/vue3` ; le jeu n'est pas promis vert avant #64.
 - **Réactivité cassée pour l'instant** : `src/game.js` exporte une instance `Game` brute. Vue 3 n'observe plus un objet sur place comme Vue 2, donc deux composants en obtiennent des proxies distincts et une mutation faite dans un composant ne relance pas le rendu d'un autre. Symptôme vu : les cinq bateaux posés, `putBoats === size`, et le bouton « A l'abordage » qui reste désactivé. Corrigé par la racine `reactive()` unique de #56.
 - `animate.css` est importé pour son CSS seul dans `main.js` — les transitions de combat utilisent ses classes `animate__*`. Ne pas le passer à `Vue.use()` : il n'expose pas d'`install`.

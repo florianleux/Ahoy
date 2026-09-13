@@ -261,4 +261,222 @@ describe("Game", () => {
     expect(reloaded.player.health).toBe(20);
     expect(reloaded.player.map.hitMap[0][0]).toBe(false);
   });
+
+  describe("the player's turn", () => {
+    it("refuses a shot while the player's map is locked", () => {
+      const game = gameAtLevel(0);
+      game.player.attackLock = true;
+
+      const result = game.playerAttack(3, 4);
+
+      expect(result).toBeNull();
+      expect(game.player.map.hitMap[3][2]).toBe(false);
+    });
+
+    it("refuses a shot outside the player's turn", () => {
+      const game = gameAtLevel(0);
+      game.player.turn = false;
+
+      const result = game.playerAttack(3, 4);
+
+      expect(result).toBeNull();
+      expect(game.player.map.hitMap[3][2]).toBe(false);
+    });
+
+    it("refuses a second shot on a square already played", () => {
+      const game = gameAtLevel(0);
+      game.player.map.hitMap[3][2] = "missed";
+
+      const result = game.playerAttack(3, 4);
+
+      expect(result).toBeNull();
+      expect(game.player.attackLock).toBe(false);
+    });
+
+    it("locks the map, fires and dresses both sides' moods", () => {
+      const game = gameAtLevel(0);
+      const enemy = game.player.enemy;
+      enemy.map.boatMap[3][2] = 1;
+
+      const result = game.playerAttack(3, 4);
+
+      expect(result).toBe("HIT");
+      expect(game.player.attackLock).toBe(true);
+      expect(game.player.map.hitMap[3][2]).toBe("hit");
+      expect(game.player.mood).toBe("joy");
+      expect(enemy.mood).toBe("despair");
+    });
+
+    it("holds the shot on screen before handing the turn back", () => {
+      const game = gameAtLevel(0);
+      game.player.enemy.map.boatMap[3][2] = 1;
+      const nextRound = vi
+        .spyOn(game, "nextRound")
+        .mockImplementation(() => {});
+
+      game.playerAttack(3, 4);
+
+      vi.advanceTimersByTime(1199);
+      expect(game.player.mood).toBe("joy");
+      expect(nextRound).not.toHaveBeenCalled();
+
+      vi.advanceTimersByTime(1);
+      expect(game.player.mood).toBe("default");
+      expect(game.player.enemy.mood).toBe("default");
+      expect(nextRound).toHaveBeenCalled();
+    });
+
+    it("dispatches the player's reaction on className, not on the constructor", () => {
+      // Same rule as the enemy turn: the production build mangles
+      // constructor.name, so renaming className must change the branch taken.
+      const game = gameAtLevel(3);
+      const brigitte = game.player.enemy;
+      brigitte.className = "SomethingElse";
+      brigitte.map.boatMap[3][2] = 1;
+      brigitte.fleet.boats[0].hp = 1;
+      brigitte.fleet.boats[0].doomed = true;
+      const nextRound = vi
+        .spyOn(game, "nextRound")
+        .mockImplementation(() => {});
+
+      game.playerAttack(3, 4);
+
+      // The doomed boat's power never runs: the generic reaction just hands the
+      // turn back, leaving the player's fleet untouched.
+      vi.advanceTimersByTime(1200);
+      expect(game.player.fleet.boats.some(boat => boat.destroyed)).toBe(false);
+      expect(nextRound).toHaveBeenCalled();
+    });
+
+    // The enemy fleet is laid out by the placement screen, so a spec that wants
+    // a boat sunk in one shot puts it on the board itself.
+    const sinkableBoatAt = (enemy, x, y) => {
+      const boat = enemy.fleet.boats[0];
+      boat.hp = 1;
+      boat.coords = [[x - 1, y - 1]];
+      enemy.map.boatMap[y - 1][x - 1] = boat.id;
+      return boat;
+    };
+
+    it("sinks one of the player's boats with Maman Brigitte's doomed boat", () => {
+      const game = gameAtLevel(3);
+      const brigitte = game.player.enemy;
+      brigitte.fleet.boats.forEach(boat => (boat.doomed = false));
+      sinkableBoatAt(brigitte, 3, 4).doomed = true;
+      const nextRound = vi
+        .spyOn(game, "nextRound")
+        .mockImplementation(() => {});
+
+      expect(game.playerAttack(3, 4)).toBe("DESTROYED");
+
+      vi.advanceTimersByTime(499);
+      expect(game.player.fleet.boats.some(boat => boat.destroyed)).toBe(false);
+
+      vi.advanceTimersByTime(1);
+      const sunk = game.player.fleet.boats.filter(boat => boat.destroyed);
+      expect(sunk).toHaveLength(1);
+      expect(sunk[0].hp).toBe(0);
+      expect(nextRound).not.toHaveBeenCalled();
+
+      vi.advanceTimersByTime(1200);
+      expect(nextRound).toHaveBeenCalled();
+    });
+
+    it("hands the turn back when one of Maman Brigitte's other boats sinks", () => {
+      const game = gameAtLevel(3);
+      const brigitte = game.player.enemy;
+      brigitte.fleet.boats.forEach(boat => (boat.doomed = false));
+      sinkableBoatAt(brigitte, 3, 4);
+      const nextRound = vi
+        .spyOn(game, "nextRound")
+        .mockImplementation(() => {});
+
+      expect(game.playerAttack(3, 4)).toBe("DESTROYED");
+
+      vi.advanceTimersByTime(1200);
+      expect(game.player.fleet.boats.some(boat => boat.destroyed)).toBe(false);
+      expect(nextRound).toHaveBeenCalled();
+    });
+
+    it("lets Chisana Kaizoku shoot back at the square just played", () => {
+      const game = gameAtLevel(1);
+      const chisana = game.player.enemy;
+      vi.spyOn(Math, "random").mockReturnValue(0.5);
+      const counterShot = vi.spyOn(chisana, "attack");
+      const nextRound = vi
+        .spyOn(game, "nextRound")
+        .mockImplementation(() => {});
+
+      expect(game.playerAttack(3, 4)).toBe("MISSED");
+
+      vi.advanceTimersByTime(1200);
+      expect(counterShot).toHaveBeenCalledWith(game.player, 3, 4, false);
+      expect(nextRound).not.toHaveBeenCalled();
+
+      vi.advanceTimersByTime(500 + 1200);
+      expect(nextRound).toHaveBeenCalled();
+    });
+
+    it("lets Chisana Kaizoku miss its chance to shoot back", () => {
+      const game = gameAtLevel(1);
+      const chisana = game.player.enemy;
+      vi.spyOn(Math, "random").mockReturnValue(0.49);
+      const counterShot = vi.spyOn(chisana, "attack");
+      const nextRound = vi
+        .spyOn(game, "nextRound")
+        .mockImplementation(() => {});
+
+      game.playerAttack(3, 4);
+
+      vi.advanceTimersByTime(1200);
+      expect(counterShot).not.toHaveBeenCalled();
+      expect(nextRound).toHaveBeenCalled();
+    });
+
+    it("lets Z heal the boat the player just sank", () => {
+      const game = gameAtLevel(4);
+      const z = game.player.enemy;
+      const boat = sinkableBoatAt(z, 3, 4);
+      const heal = vi.spyOn(z, "healBoat").mockImplementation(() => {});
+      const nextRound = vi
+        .spyOn(game, "nextRound")
+        .mockImplementation(() => {});
+
+      expect(game.playerAttack(3, 4)).toBe("DESTROYED");
+
+      vi.advanceTimersByTime(1200);
+      expect(nextRound).toHaveBeenCalled();
+      expect(heal).not.toHaveBeenCalled();
+
+      vi.advanceTimersByTime(300);
+      expect(heal).toHaveBeenCalledWith(boat, game.player);
+    });
+
+    it("leaves Z's fleet alone when the shot only hits", () => {
+      const game = gameAtLevel(4);
+      const z = game.player.enemy;
+      z.map.boatMap[3][2] = 1;
+      const heal = vi.spyOn(z, "healBoat").mockImplementation(() => {});
+      vi.spyOn(game, "nextRound").mockImplementation(() => {});
+
+      expect(game.playerAttack(3, 4)).toBe("HIT");
+
+      vi.advanceTimersByTime(1500);
+      expect(heal).not.toHaveBeenCalled();
+    });
+
+    it("really hands the turn to the enemy at the end of the beat", () => {
+      // The other specs stub nextRound to keep the cascade still; this one lets
+      // it run so the handover itself is observed rather than its call.
+      const game = gameAtLevel(0);
+      vi.spyOn(game, "_enemyTurn").mockImplementation(() => {});
+
+      game.playerAttack(3, 4);
+      vi.advanceTimersByTime(1200);
+
+      expect(game.player.turn).toBe(false);
+      expect(game.player.enemy.turn).toBe(true);
+      expect(game.round).toBe(1);
+    });
+  });
 });

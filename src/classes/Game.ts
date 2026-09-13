@@ -5,6 +5,8 @@ import { MamanBrigitte } from "@/classes/enemies/MamanBrigitte/MamanBrigitte";
 import { ChisanaKaizoku } from "@/classes/enemies/ChisanaKaizoku/ChisanaKaizoku";
 import { Z } from "@/classes/enemies/Z/Z";
 import type { Identity } from "@/classes/Player";
+import type { AttackResult } from "@/classes/types";
+import type { Boat } from "@/classes/Boat";
 
 // The order is the order of the levels.
 export type GameEnemy =
@@ -120,6 +122,133 @@ export class Game {
     if (this.player.enemy.turn && !this.player.enemy.defeat) {
       this._enemyTurn();
     }
+  }
+
+  // The player's half of the round. Returns the outcome of the shot, or null
+  // when the shot is refused -- the component renders a message for the first
+  // and nothing for the second.
+  playerAttack(x: number, y: number): AttackResult | null {
+    const player = this.player;
+    const enemy = player?.enemy;
+    if (!player || !enemy || player.attackLock) {
+      return null;
+    }
+
+    if (!player.turn || player.map.hitMap[y - 1][x - 1]) {
+      return null;
+    }
+
+    player.attackLock = true;
+    const attackResult = player.attack(enemy, x, y);
+
+    enemy.setMoodAttacked(attackResult);
+    player.setMoodAttacking(attackResult);
+
+    this._playerAttackReaction(enemy, attackResult, x, y);
+
+    return attackResult;
+  }
+
+  // Powers that answer the player's shot rather than the enemy's own turn.
+  // Dispatches on className for the same reason _enemyTurn does, and every
+  // enemy carries a case so the default branch can assign to never: a sixth
+  // enemy added to enemyList stops compiling here too.
+  _playerAttackReaction(
+    enemy: GameEnemy,
+    result: AttackResult,
+    x: number,
+    y: number
+  ): void {
+    switch (enemy.className) {
+      case "SimpleSam":
+      case "JackTheBurned":
+        this._endPlayerRound();
+        break;
+
+      case "MamanBrigitte": {
+        if (result !== "DESTROYED") {
+          this._endPlayerRound();
+          break;
+        }
+        const destroyedBoat = this._boatAt(enemy, x, y);
+
+        if (!destroyedBoat?.doomed) {
+          // Sinking any of her other boats still has to hand the turn back.
+          this._endPlayerRound();
+          break;
+        }
+
+        const player = this.player;
+        const aliveBoats = player
+          ? player.fleet.boats.filter(boat => !boat.destroyed)
+          : [];
+        const randomAliveBoat =
+          aliveBoats[Math.floor(Math.random() * aliveBoats.length)];
+
+        setTimeout(() => {
+          if (!randomAliveBoat) {
+            this._endPlayerRound();
+            return;
+          }
+          randomAliveBoat.coords.forEach(coord => {
+            enemy.map.hitMap[coord[1]][coord[0]] = "hit";
+          });
+          randomAliveBoat.destroyed = true;
+          randomAliveBoat.hp = 0;
+          this._endPlayerRound();
+        }, 500);
+        break;
+      }
+
+      case "ChisanaKaizoku": {
+        const player = this.player;
+        if (player && !enemy.map.hitMap[y - 1][x - 1] && Math.random() >= 0.5) {
+          setTimeout(() => {
+            enemy.attack(player, x, y, false);
+            setTimeout(() => this._endPlayerRound(), 500);
+          }, 1200);
+        } else {
+          this._endPlayerRound();
+        }
+        break;
+      }
+
+      case "Z": {
+        const player = this.player;
+        if (result === "DESTROYED" && player) {
+          const destroyedBoat = this._boatAt(enemy, x, y);
+          if (destroyedBoat) {
+            setTimeout(() => enemy.healBoat(destroyedBoat, player), 1500);
+          }
+        }
+        this._endPlayerRound();
+        break;
+      }
+
+      default: {
+        const unhandled: never = enemy;
+        void unhandled;
+        this._endPlayerRound();
+        break;
+      }
+    }
+  }
+
+  // The boat occupying a square, which is how both powers that react to a
+  // sinking find the boat that just went down.
+  _boatAt(enemy: GameEnemy, x: number, y: number): Boat | undefined {
+    const boatId = enemy.map.boatMap[y - 1][x - 1];
+    return enemy.fleet.boats.find(boat => boat.id === boatId);
+  }
+
+  // The beat between the player's shot and the enemy's turn: the moods hold
+  // while the result is on screen, then both sides go back to normal.
+  _endPlayerRound(): void {
+    setTimeout(() => {
+      this.player?.enemy?.setDefaultMood();
+      this.player?.setDefaultMood();
+      this.nextRound();
+    }, 1200);
   }
 
   loadGame(savedGame: SavedGame): void {

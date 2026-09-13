@@ -74,7 +74,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import { assetUrl } from "@/utils/assets";
 import { currentEnemy, currentPlayer, game } from "@/game";
 import { useResponsivePosition } from "@/composables/useResponsivePosition";
@@ -121,101 +121,23 @@ function isDestroyed(n: number, m: number): boolean {
 
 function hoverSquare(): void {}
 
-function nextRound(time: number): void {
-  setTimeout(() => {
-    currentEnemy().setDefaultMood();
-    attackMessage.value = false;
-    currentPlayer().setDefaultMood();
-    game.nextRound();
-  }, time);
-}
+// Game hands the turn to the enemy at the end of the beat it schedules, which
+// is the moment the result stops being on screen. Watching the turn keeps the
+// 1200 ms in Game alone instead of copying it here.
+watch(
+  () => player.value.turn,
+  turn => {
+    if (!turn) {
+      attackMessage.value = false;
+    }
+  }
+);
 
 function attack(x: number, y: number): void {
-  const player = currentPlayer();
-  const enemy = currentEnemy();
+  const attackResult = game.playerAttack(x, y);
 
-  if (player.attackLock) {
-    return;
-  }
-
-  if (player.map.hitMap[y - 1][x - 1] || !player.turn) {
-    return;
-  }
-
-  player.attackLock = true;
-  const attackResult = player.attack(enemy, x, y);
-  attackMessage.value = ATTACK_MESSAGES[attackResult];
-
-  enemy.setMoodAttacked(attackResult);
-  player.setMoodAttacking(attackResult);
-
-  // Powers that react to the player's shot rather than to the enemy's turn.
-  // Dispatched on className, never constructor.name, which minification eats.
-  switch (enemy.className) {
-    case "MamanBrigitte": {
-      if (attackResult !== "DESTROYED") {
-        nextRound(1200);
-        break;
-      }
-      const destroyedBoatId = enemy.map.boatMap[y - 1][x - 1];
-      const destroyedBoat = enemy.fleet.boats.find(
-        boat => boat.id === destroyedBoatId
-      );
-
-      if (!destroyedBoat?.doomed) {
-        // Sinking any of her other boats still has to hand the turn back.
-        nextRound(1200);
-        break;
-      }
-
-      const aliveBoats = player.fleet.boats.filter(boat => !boat.destroyed);
-      const randomAliveBoat =
-        aliveBoats[Math.floor(Math.random() * aliveBoats.length)];
-
-      setTimeout(() => {
-        if (!randomAliveBoat) {
-          nextRound(1200);
-          return;
-        }
-        randomAliveBoat.coords.forEach(coord => {
-          enemy.map.hitMap[coord[1]][coord[0]] = "hit";
-        });
-        randomAliveBoat.destroyed = true;
-        randomAliveBoat.hp = 0;
-        nextRound(1200);
-      }, 500);
-      break;
-    }
-
-    case "ChisanaKaizoku": {
-      if (!enemy.map.hitMap[y - 1][x - 1] && Math.random() >= 0.5) {
-        setTimeout(() => {
-          enemy.attack(player, x, y, false);
-          setTimeout(() => nextRound(1200), 500);
-        }, 1200);
-      } else {
-        nextRound(1200);
-      }
-      break;
-    }
-
-    case "Z": {
-      if (attackResult === "DESTROYED") {
-        const destroyedBoatId = enemy.map.boatMap[y - 1][x - 1];
-        const destroyedBoat = enemy.fleet.boats.find(
-          boat => boat.id === destroyedBoatId
-        );
-        if (destroyedBoat) {
-          setTimeout(() => enemy.healBoat(destroyedBoat, player), 1500);
-        }
-      }
-      nextRound(1200);
-      break;
-    }
-
-    default:
-      nextRound(1200);
-      break;
+  if (attackResult) {
+    attackMessage.value = ATTACK_MESSAGES[attackResult];
   }
 }
 </script>
