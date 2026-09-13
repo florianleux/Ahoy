@@ -10,10 +10,16 @@
     class="v-application v-application--is-ltr theme--light"
     data-app="true"
   >
-    <v-icon id="help" @click="game.help = !game.help">mdi-help-circle</v-icon>
-    <v-icon id="settings" @click="game.settings = !game.settings"
-      >mdi-cog</v-icon
-    >
+    <i
+      id="help"
+      class="mdi mdi-help-circle"
+      @click="game.help = !game.help"
+    ></i>
+    <i
+      id="settings"
+      class="mdi mdi-cog"
+      @click="game.settings = !game.settings"
+    ></i>
     <div
       v-if="game.help"
       @click="game.help = !game.help"
@@ -21,22 +27,30 @@
     ></div>
     <Settings v-if="game.settings"></Settings>
     <Preloader></Preloader>
-    <v-dialog v-model="displayKO" persistent width="500">
-      <v-card>
-        <v-card-title class="headline" primary-title>
-          Oups...
-        </v-card-title>
-        <v-card-text>
-          <div>
-            Malheureusement, Ahoy! est actuellement seulement jouable sur grand
-            écran, et n'est pas (encore) responsible !
-          </div>
-          <div>
-            Augmentez la taille de votre fenêtre ou revenez jouer depuis un PC !
-          </div>
-        </v-card-text>
-      </v-card>
-    </v-dialog>
+    <!--
+      The small-screen guard is modal and unescapable, which is what <v-dialog
+      persistent> was: @cancel.prevent drops the Escape key, and nothing closes
+      it but widening the window.
+    -->
+    <dialog
+      ref="ko"
+      class="ko-dialog"
+      aria-labelledby="ko-title"
+      @cancel.prevent
+    >
+      <div id="ko-title" class="ko-title">
+        Oups...
+      </div>
+      <div class="ko-text">
+        <div>
+          Malheureusement, Ahoy! est actuellement seulement jouable sur grand
+          écran, et n'est pas (encore) responsible !
+        </div>
+        <div>
+          Augmentez la taille de votre fenêtre ou revenez jouer depuis un PC !
+        </div>
+      </div>
+    </dialog>
     <router-view />
     <!--      <pre>{{ game }}</pre>-->
   </div>
@@ -45,6 +59,8 @@
 <script>
 import Preloader from "@/components/Preloader.vue";
 import Settings from "@/components/Settings.vue";
+
+const MIN_PLAYABLE_WIDTH = 1100;
 
 export default {
   name: "App",
@@ -55,20 +71,36 @@ export default {
   data: function() {
     return {
       game: this.$game,
-      displayKO: this.onResize()
+      displayKO: window.innerWidth <= MIN_PLAYABLE_WIDTH
     };
+  },
+  watch: {
+    displayKO: "syncKO"
   },
   methods: {
     onResize() {
-      if (window.innerWidth > 1100) {
-        this.displayKO = false;
+      this.displayKO = window.innerWidth <= MIN_PLAYABLE_WIDTH;
+    },
+    // A <dialog> only opens through showModal(), and both calls throw when the
+    // element is already in the state they ask for.
+    syncKO() {
+      const dialog = this.$refs.ko;
+      if (this.displayKO === dialog.open) {
+        return;
+      }
+      if (this.displayKO) {
+        dialog.showModal();
       } else {
-        this.displayKO = true;
+        dialog.close();
       }
     }
   },
   created() {
     window.addEventListener("resize", this.onResize);
+  },
+  // A watcher never fires for the initial value, so the first open is ours.
+  mounted() {
+    this.syncKO();
   },
   beforeDestroy() {
     window.removeEventListener("resize", this.onResize);
@@ -173,21 +205,31 @@ h1 {
     font-size: 7px;
   }
 }
-#settings {
-  z-index: 100000000;
-  position: fixed;
-  right: 7px;
-  top: 5px;
-  font-size: 30px;
-  color: white !important;
-}
+// The MDI glyph lives on ::before and inherits font-size from here, so the
+// 30px still drives it. The rest is what .v-icon used to bring: the flex box
+// centring the glyph, line-height 1 against the 1.5 inherited from #app -- it
+// alone would push the icon 7px down -- and the pointer it got from
+// .v-icon--link. The colour no longer needs !important: it only fought
+// .theme--light.v-icon, which no longer matches.
+#settings,
 #help {
   z-index: 100000000;
   position: fixed;
-  right: 42px;
   top: 5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
   font-size: 30px;
-  color: white !important;
+  color: white;
+  cursor: pointer;
+  user-select: none;
+}
+#settings {
+  right: 7px;
+}
+#help {
+  right: 42px;
 }
 .help-mask {
   position: fixed;
@@ -198,6 +240,45 @@ h1 {
   background: #ca559b8f;
   z-index: 10000;
 }
+// Replaces Vuetify's .v-overlay__scrim, which was rgb(33, 33, 33) at .46.
+dialog::backdrop {
+  background: rgba(33, 33, 33, 0.46);
+}
+
+// The geometry v-dialog gave this modal: 500px wide, centred, 24px minimum
+// gutter, and the elevation-24 shadow of a Vuetify dialog.
+.ko-dialog {
+  width: 500px;
+  max-width: calc(100% - 48px);
+  // Vuetify's reset zeroes the margin the UA stylesheet uses to centre a modal
+  // <dialog>, and the 24px gutter v-dialog kept is in the max-width above.
+  margin: auto;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background: #fff;
+  color: rgba(0, 0, 0, 0.87);
+  box-shadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2),
+    0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12);
+}
+
+// What .v-card__title.headline resolved to: Roboto rather than the global
+// Roman Antique, which the Vuetify typography class forced with !important.
+.ko-title {
+  padding: 16px 24px 10px;
+  font-family: Roboto, sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 32px;
+}
+
+// .v-card__text: its own padding, and the muted colour the two lines inherit.
+.ko-text {
+  padding: 0 24px 20px;
+  color: rgba(0, 0, 0, 0.6);
+  line-height: 22px;
+}
+
 .page-title {
   font-size: 35px;
   position: fixed;
