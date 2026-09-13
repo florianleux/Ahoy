@@ -1,7 +1,6 @@
 /**
  * Responsive Position Mixin
  * Calculates element positions based on a 1920x1080 base resolution
- * Replaces jQuery-based resize calculations
  */
 
 export const responsivePositionMixin = {

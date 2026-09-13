@@ -28,7 +28,7 @@ npm run lint        # ⚠ AUTO-FIX par défaut, voir ci-dessous
 
 - La logique de jeu est en **classes JS pures** dans `src/classes/`, en dehors du système de réactivité Vue.
 - L'instance unique est créée dans `src/main.js` et injectée via `Vue.prototype.$game`. Les composants la récupèrent avec `data() { return { game: this.$game } }`.
-- **Le store Vuex (`src/store/index.js`) est vide.** Ne pas y ajouter d'état : tout passe par `$game`.
+- **Pas de store.** Vuex a été retiré (le store était vide et jamais lu) : tout l'état passe par `$game`.
 - Persistance : `localStorage.ahoyGame` (JSON de l'objet `Game`), écrit par `newGame()` / `nextLevel()` et relu par `loadGame()` dans `src/classes/Game.js`. Aucune gestion d'erreur (mode privé Safari, quota dépassé).
 - Router (`src/router/index.js`) : 4 routes — `/`, `/placement`, `/pre-fight`, `/fight`. Deux `beforeEach` :
   1. pose/retire une classe sur `<body>` depuis `meta.bodyClass` (le CSS des vues cible `body.home`, `body.fight`…) ;
@@ -63,7 +63,7 @@ Modèle de référence : `src/classes/enemies/SimpleSam/`.
 
 - **i18n** : clés en snake_case français (`nouvelle_partie`, `ss_main_power_name`). Les classes stockent la clé, le template fait `$t(...)`. Jamais de texte en dur dans `src/classes/`. Locale détectée depuis le navigateur, fallback `en`.
 - **Styles** : LESS dans les SFC (`<style scoped lang="less">`, ou non-scoped pour cibler `body.<page>`). Pas de Sass, malgré la présence de `sass-loader` dans les devDependencies.
-- **Positionnement** : design de référence **1920×1080**, converti à l'exécution par le mixin `src/mixins/responsivePosition.js`. Ne pas réintroduire jQuery (toujours dans `package.json` mais plus utilisé dans `src/`).
+- **Positionnement** : design de référence **1920×1080**, converti à l'exécution par le mixin `src/mixins/responsivePosition.js`. Ne pas réintroduire jQuery : il a été retiré des dépendances.
 - **Assets** : servis depuis `public/`, référencés en **chemin absolu** (`/home/bg.webp`) — pas d'import webpack. Images en `.webp` (migration faite). Audio via le singleton `src/utils/AudioManager.js` : toujours passer par lui, ne jamais instancier `new Audio()`.
 - Tout listener `window` ajouté dans `created()` / `mounted()` doit être retiré dans `beforeDestroy()` — des fuites mémoire ont déjà été corrigées sur 6 composants.
 
@@ -73,7 +73,7 @@ Modèle de référence : `src/classes/enemies/SimpleSam/`.
 - `Game.js` contient `this.player.enemy.turn & !this.player.enemy.defeat` — un ET **bit-à-bit**, pas logique. Bug potentiel connu ; ne pas corriger à l'aveugle sans tester le cycle de tours.
 - Les tours ennemis sont une cascade de `setTimeout` imbriqués : toute modification du timing doit être vérifiée en jeu.
 - **Vue 2** : pas de Composition API, pas de `<script setup>`. Les propriétés ajoutées après coup à un objet ne sont pas réactives — utiliser `Vue.set`, ou le `splice` déjà employé dans `Map.js`.
-- `Vue.use(AnimateCSS)` dans `main.js` n'est pas un vrai plugin Vue : c'est un no-op hérité.
+- `animate.css` est importé pour son CSS seul dans `main.js` — les transitions de combat utilisent ses classes `animate__*`. Ne pas le passer à `Vue.use()` : il n'expose pas d'`install`.
 
 ## Workflow et skills
 
