@@ -39,7 +39,7 @@ export class Map {
         //Going through the boat (horizontal : posY is constant)
         for (let i = min; i <= max; i++) {
           //Add all squares from the boat on the hoverMap
-          this.hoverMap[posY].splice(i, 1, true);
+          this.hoverMap[posY][i] = true;
           // Block click if the hovered square has a bot put on
           if (this.boatMap[posY][i]) {
             this.okClick = false;
@@ -57,7 +57,7 @@ export class Map {
         //Going through the boat (vertical : posX is constant)
         for (let i = min; i <= max; i++) {
           //Add all squares from the boat on the hoverMap
-          this.hoverMap[i].splice(posX, 1, true);
+          this.hoverMap[i][posX] = true;
           // Block click if the hovered square has a bot put on
           if (this.boatMap[i][posX]) {
             this.okClick = false;
@@ -90,7 +90,7 @@ export class Map {
         const max = posX + half + remain <= 9 ? posX + half + remain : 9;
 
         for (let i = min; i <= max; i++) {
-          this.boatMap[posY].splice(i, 1, selectedBoat.id);
+          this.boatMap[posY][i] = selectedBoat.id;
           selectedBoat.coords.push([i, posY]);
         }
       } else {
@@ -98,7 +98,7 @@ export class Map {
         const max = posY + half + remain <= 9 ? posY + half + remain : 9;
 
         for (let i = min; i <= max; i++) {
-          this.boatMap[i].splice(posX, 1, selectedBoat.id);
+          this.boatMap[i][posX] = selectedBoat.id;
           selectedBoat.coords.push([posX, i]);
         }
       }
@@ -149,7 +149,7 @@ export class Map {
 
   removeBoat(boat, fleet) {
     boat.coords.forEach(coord => {
-      this.boatMap[coord[1]].splice(coord[0], 1, false);
+      this.boatMap[coord[1]][coord[0]] = false;
     });
 
     boat.coords = [];

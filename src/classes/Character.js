@@ -39,12 +39,12 @@ export class Character {
     const hit = target.map.boatMap[y - 1][x - 1];
 
     if (!hit) {
-      this.map.hitMap[[y - 1]].splice([x - 1], 1, "missed");
+      this.map.hitMap[y - 1][x - 1] = "missed";
       audioManager.playSound("missed");
       return "MISSED";
     } else {
       if (typeof hit == "number") {
-        this.map.hitMap[[y - 1]].splice([x - 1], 1, "hit");
+        this.map.hitMap[y - 1][x - 1] = "hit";
         let hitBoat = _.find(target.fleet.boats, { id: hit });
         hitBoat.hit();
         target.health--;

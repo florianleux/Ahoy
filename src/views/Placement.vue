@@ -28,7 +28,7 @@
           type="button"
           class="game-button start-fight"
           id="startFight"
-          :disabled="playerFleet.size != playerFleet.putBoats"
+          :disabled="game.player.fleet.size != game.player.fleet.putBoats"
           @click="startFight"
         >
           A L'ABORDAGE !
@@ -39,51 +39,29 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref } from "vue";
+import { useRouter } from "vue-router";
 import { game } from "@/game.js";
 import MapVue from "@/components/Placement/Map.vue";
 import Fleet from "@/components/Placement/Fleet.vue";
 import PlayerProfile from "@/components/Profiles/PlayerProfile.vue";
 import { audioManager } from "@/utils/AudioManager";
-import { responsivePositionMixin } from "@/mixins/responsivePosition";
+import { useResponsivePosition } from "@/composables/useResponsivePosition";
 
-export default {
-  name: "Placement",
-  mixins: [responsivePositionMixin],
-  components: {
-    MapVue,
-    Fleet,
-    PlayerProfile
-  },
-  data: function() {
-    return {
-      game,
-      player: game.player || null,
-      playerFleet: game.player?.fleet || null,
-      helpZoneStyle: {}
-    };
-  },
-  methods: {
-    startFight: function() {
-      audioManager.playSound("click");
-      this.$router.push({ name: "Fight" });
-    },
-    handleResize() {
-      const baseCoords = { x: 540, y: 720, width: 475, height: 170 };
-      this.helpZoneStyle = this.calculatePosition(baseCoords);
-    }
-  },
-  created() {
-    // Safety check - redirect if no player
-    if (!game.player) {
-      this.$router.push({ name: "Home" });
-    }
-  },
-  mounted() {
-    this.setupResponsive();
-    window.dispatchEvent(new Event("resize"));
-  }
-};
+const BASE_COORDS = { x: 540, y: 720, width: 475, height: 170 };
+
+const router = useRouter();
+const helpZoneStyle = ref({});
+
+const { calculatePosition } = useResponsivePosition(() => {
+  helpZoneStyle.value = calculatePosition(BASE_COORDS);
+});
+
+function startFight() {
+  audioManager.playSound("click");
+  router.push({ name: "Fight" });
+}
 </script>
 
 <style lang="less">

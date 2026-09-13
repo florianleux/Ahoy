@@ -8,7 +8,7 @@
       </div>
 
       <div
-        v-for="(boat, index) in fleet.boats"
+        v-for="(boat, index) in game.player.fleet.boats"
         :key="index"
         :id="'boat' + boat.id"
         class="boat"
@@ -24,7 +24,7 @@
         >
           X
         </div>
-        <div class="name">Bateau n°{{ fleet.size - index }}</div>
+        <div class="name">Bateau n°{{ game.player.fleet.size - index }}</div>
       </div>
     </div>
     <div class="tooltip" v-if="game.help" style="bottom: 10%;">
@@ -36,64 +36,53 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref } from "vue";
+import _ from "lodash";
 import { assetUrl } from "@/utils/assets";
 import { game } from "@/game.js";
-import _ from "lodash";
 import { audioManager } from "@/utils/AudioManager";
-import { responsivePositionMixin } from "@/mixins/responsivePosition";
+import { useResponsivePosition } from "@/composables/useResponsivePosition";
 
-export default {
-  name: "Fleet",
-  mixins: [responsivePositionMixin],
-  data: function() {
-    return {
-      game,
-      fleet: game.player.fleet,
-      boatPositions: {
-        1: { x: 1309, y: 758, width: 286, height: 143 },
-        2: { x: 1326, y: 613, width: 286, height: 143 },
-        3: { x: 1343, y: 470, width: 284, height: 142 },
-        4: { x: 1361, y: 328, width: 286, height: 142 },
-        5: { x: 1382, y: 183, width: 286, height: 142 }
-      },
-      boatStyles: {}
-    };
-  },
-  methods: {
-    assetUrl,
-    selectBoat: function(boat) {
-      audioManager.playSound("click");
-      if (!boat.placed) {
-        game.player.fleet.selectBoat(boat);
-      }
-    },
-    removeBoat: function(boat) {
-      game.player.map.removeBoat(boat, game.player.fleet);
-    },
-    getBoatStyle(boatId) {
-      return this.boatStyles[boatId] || {};
-    },
-    handleResize() {
-      // Calculate styles for each boat
-      Object.keys(this.boatPositions).forEach(boatId => {
-        this.boatStyles[boatId] = this.calculatePosition(
-          this.boatPositions[boatId]
-        );
-      });
-      this.$forceUpdate(); // Force re-render with new styles
-    }
-  },
-  mounted() {
-    this.setupResponsive();
-    window.dispatchEvent(new Event("resize"));
-  },
-  beforeCreate: function() {
-    game.player.fleet.selectBoat(
-      _.find(game.player.fleet.boats, ["selected", false])
-    );
-  }
+// Where each boat sits in the rack, in reference-design coordinates.
+const BOAT_POSITIONS = {
+  1: { x: 1309, y: 758, width: 286, height: 143 },
+  2: { x: 1326, y: 613, width: 286, height: 143 },
+  3: { x: 1343, y: 470, width: 284, height: 142 },
+  4: { x: 1361, y: 328, width: 286, height: 142 },
+  5: { x: 1382, y: 183, width: 286, height: 142 }
 };
+
+// A ref replaced wholesale rather than mutated in place, which is what the
+// $forceUpdate here was standing in for: Vue 2 could not see new keys added to
+// an object after the fact.
+const boatStyles = ref({});
+
+const { calculatePosition } = useResponsivePosition(() => {
+  const styles = {};
+  Object.keys(BOAT_POSITIONS).forEach(boatId => {
+    styles[boatId] = calculatePosition(BOAT_POSITIONS[boatId]);
+  });
+  boatStyles.value = styles;
+});
+
+// Start with the first boat in hand.
+game.player.fleet.selectBoat(_.find(game.player.fleet.boats, ["selected", false]));
+
+function getBoatStyle(boatId) {
+  return boatStyles.value[boatId] || {};
+}
+
+function selectBoat(boat) {
+  audioManager.playSound("click");
+  if (!boat.placed) {
+    game.player.fleet.selectBoat(boat);
+  }
+}
+
+function removeBoat(boat) {
+  game.player.map.removeBoat(boat, game.player.fleet);
+}
 </script>
 
 <style scoped lang="less">

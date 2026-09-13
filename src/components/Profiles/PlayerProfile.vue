@@ -20,6 +20,7 @@ import { assetUrl } from "@/utils/assets";
 import { game } from "@/game.js";
 export default {
   name: "ProfilePlayer",
+  methods: { assetUrl },
   data: function () {
     return {
       game,

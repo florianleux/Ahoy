@@ -2,7 +2,7 @@
   <div
     class="grid-row"
     id="map"
-    v-if="playerMap.hoverMap[9]"
+    v-if="game.player.map.hoverMap[9]"
     @wheel.prevent="throttledRotateBoat"
     @click.right.prevent="throttledRotateBoat"
   >
@@ -43,9 +43,9 @@
           @mouseleave="leaveMap"
           @click="clickSquare"
           v-bind:class="{
-            hovered: playerMap.hoverMap[n - 1][m - 1],
-            placed: playerMap.boatMap[n - 1][m - 1],
-            koClick: !playerMap.okClick
+            hovered: game.player.map.hoverMap[n - 1][m - 1],
+            placed: game.player.map.boatMap[n - 1][m - 1],
+            koClick: !game.player.map.okClick
           }"
         ></div>
       </div>
@@ -53,74 +53,61 @@
   </div>
 </template>
 
-<script>
-import { assetUrl } from "@/utils/assets";
-import { game } from "@/game.js";
+<script setup>
+import { onBeforeUnmount, ref } from "vue";
 import _ from "lodash";
-import { responsivePositionMixin } from "@/mixins/responsivePosition";
+import { game } from "@/game.js";
+import { useResponsivePosition } from "@/composables/useResponsivePosition";
 
-export default {
-  name: "MapVue",
-  mixins: [responsivePositionMixin],
-  data: function() {
-    return {
-      game,
-      playerFleet: game.player.fleet,
-      playerMap: game.player.map,
-      enemyMap: game.player.enemy.map,
-      enemyFleet: game.player.enemy.fleet,
-      target: null,
-      baseCoords: { x: 500, y: 215, width: 475, height: 475 },
-      canvasStyle: {},
-      lineStyle: {}
-    };
-  },
-  methods: {
-    assetUrl,
-    hoverSquare: function(event) {
-      this.target = event.target;
-      this.playerMap.hoverSquare(event.target, game.player.fleet);
-    },
-    clickSquare: function(event) {
-      this.playerMap.putBoat(event.target, game.player.fleet);
+const BASE_COORDS = { x: 500, y: 215, width: 475, height: 475 };
 
-      if (_.find(game.player.fleet.boats, ["placed", false])) {
-        game.player.fleet.selectBoat(
-          _.find(game.player.fleet.boats, ["placed", false])
-        );
-      }
-      this.playerMap.hoverSquare(event.target, game.player.fleet);
-    },
-    rotateBoat: function() {
-      if (this.playerFleet.selectedBoat) {
-        this.playerFleet.selectedBoat.horizontal = !this.playerFleet
-          .selectedBoat.horizontal;
-        this.playerMap.hoverSquare(this.target, game.player.fleet);
-      }
-    },
-    leaveMap() {
-      this.playerMap.hoverMap = this.playerMap._resetMap();
-    },
-    handleResize() {
-      this.canvasStyle = this.calculatePosition(this.baseCoords);
-      this.lineStyle = {
-        height: this.calculateLineHeight(this.baseCoords.height)
-      };
-    }
-  },
-  mounted() {
-    this.setupResponsive();
-    window.dispatchEvent(new Event("resize"));
-  },
-  created() {
-    this.throttledRotateBoat = _.throttle(this.rotateBoat, 200, {
-      leading: true,
-      trailing: false
-    });
+const canvasStyle = ref({});
+const lineStyle = ref({});
+// The last square the pointer was over, so a rotation can redraw the preview
+// where the boat already is.
+let target = null;
 
-    this.enemyMap.generateRandomMap(this.enemyFleet);
+const { calculatePosition, calculateLineHeight } = useResponsivePosition(() => {
+  canvasStyle.value = calculatePosition(BASE_COORDS);
+  lineStyle.value = { height: calculateLineHeight(BASE_COORDS.height) };
+});
+
+// The enemy lays its fleet out once, when this board appears.
+game.player.enemy.map.generateRandomMap(game.player.enemy.fleet);
+
+function hoverSquare(event) {
+  target = event.target;
+  game.player.map.hoverSquare(event.target, game.player.fleet);
+}
+
+function clickSquare(event) {
+  game.player.map.putBoat(event.target, game.player.fleet);
+
+  const nextUnplaced = _.find(game.player.fleet.boats, ["placed", false]);
+  if (nextUnplaced) {
+    game.player.fleet.selectBoat(nextUnplaced);
   }
-};
+  game.player.map.hoverSquare(event.target, game.player.fleet);
+}
+
+function rotateBoat() {
+  const selected = game.player.fleet.selectedBoat;
+  if (selected) {
+    selected.horizontal = !selected.horizontal;
+    game.player.map.hoverSquare(target, game.player.fleet);
+  }
+}
+
+function leaveMap() {
+  game.player.map.hoverMap = game.player.map._resetMap();
+}
+
+const throttledRotateBoat = _.throttle(rotateBoat, 200, {
+  leading: true,
+  trailing: false
+});
+
+onBeforeUnmount(() => throttledRotateBoat.cancel());
 </script>
 
 <style scoped lang="less">

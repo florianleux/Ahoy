@@ -22,8 +22,8 @@ export class Z extends Enemy {
 
   healBoat(boat, enemy) {
     boat.coords.forEach(coord => {
-      this.map.boatMap[coord[1]].splice(coord[0], 1, false);
-      enemy.map.hitMap[coord[1]].splice(coord[0], 1, "missed");
+      this.map.boatMap[coord[1]][coord[0]] = false;
+      enemy.map.hitMap[coord[1]][coord[0]] = "missed";
     });
 
     boat.coords = [];
@@ -39,7 +39,7 @@ export class Z extends Enemy {
       const posX = boatCoord[0];
       const posY = boatCoord[1];
 
-      this.map.boatMap[posY].splice(posX, 1, boat.id);
+      this.map.boatMap[posY][posX] = boat.id;
     });
   }
 }

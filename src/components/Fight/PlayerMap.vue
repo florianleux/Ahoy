@@ -1,5 +1,5 @@
 <template>
-  <div class="grid-row" id="map" v-if="playerMap.boatMap[9]">
+  <div class="grid-row" id="map" v-if="game.player.map.boatMap[9]">
     <div
       class="tooltip"
       v-if="game.help"
@@ -15,7 +15,7 @@
     </div>
     <div
       class="player canvas"
-      :class="{ disabled: !enemy.turn }"
+      :class="{ disabled: !game.player.enemy.turn }"
       :style="canvasStyle"
     >
       <div class="attack-result">
@@ -24,9 +24,9 @@
           enter-to-class="animate__animated animate__tada"
           leave-to-class="animate__animated animate__fadeOut"
         >
-          <div v-if="enemy.attackMessage">{{ enemy.attackMessage }}</div>
+          <div v-if="game.player.enemy.attackMessage">{{ game.player.enemy.attackMessage }}</div>
         </transition>
-        <div v-if="!enemy.attackMessage">&nbsp;</div>
+        <div v-if="!game.player.enemy.attackMessage">&nbsp;</div>
       </div>
       <div class="frame"></div>
       <div class="line" v-for="n in 10" :key="n" :style="lineStyle">
@@ -37,9 +37,9 @@
           v-for="m in 10"
           :key="m"
           v-bind:class="{
-            placed: playerMap.boatMap[n - 1][m - 1],
-            hit: enemyMap.hitMap[n - 1][m - 1] == 'hit',
-            missed: enemyMap.hitMap[n - 1][m - 1] == 'missed',
+            placed: game.player.map.boatMap[n - 1][m - 1],
+            hit: game.player.enemy.map.hitMap[n - 1][m - 1] == 'hit',
+            missed: game.player.enemy.map.hitMap[n - 1][m - 1] == 'missed',
             destroyed: isDestroyed(n, m)
           }"
         ></div>
@@ -48,48 +48,25 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref } from "vue";
 import { game } from "@/game.js";
-import { responsivePositionMixin } from "@/mixins/responsivePosition";
+import { useResponsivePosition } from "@/composables/useResponsivePosition";
 
-export default {
-  name: "MapVue",
-  mixins: [responsivePositionMixin],
-  data: function() {
-    return {
-      game,
-      fleet: game.player.fleet,
-      player: game.player,
-      enemy: game.player.enemy,
-      playerMap: game.player.map,
-      enemyMap: game.player.enemy.map,
-      target: null,
-      baseCoords: { x: 1065, y: 290, width: 340, height: 340 },
-      canvasStyle: {},
-      lineStyle: {}
-    };
-  },
-  methods: {
-    isDestroyed(n, m) {
-      if (this.playerMap.boatMap[n - 1][m - 1]) {
-        return this.player.fleet.boats[this.playerMap.boatMap[n - 1][m - 1] - 1]
-          .destroyed;
-      } else {
-        return false;
-      }
-    },
-    handleResize() {
-      this.canvasStyle = this.calculatePosition(this.baseCoords);
-      this.lineStyle = {
-        height: this.calculateLineHeight(this.baseCoords.height)
-      };
-    }
-  },
-  mounted() {
-    this.setupResponsive();
-    window.dispatchEvent(new Event("resize"));
-  }
-};
+const BASE_COORDS = { x: 1065, y: 290, width: 340, height: 340 };
+
+const canvasStyle = ref({});
+const lineStyle = ref({});
+
+const { calculatePosition, calculateLineHeight } = useResponsivePosition(() => {
+  canvasStyle.value = calculatePosition(BASE_COORDS);
+  lineStyle.value = { height: calculateLineHeight(BASE_COORDS.height) };
+});
+
+function isDestroyed(n, m) {
+  const boatId = game.player.map.boatMap[n - 1][m - 1];
+  return boatId ? game.player.fleet.boats[boatId - 1].destroyed : false;
+}
 </script>
 
 <style scoped lang="less">
