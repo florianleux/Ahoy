@@ -133,31 +133,32 @@ export class Enemy extends Character {
         }
         break;
 
-      case "HIT":
+      case "HIT": {
         if (!this.firstHit) {
           this.firstHit = [posX, posY];
           this.hitStrike = 1;
           break;
         }
 
-        switch (this.direction[this.directionIndex]) {
-          case "DOWN":
-            posY === 10 ? this._turnAtEdge() : this.hitStrike++;
-            break;
-          case "LEFT":
-            posX === 1 ? this._turnAtEdge() : this.hitStrike++;
-            break;
-          case "RIGHT":
-            posX === 10 ? this._turnAtEdge() : this.hitStrike++;
-            break;
-          case "UP":
-            posY === 1 ? this._turnAtEdge() : this.hitStrike++;
-            break;
+        // Each direction has the edge it runs into; reaching it means turning
+        // rather than pressing on.
+        const atEdge: Record<Direction, boolean> = {
+          DOWN: posY === 10,
+          LEFT: posX === 1,
+          RIGHT: posX === 10,
+          UP: posY === 1
+        };
+        const heading = this.direction[this.directionIndex];
+        if (heading !== undefined && atEdge[heading]) {
+          this._turnAtEdge();
+        } else {
+          this.hitStrike++;
         }
         if (this.directionIndex > 3) {
           this._forgetTarget();
         }
         break;
+      }
 
       case "DESTROYED":
       case "ENDGAME":
