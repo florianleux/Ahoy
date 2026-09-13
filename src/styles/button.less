@@ -1,0 +1,41 @@
+// The game's button skin, lifted out of the Vuetify rules it used to ride on
+// (#app .primary for the colours, h1/.v-btn for the typography, .v-btn for the
+// box, .v-btn--disabled for the off state). It is global rather than scoped
+// because the same five buttons live in four different views.
+//
+// Geometry is the one Vuetify resolved to: 54px tall, and text that sits 5px
+// below the centre -- the visible trace of the old 30px/20px padding, which a
+// flex box reproduces with a top padding and no bottom one.
+
+// Qualified with the tag on purpose. Vuetify's reset carries
+// `button, [type=button], ... { color: inherit }`, an attribute selector of the
+// same specificity as a bare `.game-button`, injected later -- so it wins the
+// tie and the buttons silently inherit the card's colour instead of their own.
+// The tag takes the selector to (0,1,1) and settles it. Harmless once Vuetify's
+// stylesheet goes in #54.
+button.game-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 54px;
+  padding: 10px 15px 0;
+  border: 2px solid #debc72;
+  border-radius: 4px;
+  background-color: #dcb570;
+  box-shadow: 0 2px 0 0 #debc72;
+  color: #893522;
+  font-family: "Space Comics";
+  font-size: 12px;
+  letter-spacing: 1.25px;
+  text-align: center;
+  text-transform: uppercase;
+  cursor: pointer;
+
+  &:disabled {
+    border-color: #bca680;
+    background-color: rgba(0, 0, 0, 0.12);
+    box-shadow: 0 2px 0 0 #bca680;
+    color: rgba(0, 0, 0, 0.26);
+    cursor: default;
+  }
+}

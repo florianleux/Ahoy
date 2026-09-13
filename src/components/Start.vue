@@ -5,53 +5,64 @@
       :src="publicPath + 'home/players/' + playerIdentity + '.webp'"
     />
 
-    <v-card class="home-card rounded-lg" outlined elevation="24">
-      <v-card-title><h1 class="game-title">AHOY !</h1></v-card-title>
-      <v-form class="start-form" v-model="valid">
-        <div class="grid-row">
-          <div class="grid-col grid-col-12">
-            <v-text-field
-              :placeholder="$t('votre_nom_de_pirate')"
-              v-model="playerName"
-              :rules="nameRules"
-              class="name-input"
-              required
-            />
-          </div>
-          <div class="grid-col grid-col-12">
-            <div class="label">{{ $t("vous_etes") }}</div>
-            <v-radio-group class="identity-input" v-model="playerIdentity" row>
-              <div class="grid-col grid-col-6">
-                <v-radio :label="$t('un_homme')" value="male"></v-radio>
-              </div>
-              <div class="grid-col grid-col-6">
-                <v-radio :label="$t('une_femme')" value="female"></v-radio>
-              </div>
-            </v-radio-group>
-          </div>
-          <div class="grid-col grid-col-12">
-            <v-btn
-              :disabled="!valid"
-              color="primary"
-              class="start-game"
-              id="startButton"
-              @click="newGame"
-            >
-              {{ $t("nouvelle_partie") }}
-            </v-btn>
-            <v-btn
-              :disabled="!savedGame"
-              color="primary"
-              class="load-game"
-              id="loadButton"
-              @click="loadGame"
-            >
-              {{ $t("continuer") }}
-            </v-btn>
-          </div>
+    <section class="home-card">
+      <div class="home-card-title"><h1 class="game-title">AHOY !</h1></div>
+      <!--
+        Nothing submits this form: both buttons act on click, as they did as
+        v-btn. @submit.prevent only stops the Enter key from reloading the page.
+      -->
+      <form class="start-form" @submit.prevent>
+        <div class="name-field">
+          <input
+            type="text"
+            class="name-input"
+            :placeholder="$t('votre_nom_de_pirate')"
+            v-model="playerName"
+            required
+            @input="nameTouched = true"
+          />
+          <!--
+            Kept at its height even when empty, the way v-text-field reserved
+            room for its details: without it the card jumps as the message
+            comes and goes.
+          -->
+          <div class="name-error">{{ nameTouched ? nameError : "" }}</div>
         </div>
-      </v-form>
-    </v-card>
+
+        <div class="label">{{ $t("vous_etes") }}</div>
+        <div class="identity-input">
+          <label class="identity-choice">
+            <input type="radio" value="male" v-model="playerIdentity" />
+            {{ $t("un_homme") }}
+          </label>
+          <label class="identity-choice">
+            <input type="radio" value="female" v-model="playerIdentity" />
+            {{ $t("une_femme") }}
+          </label>
+        </div>
+
+        <div class="actions">
+          <button
+            type="button"
+            class="game-button start-game"
+            id="startButton"
+            :disabled="!valid"
+            @click="newGame"
+          >
+            {{ $t("nouvelle_partie") }}
+          </button>
+          <button
+            type="button"
+            class="game-button load-game"
+            id="loadButton"
+            :disabled="!savedGame"
+            @click="loadGame"
+          >
+            {{ $t("continuer") }}
+          </button>
+        </div>
+      </form>
+    </section>
   </div>
 </template>
 
@@ -61,9 +72,11 @@ import { audioManager } from "@/utils/AudioManager";
 export default {
   data() {
     return {
-      valid: false,
       playerName: "",
       playerIdentity: "male",
+      // v-text-field showed nothing until the field was touched, even though
+      // the empty name already failed its rules and kept the button disabled.
+      nameTouched: false,
       nameRules: [
         v => v.length > 1 || "Votre nom doit comporter au minimum 1 caractère",
         v =>
@@ -72,6 +85,23 @@ export default {
       publicPath: process.env.BASE_URL,
       savedGame: localStorage.ahoyGame
     };
+  },
+  computed: {
+    // The first failing rule wins, which is the order v-text-field displayed
+    // them in.
+    nameError() {
+      for (const rule of this.nameRules) {
+        const result = rule(this.playerName);
+        if (result !== true) {
+          return result;
+        }
+      }
+      return null;
+    },
+    // What v-form put in `valid`.
+    valid() {
+      return this.nameError === null;
+    }
   },
   methods: {
     newGame() {
@@ -99,8 +129,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
+// 396px is what the card measured as a v-card: the 390px of the form plus its
+// two 3px borders.
 .home-card {
-  margin: auto;
+  width: 396px;
   position: fixed;
   top: 50%;
   margin-top: -250px;
@@ -108,12 +140,20 @@ export default {
   margin-left: -196px;
   background: #ffe4b4;
   border: 3px solid #d09c5f;
-  color: #502218 !important;
+  // rounded-lg, and the elevation-24 of the v-card it was.
+  border-radius: 8px;
+  box-shadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2),
+    0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12);
+  color: #502218;
   padding-bottom: 50px;
+}
 
-  * {
-    color: #502218 !important;
-  }
+// v-card__title's padding, and the flex box that let the title's auto margins
+// centre it.
+.home-card-title {
+  display: flex;
+  justify-content: center;
+  padding: 16px;
 }
 
 #startButton {
@@ -144,31 +184,95 @@ export default {
   max-width: 390px;
   margin: auto;
 
-  .name-input,
-  .identity-input {
-    max-width: 300px;
-    display: block;
-    margin: auto;
-
-    &::v-deep input {
-      text-align: center;
-    }
-
-    &::v-deep .v-text-field__details * {
-      text-align: center;
-    }
-  }
-
   .label {
     text-align: center;
+    margin-top: 24px;
   }
-  .identity-input {
-    padding-left: 25px;
+}
+
+// The 45px side margins are what the 300px field left inside the 390px form.
+.name-field,
+.identity-input {
+  margin: 0 45px;
+}
+
+.name-field {
+  padding-top: 12px;
+}
+
+// v-text-field drew its resting underline on a pseudo-element; a border on the
+// input itself lands on the same pixel.
+.name-input {
+  display: block;
+  width: 100%;
+  height: 32px;
+  padding: 8px 0;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.42);
+  border-radius: 0;
+  background: transparent;
+  font-family: "Roman Antique";
+  font-size: 25px;
+  line-height: 20px;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.87);
+  outline: none;
+
+  &::placeholder {
+    color: rgba(0, 0, 0, 0.38);
+    opacity: 1;
   }
 
-  .v-btn {
+  &:focus {
+    border-bottom-color: #502218;
+  }
+}
+
+// v-messages kept its 14px whether or not it had something to say.
+.name-error {
+  min-height: 14px;
+  margin-top: 8px;
+  line-height: 12px;
+  text-align: center;
+  color: #ff5252;
+}
+
+// v-radio-group stood 74px tall -- its own vertical margins plus the messages
+// slot it reserved -- and the card's height depends on it.
+.identity-input {
+  display: flex;
+  height: 74px;
+  padding: 16px 0 0 25px;
+}
+
+// The radio sat 44px left of its label: a 24px control and a 20px gap.
+.identity-choice {
+  flex: 0 0 50%;
+  // Without this the choice stretches to the group's 74px and its centring
+  // drops the radio 18px below where v-radio sat.
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 22px;
+  line-height: 20px;
+  color: rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+
+  input {
+    width: 24px;
+    height: 24px;
+    margin: 0;
+    accent-color: #1976d2;
+    cursor: pointer;
+  }
+}
+
+.actions {
+  margin-top: 24px;
+
+  .game-button {
     margin: auto;
-    display: block;
   }
 }
 </style>

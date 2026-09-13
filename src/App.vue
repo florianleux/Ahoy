@@ -110,6 +110,7 @@ export default {
 
 <style lang="less">
 @import "./styles/layout.less";
+@import "./styles/button.less";
 
 @baseFontSize: 25px;
 
@@ -145,10 +146,6 @@ export default {
   border-color: #debc72 !important;
   border: 2px solid;
   color: #893522 !important;
-}
-
-.v-label {
-  font-size: 22px !important;
 }
 
 h1,
