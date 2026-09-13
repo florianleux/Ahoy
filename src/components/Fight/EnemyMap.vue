@@ -162,24 +162,28 @@ function attack(x: number, y: number): void {
         boat => boat.id === destroyedBoatId
       );
 
-      if (destroyedBoat?.doomed) {
-        const aliveBoats = player.fleet.boats.filter(boat => !boat.destroyed);
-        const randomAliveBoat =
-          aliveBoats[Math.floor(Math.random() * aliveBoats.length)];
-
-        setTimeout(() => {
-          if (!randomAliveBoat) {
-            nextRound(1200);
-            return;
-          }
-          randomAliveBoat.coords.forEach(coord => {
-            enemy.map.hitMap[coord[1]][coord[0]] = "hit";
-          });
-          randomAliveBoat.destroyed = true;
-          randomAliveBoat.hp = 0;
-          nextRound(1200);
-        }, 500);
+      if (!destroyedBoat?.doomed) {
+        // Sinking any of her other boats still has to hand the turn back.
+        nextRound(1200);
+        break;
       }
+
+      const aliveBoats = player.fleet.boats.filter(boat => !boat.destroyed);
+      const randomAliveBoat =
+        aliveBoats[Math.floor(Math.random() * aliveBoats.length)];
+
+      setTimeout(() => {
+        if (!randomAliveBoat) {
+          nextRound(1200);
+          return;
+        }
+        randomAliveBoat.coords.forEach(coord => {
+          enemy.map.hitMap[coord[1]][coord[0]] = "hit";
+        });
+        randomAliveBoat.destroyed = true;
+        randomAliveBoat.hp = 0;
+        nextRound(1200);
+      }, 500);
       break;
     }
 
