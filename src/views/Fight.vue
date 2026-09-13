@@ -23,43 +23,49 @@
     </div>
     <PlayerProfile></PlayerProfile>
     <EnemyProfile></EnemyProfile>
-    <v-dialog v-model="player.victory" persistent width="500">
-      <v-card>
-        <v-card-title class="headline" primary-title>
-          VICTOIRE !
-        </v-card-title>
-        <v-card-text>
-          <div>Bravo {{ player.name }} !</div>
-          <div>Vous avez vaincu la flotte ennemie !</div>
-        </v-card-text>
-        <v-card-actions>
-          <div class="grid-spacer"></div>
-          <v-btn color="primary" text @click="nextLevel">
-            Ennemi suivant !
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    <!--
+      Both windows were <v-dialog persistent>: @cancel.prevent drops the Escape
+      key, and only their own button closes them.
+    -->
+    <dialog
+      ref="victory"
+      class="game-dialog"
+      aria-labelledby="victory-title"
+      @cancel.prevent
+    >
+      <div id="victory-title" class="game-dialog-title">
+        VICTOIRE !
+      </div>
+      <div class="game-dialog-text">
+        <div>Bravo {{ player.name }} !</div>
+        <div>Vous avez vaincu la flotte ennemie !</div>
+      </div>
+      <div class="game-dialog-actions">
+        <button type="button" class="dialog-action" @click="nextLevel">
+          Ennemi suivant !
+        </button>
+      </div>
+    </dialog>
 
-    <v-dialog v-model="player.defeat" persistent width="500">
-      <v-card>
-        <v-card-title class="headline" primary-title>
-          DÉFAITE...
-        </v-card-title>
-        <v-card-text>
-          <div>Dommage {{ player.name }} !</div>
-          <div>
-            Votre adversaire {{ enemy.name }} a exterminé votre flotte...
-          </div>
-        </v-card-text>
-        <v-card-actions>
-          <div class="grid-spacer"></div>
-          <v-btn color="primary" text @click="rerun">
-            Revanche !
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    <dialog
+      ref="defeat"
+      class="game-dialog"
+      aria-labelledby="defeat-title"
+      @cancel.prevent
+    >
+      <div id="defeat-title" class="game-dialog-title">
+        DÉFAITE...
+      </div>
+      <div class="game-dialog-text">
+        <div>Dommage {{ player.name }} !</div>
+        <div>Votre adversaire {{ enemy.name }} a exterminé votre flotte...</div>
+      </div>
+      <div class="game-dialog-actions">
+        <button type="button" class="dialog-action" @click="rerun">
+          Revanche !
+        </button>
+      </div>
+    </dialog>
   </div>
 </template>
 
@@ -84,7 +90,28 @@ export default {
       player: this.$game.player || null
     };
   },
+  watch: {
+    "player.victory": function() {
+      this.syncDialog("victory");
+    },
+    "player.defeat": function() {
+      this.syncDialog("defeat");
+    }
+  },
   methods: {
+    // A <dialog> only opens through showModal(), and both calls throw when the
+    // element is already in the state they ask for.
+    syncDialog: function(name) {
+      const dialog = this.$refs[name];
+      if (this.player[name] === dialog.open) {
+        return;
+      }
+      if (this.player[name]) {
+        dialog.showModal();
+      } else {
+        dialog.close();
+      }
+    },
     nextLevel: function() {
       this.game.nextLevel();
       this.$router.push({ name: "PreFight" });
@@ -105,6 +132,10 @@ export default {
     if (this.enemy) {
       document.body.classList.add(this.enemy.className);
     }
+    // A watcher never fires for the initial value, so a fight resumed on a
+    // finished state still gets its window.
+    this.syncDialog("victory");
+    this.syncDialog("defeat");
   },
   beforeDestroy() {
     // Remove enemy class from body when leaving the page
@@ -190,5 +221,26 @@ body.fight.MamanBrigitte #app {
 
 .popin {
   color: white;
+}
+
+// v-btn's text variant: no box, Vuetify's primary for the label, and the same
+// 5px optical drop the 30px/20px padding gave every button in this game. The
+// tag qualifies the selector because Vuetify's reset carries
+// `[type=button] { color: inherit }` at equal specificity, injected later.
+button.dialog-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  min-width: 64px;
+  padding: 10px 15px 0;
+  border: none;
+  background: transparent;
+  color: #1976d2;
+  font-family: "Space Comics";
+  font-size: 12px;
+  letter-spacing: 1.25px;
+  text-transform: uppercase;
+  cursor: pointer;
 }
 </style>

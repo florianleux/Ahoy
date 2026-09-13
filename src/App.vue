@@ -34,14 +34,14 @@
     -->
     <dialog
       ref="ko"
-      class="ko-dialog"
+      class="game-dialog"
       aria-labelledby="ko-title"
       @cancel.prevent
     >
-      <div id="ko-title" class="ko-title">
+      <div id="ko-title" class="game-dialog-title">
         Oups...
       </div>
-      <div class="ko-text">
+      <div class="game-dialog-text">
         <div>
           Malheureusement, Ahoy! est actuellement seulement jouable sur grand
           écran, et n'est pas (encore) responsible !
@@ -111,6 +111,7 @@ export default {
 <style lang="less">
 @import "./styles/layout.less";
 @import "./styles/button.less";
+@import "./styles/dialog.less";
 
 @baseFontSize: 25px;
 
@@ -140,36 +141,16 @@ export default {
   padding: 15px 30px;
 }
 
-#app .primary {
-  background-color: #dcb570 !important;
-  box-shadow: 0px 2px 0px 0px #debc72;
-  border-color: #debc72 !important;
-  border: 2px solid;
-  color: #893522 !important;
-}
-
-h1,
-.v-btn {
+// The button half of these rules moved to styles/button.less with the last
+// v-btn; what is left is the page titles, which were only ever sharing the
+// declaration block.
+h1 {
   text-align: center;
   font-family: "Space Comics";
   text-transform: uppercase;
   * {
     font-family: "Space Comics";
     text-transform: uppercase;
-  }
-}
-.v-btn {
-  padding: 30px 15px 20px 15px !important;
-  display: flex !important;
-
-  * {
-    font-size: 12px;
-  }
-
-  &.v-btn--disabled {
-    box-shadow: 0px 2px 0px 0px #bca680 !important;
-    border: 2px solid #bca680 !important;
-    color: rgb(0 0 0 / 13%) !important;
   }
 }
 
@@ -237,45 +218,6 @@ h1 {
   background: #ca559b8f;
   z-index: 10000;
 }
-// Replaces Vuetify's .v-overlay__scrim, which was rgb(33, 33, 33) at .46.
-dialog::backdrop {
-  background: rgba(33, 33, 33, 0.46);
-}
-
-// The geometry v-dialog gave this modal: 500px wide, centred, 24px minimum
-// gutter, and the elevation-24 shadow of a Vuetify dialog.
-.ko-dialog {
-  width: 500px;
-  max-width: calc(100% - 48px);
-  // Vuetify's reset zeroes the margin the UA stylesheet uses to centre a modal
-  // <dialog>, and the 24px gutter v-dialog kept is in the max-width above.
-  margin: auto;
-  padding: 0;
-  border: none;
-  border-radius: 4px;
-  background: #fff;
-  color: rgba(0, 0, 0, 0.87);
-  box-shadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2),
-    0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12);
-}
-
-// What .v-card__title.headline resolved to: Roboto rather than the global
-// Roman Antique, which the Vuetify typography class forced with !important.
-.ko-title {
-  padding: 16px 24px 10px;
-  font-family: Roboto, sans-serif;
-  font-size: 24px;
-  font-weight: 500;
-  line-height: 32px;
-}
-
-// .v-card__text: its own padding, and the muted colour the two lines inherit.
-.ko-text {
-  padding: 0 24px 20px;
-  color: rgba(0, 0, 0, 0.6);
-  line-height: 22px;
-}
-
 .page-title {
   font-size: 35px;
   position: fixed;

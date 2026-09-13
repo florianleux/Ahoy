@@ -3,9 +3,13 @@
     <h1>{{ $t("prochain_adversaire") }}</h1>
     <EnemiesList />
     <CurrentEnemy />
-    <v-btn color="primary" class="start-placement" @click="goPlacement">
+    <button
+      type="button"
+      class="game-button start-placement"
+      @click="goPlacement"
+    >
       {{ $t("a_lattaque") }}
-    </v-btn>
+    </button>
   </div>
 </template>
 

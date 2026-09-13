@@ -24,15 +24,15 @@
         </div>
       </div>
       <div class="grid-row">
-        <v-btn
-          :disabled="playerFleet.size != playerFleet.putBoats"
-          color="primary"
-          class="start-fight"
-          @click="startFight"
+        <button
+          type="button"
+          class="game-button start-fight"
           id="startFight"
+          :disabled="playerFleet.size != playerFleet.putBoats"
+          @click="startFight"
         >
           A L'ABORDAGE !
-        </v-btn>
+        </button>
       </div>
     </div>
     <PlayerProfile></PlayerProfile>

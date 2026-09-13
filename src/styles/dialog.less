@@ -1,0 +1,52 @@
+// The modal chrome shared by the small-screen guard and the two end-of-fight
+// windows. All three were <v-dialog persistent width="500"> wrapping a v-card,
+// and they resolved to the same box down to the pixel, so they share one class
+// rather than three copies of the same shadow.
+//
+// Settings keeps its own: a narrower window with a centred pirate title and a
+// mask that closes it, which is a different thing wearing the same shadow.
+
+// Replaces Vuetify's .v-overlay__scrim, rgb(33, 33, 33) at .46.
+dialog::backdrop {
+  background: rgba(33, 33, 33, 0.46);
+}
+
+.game-dialog {
+  width: 500px;
+  max-width: calc(100% - 48px);
+  // Vuetify's reset zeroes the margin the UA stylesheet uses to centre a modal
+  // <dialog>, and the 24px gutter v-dialog kept is in the max-width above.
+  margin: auto;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background: #fff;
+  color: rgba(0, 0, 0, 0.87);
+  box-shadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2),
+    0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12);
+}
+
+// What .v-card__title.headline resolved to: Roboto rather than the global
+// Roman Antique, which the Vuetify typography class forced with !important.
+.game-dialog-title {
+  padding: 16px 24px 10px;
+  font-family: Roboto, sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 32px;
+}
+
+// .v-card__text: its own padding, and the muted colour its lines inherit.
+.game-dialog-text {
+  padding: 0 24px 20px;
+  color: rgba(0, 0, 0, 0.6);
+  line-height: 22px;
+}
+
+// v-card__actions, whose lone button was pushed right by a spacer div.
+.game-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 8px 16px;
+}
