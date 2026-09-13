@@ -1,38 +1,45 @@
 <template>
-  <v-app>
-    <div id="app">
-      <v-icon id="help" @click="game.help = !game.help">mdi-help-circle</v-icon>
-      <v-icon id="settings" @click="game.settings = !game.settings"
-        >mdi-cog</v-icon
-      >
-      <div
-        v-if="game.help"
-        @click="game.help = !game.help"
-        class="help-mask"
-      ></div>
-      <Settings v-if="game.settings"></Settings>
-      <Preloader></Preloader>
-      <v-dialog v-model="displayKO" persistent width="500">
-        <v-card>
-          <v-card-title class="headline" primary-title>
-            Oups...
-          </v-card-title>
-          <v-card-text>
-            <div>
-              Malheureusement, Ahoy! est actuellement seulement jouable sur
-              grand écran, et n'est pas (encore) responsible !
-            </div>
-            <div>
-              Augmentez la taille de votre fenêtre ou revenez jouer depuis un PC
-              !
-            </div>
-          </v-card-text>
-        </v-card>
-      </v-dialog>
-      <router-view />
-      <!--      <pre>{{ game }}</pre>-->
-    </div>
-  </v-app>
+  <!--
+    The Vuetify classes and data-app are kept without <v-app>: every Vuetify
+    rule is prefixed with .v-application, and its dialogs look up [data-app] to
+    detach themselves. The remaining Vuetify components (dialogs, cards,
+    buttons, inputs) still need both. They go away with Vuetify itself.
+  -->
+  <div
+    id="app"
+    class="v-application v-application--is-ltr theme--light"
+    data-app="true"
+  >
+    <v-icon id="help" @click="game.help = !game.help">mdi-help-circle</v-icon>
+    <v-icon id="settings" @click="game.settings = !game.settings"
+      >mdi-cog</v-icon
+    >
+    <div
+      v-if="game.help"
+      @click="game.help = !game.help"
+      class="help-mask"
+    ></div>
+    <Settings v-if="game.settings"></Settings>
+    <Preloader></Preloader>
+    <v-dialog v-model="displayKO" persistent width="500">
+      <v-card>
+        <v-card-title class="headline" primary-title>
+          Oups...
+        </v-card-title>
+        <v-card-text>
+          <div>
+            Malheureusement, Ahoy! est actuellement seulement jouable sur grand
+            écran, et n'est pas (encore) responsible !
+          </div>
+          <div>
+            Augmentez la taille de votre fenêtre ou revenez jouer depuis un PC !
+          </div>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
+    <router-view />
+    <!--      <pre>{{ game }}</pre>-->
+  </div>
 </template>
 
 <script>
@@ -70,6 +77,8 @@ export default {
 </script>
 
 <style lang="less">
+@import "./styles/layout.less";
+
 @baseFontSize: 25px;
 
 //Fonts Déclaration
@@ -88,7 +97,17 @@ export default {
   font-size: @baseFontSize;
 }
 
-#app.v-application .primary {
+#app {
+  min-height: 100vh;
+  // Vuetify's .v-application set this, and the page's vertical rhythm depends
+  // on it: without it every line box shrinks to the font's natural height.
+  line-height: 1.5;
+  // Both were Vuetify's: the height of .v-application, and the padding of
+  // .v-application--wrap.
+  padding: 15px 30px;
+}
+
+#app .primary {
   background-color: #dcb570 !important;
   box-shadow: 0px 2px 0px 0px #debc72;
   border-color: #debc72 !important;
@@ -114,12 +133,9 @@ h1,
   padding: 30px 15px 20px 15px !important;
   display: flex !important;
 
-
   * {
     font-size: 12px;
   }
-
-
 
   &.v-btn--disabled {
     box-shadow: 0px 2px 0px 0px #bca680 !important;
@@ -136,10 +152,6 @@ h1 {
   z-index: 9999;
   position: relative;
   pointer-events: none;
-}
-
-.v-application--wrap {
-  padding: 15px 30px;
 }
 
 .tooltip {
@@ -192,7 +204,5 @@ h1 {
   top: 30px;
   left: 0;
   right: 0;
-
-
 }
 </style>

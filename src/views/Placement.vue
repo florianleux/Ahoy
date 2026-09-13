@@ -4,26 +4,26 @@
     <h1 class="page-title">
       Phase de placement
     </h1>
-    <v-row>
-      <v-col cols="8">
+    <div class="grid-row">
+      <div class="grid-col grid-col-8">
         <MapVue></MapVue>
-      </v-col>
-      <v-col cols="4">
+      </div>
+      <div class="grid-col grid-col-4">
         <Fleet></Fleet>
-      </v-col>
-    </v-row>
+      </div>
+    </div>
 
     <div class="help-zone" id="helpZone" :style="helpZoneStyle">
-      <v-row>
-        <v-col>
+      <div class="grid-row">
+        <div class="grid-col">
           <div class="help-placement">
             Pour faire tourner votre bateau avant de le placer, vous pouvez
             utiliser la roulette de votre souris ou faire un clic droit sur la
             carte !
           </div>
-        </v-col>
-      </v-row>
-      <v-row>
+        </div>
+      </div>
+      <div class="grid-row">
         <v-btn
           :disabled="playerFleet.size != playerFleet.putBoats"
           color="primary"
@@ -33,7 +33,7 @@
         >
           A L'ABORDAGE !
         </v-btn>
-      </v-row>
+      </div>
     </div>
     <PlayerProfile></PlayerProfile>
   </div>
@@ -88,7 +88,7 @@ export default {
 <style lang="less">
 body.placement {
   overflow: hidden;
-  
+
   #app {
     background: url("/placement/bg.webp") no-repeat center center fixed;
     -webkit-background-size: cover;
@@ -130,9 +130,9 @@ body.placement {
 
 .start-fight {
   position: fixed;
-    bottom: 5px;
-    right: 50%;
-    margin-right: -107px;
-    margin-top: 20px;
+  bottom: 5px;
+  right: 50%;
+  margin-right: -107px;
+  margin-top: 20px;
 }
 </style>

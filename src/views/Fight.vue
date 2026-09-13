@@ -4,14 +4,14 @@
     <h1 class="page-title">
       COMBAT !
     </h1>
-    <v-row class="map-line mt-15">
-      <v-col cols="6">
+    <div class="grid-row map-line">
+      <div class="grid-col grid-col-6">
         <EnemyMap></EnemyMap>
-      </v-col>
-      <v-col cols="6">
+      </div>
+      <div class="grid-col grid-col-6">
         <PlayerMap></PlayerMap>
-      </v-col>
-    </v-row>
+      </div>
+    </div>
     <div class="tooltip" v-if="game.help" style="right:190px;bottom: 85px;">
       <span class="text">...et celles de votre adversaire ! </span>
     </div>
@@ -33,7 +33,7 @@
           <div>Vous avez vaincu la flotte ennemie !</div>
         </v-card-text>
         <v-card-actions>
-          <v-spacer></v-spacer>
+          <div class="grid-spacer"></div>
           <v-btn color="primary" text @click="nextLevel">
             Ennemi suivant !
           </v-btn>
@@ -53,7 +53,7 @@
           </div>
         </v-card-text>
         <v-card-actions>
-          <v-spacer></v-spacer>
+          <div class="grid-spacer"></div>
           <v-btn color="primary" text @click="rerun">
             Revanche !
           </v-btn>
@@ -118,7 +118,7 @@ export default {
 <style lang="less">
 body.fight {
   overflow: hidden;
-  
+
   #app {
     background: url("/fight/bg.webp") no-repeat center center fixed;
     -webkit-background-size: cover;
@@ -172,6 +172,8 @@ body.fight.MamanBrigitte #app {
 }
 
 .map-line {
+  // Was Vuetify's mt-15 utility class.
+  margin-top: 60px;
   margin-left: 50px;
   position: relative;
   padding-top: 20px;

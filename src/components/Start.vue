@@ -1,5 +1,5 @@
 <template>
-  <v-row class="start-page">
+  <div class="grid-row start-page">
     <img
       class="player-img"
       :src="publicPath + 'home/players/' + playerIdentity + '.webp'"
@@ -8,8 +8,8 @@
     <v-card class="home-card rounded-lg" outlined elevation="24">
       <v-card-title><h1 class="game-title">AHOY !</h1></v-card-title>
       <v-form class="start-form" v-model="valid">
-        <v-row>
-          <v-col cols="12">
+        <div class="grid-row">
+          <div class="grid-col grid-col-12">
             <v-text-field
               :placeholder="$t('votre_nom_de_pirate')"
               v-model="playerName"
@@ -17,19 +17,19 @@
               class="name-input"
               required
             />
-          </v-col>
-          <v-col cols="12">
+          </div>
+          <div class="grid-col grid-col-12">
             <div class="label">{{ $t("vous_etes") }}</div>
             <v-radio-group class="identity-input" v-model="playerIdentity" row>
-              <v-col cols="6">
+              <div class="grid-col grid-col-6">
                 <v-radio :label="$t('un_homme')" value="male"></v-radio>
-              </v-col>
-              <v-col cols="6">
+              </div>
+              <div class="grid-col grid-col-6">
                 <v-radio :label="$t('une_femme')" value="female"></v-radio>
-              </v-col>
+              </div>
             </v-radio-group>
-          </v-col>
-          <v-col cols="12">
+          </div>
+          <div class="grid-col grid-col-12">
             <v-btn
               :disabled="!valid"
               color="primary"
@@ -48,11 +48,11 @@
             >
               {{ $t("continuer") }}
             </v-btn>
-          </v-col>
-        </v-row>
+          </div>
+        </div>
       </v-form>
     </v-card>
-  </v-row>
+  </div>
 </template>
 
 <script>
