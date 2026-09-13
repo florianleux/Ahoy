@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { Fleet } from "@/classes/Fleet.js";
+import { Fleet } from "@/classes/Fleet";
 
 describe("Fleet", () => {
   it("is populated with 5 boats of increasing size", () => {

@@ -56,7 +56,7 @@
 <script setup>
 import { onBeforeUnmount, ref } from "vue";
 import _ from "lodash";
-import { game } from "@/game.js";
+import { game } from "@/game";
 import { useResponsivePosition } from "@/composables/useResponsivePosition";
 
 const BASE_COORDS = { x: 500, y: 215, width: 475, height: 475 };

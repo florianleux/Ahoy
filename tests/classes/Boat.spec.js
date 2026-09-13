@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { Boat } from "@/classes/Boat.js";
+import { Boat } from "@/classes/Boat";
 
 describe("Boat", () => {
   it("starts with hp equal to its size", () => {

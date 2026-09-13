@@ -50,7 +50,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { game } from "@/game.js";
+import { game } from "@/game";
 import { useResponsivePosition } from "@/composables/useResponsivePosition";
 
 const BASE_COORDS = { x: 1065, y: 290, width: 340, height: 340 };

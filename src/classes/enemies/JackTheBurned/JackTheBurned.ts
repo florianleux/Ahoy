@@ -1,23 +1,17 @@
-import { Enemy } from "@/classes/Enemy.js";
-import { Power } from "@/classes/Power.js";
-import { MathHelper } from "@/classes/helpers/MathHelper.js";
+import { Enemy } from "@/classes/Enemy";
+import { Power } from "@/classes/Power";
+import { MathHelper } from "@/classes/helpers/MathHelper";
+import type { Character } from "@/classes/Character";
 
 export class JackTheBurned extends Enemy {
-  name = "jtb_name";
-
-  className = "JackTheBurned";
-
-  phrase = "jtb_phrase";
-
-  nature = "jtb_nature";
+  override name = "jtb_name" as const;
+  override className = "JackTheBurned" as const;
+  override phrase = "jtb_phrase" as const;
+  override nature = "jtb_nature" as const;
 
   mathHelper = new MathHelper();
 
-  activatePower() {
-    return this.mathHelper.getRandomIntMax(100) > 30 ? true : false;
-  }
-
-  constructor(name) {
+  constructor(name: string) {
     super(name);
 
     this.mainPower = new Power(
@@ -27,7 +21,13 @@ export class JackTheBurned extends Enemy {
     );
   }
 
-  fire(target, posX, posY) {
+  activatePower(): boolean {
+    return this.mathHelper.getRandomIntMax(100) > 30;
+  }
+
+  // Sets fire to a square next to the one he just hit, trying each of the four
+  // directions until one is on the board and not already shot at.
+  fire(target: Character, posX: number, posY: number): void {
     let ok = false;
     let fireDirection = this.mathHelper.getRandomIntMax(3);
     let i = 0;

@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { ChisanaKaizoku } from "@/classes/enemies/ChisanaKaizoku/ChisanaKaizoku.js";
-import { Fleet } from "@/classes/Fleet.js";
+import { ChisanaKaizoku } from "@/classes/enemies/ChisanaKaizoku/ChisanaKaizoku";
+import { Fleet } from "@/classes/Fleet";
 
 describe("ChisanaKaizoku", () => {
   it("declares a literal class name and a counter-attack power", () => {
@@ -9,7 +9,7 @@ describe("ChisanaKaizoku", () => {
     expect(chisana.className).toBe("ChisanaKaizoku");
     // Hardcoded French, unlike Sam and Jack which hold i18n keys: known
     // debt of this enemy, frozen as-is rather than fixed here.
-    expect(chisana.mainPower.name).toBe("Contre-attaque");
+    expect(chisana.mainPower.name).toBe("ck_main_power_name");
     expect(chisana.mainPower.type).toBe("passif");
   });
 

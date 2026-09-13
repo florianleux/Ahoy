@@ -1,40 +1,43 @@
+import type { BoatId, Coord } from "@/classes/types";
+
 export class Boat {
-  id = 0;
-  size = 0;
-  hp = 0;
-  coords = [];
+  id: BoatId;
+  size: number;
+  hp: number;
+  coords: Coord[] = [];
   placed = false;
   horizontal = true;
   selected = false;
   disabled = false;
   destroyed = false;
+  // MamanBrigitte marks one boat: sinking it takes one of the player's with it.
   doomed = false;
 
-  constructor(size, id) {
+  constructor(size: number, id: BoatId) {
     this.id = id;
     this.size = size;
     this.hp = size;
   }
 
-  select() {
+  select(): void {
     if (!this.disabled) {
       this.selected = true;
     }
   }
 
-  unselect() {
+  unselect(): void {
     this.selected = false;
   }
 
-  disable() {
+  disable(): void {
     this.disabled = true;
   }
 
-  enable() {
+  enable(): void {
     this.disabled = false;
   }
 
-  hit() {
+  hit(): void {
     this.hp--;
     if (this.hp === 0) {
       this.destroyed = true;

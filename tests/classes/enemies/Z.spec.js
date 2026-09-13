@@ -1,14 +1,14 @@
 import { describe, it, expect } from "vitest";
-import { Z } from "@/classes/enemies/Z/Z.js";
-import { Character } from "@/classes/Character.js";
+import { Z } from "@/classes/enemies/Z/Z";
+import { Character } from "@/classes/Character";
 
 describe("Z", () => {
   it("declares a literal class name and its refloating power", () => {
     const z = new Z();
 
     expect(z.className).toBe("Z");
-    // Hardcoded French rather than an i18n key: known debt, frozen as-is.
-    expect(z.mainPower.name).toBe("Remise à flot");
+    // Now a message key, like every other text the classes carry.
+    expect(z.mainPower.name).toBe("z_main_power_name");
     expect(z.mainPower.type).toBe("actif");
   });
 

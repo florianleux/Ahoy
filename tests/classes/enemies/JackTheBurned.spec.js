@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { JackTheBurned } from "@/classes/enemies/JackTheBurned/JackTheBurned.js";
-import { Character } from "@/classes/Character.js";
+import { JackTheBurned } from "@/classes/enemies/JackTheBurned/JackTheBurned";
+import { Character } from "@/classes/Character";
 
 describe("JackTheBurned", () => {
   beforeEach(() => vi.useFakeTimers());

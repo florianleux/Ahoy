@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { Power } from "@/classes/Power.js";
+import { Power } from "@/classes/Power";
 
 describe("Power", () => {
   beforeEach(() => vi.useFakeTimers());

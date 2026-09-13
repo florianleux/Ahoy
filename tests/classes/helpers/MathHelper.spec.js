@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { MathHelper } from "@/classes/helpers/MathHelper.js";
+import { MathHelper } from "@/classes/helpers/MathHelper";
 
 describe("MathHelper", () => {
   it("draws an integer between 0 and the given max, both included", () => {

@@ -8,7 +8,7 @@
 <script setup>
 import { computed } from "vue";
 import { assetUrl } from "@/utils/assets";
-import { game } from "@/game.js";
+import { game } from "@/game";
 
 // What the first screens need before they are shown. Fixed paths on one side;
 // on the other, the ones that depend on which enemy is next, derived from

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import { PlayerProfileHelper } from "@/classes/helpers/PlayerProfileHelper.js";
+import { PlayerProfileHelper } from "@/classes/helpers/PlayerProfileHelper";
 
 describe("PlayerProfileHelper", () => {
   it("picks a catchphrase from its own list", () => {

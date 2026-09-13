@@ -55,7 +55,7 @@
 
 <script setup>
 import { computed, onMounted, onUnmounted, ref, useTemplateRef } from "vue";
-import { game } from "@/game.js";
+import { game } from "@/game";
 import {
   isFullscreen,
   onFullscreenChange,

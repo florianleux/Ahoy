@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { Map } from "@/classes/Map.js";
-import { Fleet } from "@/classes/Fleet.js";
+import { Map } from "@/classes/Map";
+import { Fleet } from "@/classes/Fleet";
 
 // The map reads coordinates off a DOM square's dataset; a plain object is enough.
 const square = (x, y) => ({ dataset: { x: String(x), y: String(y) } });

@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { Player } from "@/classes/Player.js";
-import { PlayerProfileHelper } from "@/classes/helpers/PlayerProfileHelper.js";
+import { Player } from "@/classes/Player";
+import { PlayerProfileHelper } from "@/classes/helpers/PlayerProfileHelper";
 
 describe("Player", () => {
   it("is a character who owns an identity, a catchphrase and the first turn", () => {

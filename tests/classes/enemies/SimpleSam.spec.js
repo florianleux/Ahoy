@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
-import { SimpleSam } from "@/classes/enemies/SimpleSam/SimpleSam.js";
-import { SimpleSamFleet } from "@/classes/enemies/SimpleSam/SimpleSamFleet.js";
+import { SimpleSam } from "@/classes/enemies/SimpleSam/SimpleSam";
+import { SimpleSamFleet } from "@/classes/enemies/SimpleSam/SimpleSamFleet";
 
 describe("SimpleSam", () => {
   it("declares a literal class name and i18n keys, never translated text", () => {

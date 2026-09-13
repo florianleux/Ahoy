@@ -20,14 +20,15 @@ npm run test:watch  # vitest en watch
 
 **Pas de lint pour l'instant** : ESLint 6 ne comprend pas les SFC Vue 3 et a été retiré avec Vue CLI. ESLint 9 en flat config revient avec #63. D'ici là, aucune barrière de formatage automatique.
 
-- Tests : **Vitest** (`vitest.config.mjs`, specs dans `tests/**/*.spec.js`, alias `@` identique à celui de vue-cli). Environnement `jsdom`. Couverture volontairement minimale au départ — les classes de `src/classes/` sont du JS pur sans dépendance Vue, ce sont les seams naturels ; les composants demandent `@vue/test-utils` et le valent rarement ici.
-- **Pas de typecheck** : JS pur, pas de TypeScript.
+- Tests : **Vitest** (configuré dans `vite.config.js`, specs dans `tests/**/*.spec.js`). Environnement `jsdom`. Les classes de `src/classes/` sont du TypeScript sans dépendance Vue, ce sont les seams naturels ; les composants demandent `@vue/test-utils` et le valent rarement ici.
+- **Typecheck** : `npm run typecheck` (`vue-tsc --noEmit`). `src/classes/` est en TypeScript `strict` ; les SFC ne sont pas encore typés, c'est #62 qui les prend et rend le typecheck bloquant.
+- `typescript` est épinglé en `~6.0.0` : la 7.0 n'expose plus l'API JS dont `vue-tsc` dépend. Ne pas passer en `latest`.
 - **Node 24** (`.nvmrc`, `netlify.toml`). Le socle l'exige : `vue-i18n` 11 demande Node >= 22, Node 20 est EOL et Node 22 en maintenance.
 - **Pas de `.npmrc`** : `npm install` réussit sans `legacy-peer-deps`. S'il se met à échouer, l'arbre de dépendances est faux — le corriger, pas remettre le drapeau.
 
 ## Architecture
 
-- La logique de jeu est en **classes JS pures** dans `src/classes/`, en dehors du système de réactivité Vue.
+- La logique de jeu est en **classes TypeScript pures** dans `src/classes/`, en dehors de tout ce qui touche à Vue. Le vocabulaire du domaine est dans `src/classes/types.ts` : `Cell`, `Mood`, `AttackResult`, `EnemyClassName`, et `MessageKey`, dérivé de `fr.json` — une clé morte ou mal orthographiée tombe au typecheck.
 - L'instance unique est créée dans `src/main.js` et injectée via `Vue.prototype.$game`. Les composants la récupèrent avec `data() { return { game: this.$game } }`.
 - **Pas de store.** Vuex a été retiré (le store était vide et jamais lu) : tout l'état passe par `$game`.
 - Persistance : `localStorage.ahoyGame` (JSON de l'objet `Game`), écrit par `newGame()` / `nextLevel()` et relu par `loadGame()` dans `src/classes/Game.js`. Aucune gestion d'erreur (mode privé Safari, quota dépassé).
@@ -58,7 +59,7 @@ Modèle de référence : `src/classes/enemies/SimpleSam/`.
 4. Instancier dans `enemyList` de `src/classes/Game.js` — **l'ordre du tableau = l'ordre des niveaux**.
 5. Images : `public/players/<ClassName>/` (`default`, `joy`, `despair`, `mocking`, `wanted` en `.webp`), `public/boats/<ClassName>/`, et `public/fight/<ClassName>/` si le décor change.
 6. Ajouter le `className` aux tableaux `enemyClasses` de `src/main.js` **et** `src/router/index.js` (nettoyage des classes body).
-7. Tour spécial : ajouter un `case` dans `_enemyTurn()` de `Game.js`. Sinon `_defaultEnemyTurn()` s'applique.
+7. Ajouter le `className` à l'union `EnemyClassName` (`src/classes/types.ts`) et à `GameEnemy` (`src/classes/Game.ts`), puis un `case` dans `_enemyTurn()`. Le `switch` est exhaustif : sans son `case`, **le typecheck échoue**. Un ennemi sans tour spécial met son `case` avec les autres sur `_defaultEnemyTurn()`.
 
 ## Conventions
 

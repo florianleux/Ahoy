@@ -16,7 +16,7 @@
 </template>
 
 <script setup>
-import { game } from "@/game.js";
+import { game } from "@/game";
 </script>
 
 <style scoped lang="less">

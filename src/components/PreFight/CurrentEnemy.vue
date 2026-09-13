@@ -82,7 +82,7 @@
 <script setup>
 import { computed } from "vue";
 import { assetUrl } from "@/utils/assets";
-import { game } from "@/game.js";
+import { game } from "@/game";
 
 // Derived rather than captured: it re-reads on every level change, unlike the
 // data() copy it replaces, which froze the enemy at creation.

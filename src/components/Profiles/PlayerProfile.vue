@@ -17,7 +17,7 @@
 
 <script setup>
 import { assetUrl } from "@/utils/assets";
-import { game } from "@/game.js";
+import { game } from "@/game";
 </script>
 
 <style scoped lang="less">

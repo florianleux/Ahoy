@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { Enemy } from "@/classes/Enemy.js";
-import { Character } from "@/classes/Character.js";
+import { Enemy } from "@/classes/Enemy";
+import { Character } from "@/classes/Character";
 
 // The enemy shuffles its search directions on construction; pinning them makes
 // the cross search readable without changing a line of production code.

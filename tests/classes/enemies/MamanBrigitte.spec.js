@@ -1,14 +1,14 @@
 import { describe, it, expect } from "vitest";
-import { MamanBrigitte } from "@/classes/enemies/MamanBrigitte/MamanBrigitte.js";
-import { MamanBrigitteFleet } from "@/classes/enemies/MamanBrigitte/MamanBrigitteFleet.js";
+import { MamanBrigitte } from "@/classes/enemies/MamanBrigitte/MamanBrigitte";
+import { MamanBrigitteFleet } from "@/classes/enemies/MamanBrigitte/MamanBrigitteFleet";
 
 describe("MamanBrigitte", () => {
   it("declares a literal class name and her bound-souls power", () => {
     const brigitte = new MamanBrigitte();
 
     expect(brigitte.className).toBe("MamanBrigitte");
-    // Hardcoded French rather than an i18n key: known debt, frozen as-is.
-    expect(brigitte.mainPower.name).toBe("Âmes liées");
+    // Now a message key, like every other text the classes carry.
+    expect(brigitte.mainPower.name).toBe("mb_main_power_name");
     expect(brigitte.mainPower.type).toBe("actif");
   });
 

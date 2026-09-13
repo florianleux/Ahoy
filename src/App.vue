@@ -48,7 +48,7 @@
 
 <script setup>
 import { onMounted, onUnmounted, ref, useTemplateRef, watch } from "vue";
-import { game } from "@/game.js";
+import { game } from "@/game";
 import Preloader from "@/components/Preloader.vue";
 import Settings from "@/components/Settings.vue";
 

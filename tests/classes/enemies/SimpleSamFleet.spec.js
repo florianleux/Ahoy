@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { SimpleSamFleet } from "@/classes/enemies/SimpleSam/SimpleSamFleet.js";
+import { SimpleSamFleet } from "@/classes/enemies/SimpleSam/SimpleSamFleet";
 
 describe("SimpleSamFleet", () => {
   it("lines up five identical boats instead of the default increasing sizes", () => {

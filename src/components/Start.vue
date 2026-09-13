@@ -71,8 +71,8 @@ import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
 import { assetUrl } from "@/utils/assets";
-import { game } from "@/game.js";
-import { Game } from "@/classes/Game.js";
+import { game } from "@/game";
+import { Game } from "@/classes/Game";
 import { audioManager } from "@/utils/AudioManager";
 
 const NAME_RULES = [

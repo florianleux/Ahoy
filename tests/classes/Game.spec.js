@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { Game } from "@/classes/Game.js";
+import { Game } from "@/classes/Game";
 
 const startedGame = () => {
   const game = new Game();

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { MoodHelper } from "@/classes/helpers/MoodHelper.js";
+import { MoodHelper } from "@/classes/helpers/MoodHelper";
 
 describe("MoodHelper", () => {
   it("maps each outcome to the mood of the attacker", () => {

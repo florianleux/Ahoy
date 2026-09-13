@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { game } from "@/game.js";
+import { game } from "@/game";
 import Home from "../views/Home.vue";
 import Placement from "../views/Placement.vue";
 import Fight from "../views/Fight.vue";

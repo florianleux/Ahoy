@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { MamanBrigitteFleet } from "@/classes/enemies/MamanBrigitte/MamanBrigitteFleet.js";
+import { MamanBrigitteFleet } from "@/classes/enemies/MamanBrigitte/MamanBrigitteFleet";
 
 describe("MamanBrigitteFleet", () => {
   it("lines up four boats of five squares", () => {

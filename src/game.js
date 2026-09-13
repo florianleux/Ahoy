@@ -1,5 +1,5 @@
 import { reactive } from "vue";
-import { Game } from "@/classes/Game.js";
+import { Game } from "@/classes/Game";
 
 // The single reactive root. Every component and the router import this exact
 // object, and nothing else ever wraps it again: Vue caches one proxy per raw

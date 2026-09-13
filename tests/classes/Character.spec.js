@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { Character } from "@/classes/Character.js";
-import { Boat } from "@/classes/Boat.js";
+import { Character } from "@/classes/Character";
+import { Boat } from "@/classes/Boat";
 
 // Puts a boat of the given size on the target's grid, starting at (x, y) and
 // going right, and makes it the target's whole fleet when `alone` is set.

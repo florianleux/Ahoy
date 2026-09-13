@@ -42,7 +42,7 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { game } from "@/game.js";
+import { game } from "@/game";
 import MapVue from "@/components/Placement/Map.vue";
 import Fleet from "@/components/Placement/Fleet.vue";
 import PlayerProfile from "@/components/Profiles/PlayerProfile.vue";

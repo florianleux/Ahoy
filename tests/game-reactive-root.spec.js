@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import { reactive } from "vue";
-import { Game } from "@/classes/Game.js";
+import { Game } from "@/classes/Game";
 
 // The two things the reactive root has to keep true. Both broke silently under
 // a naive port: a proxied boat compared against a raw one never matches, and

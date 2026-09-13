@@ -78,7 +78,7 @@
 import { computed, ref } from "vue";
 import _ from "lodash";
 import { assetUrl } from "@/utils/assets";
-import { game } from "@/game.js";
+import { game } from "@/game";
 import { useResponsivePosition } from "@/composables/useResponsivePosition";
 
 const BASE_COORDS = { x: 370, y: 180, width: 500, height: 500 };

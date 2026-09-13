@@ -72,7 +72,7 @@
 <script setup>
 import { onMounted, onUnmounted, useTemplateRef, watch } from "vue";
 import { useRouter } from "vue-router";
-import { game } from "@/game.js";
+import { game } from "@/game";
 import PlayerMap from "@/components/Fight/PlayerMap.vue";
 import EnemyMap from "@/components/Fight/EnemyMap.vue";
 import PlayerProfile from "@/components/Profiles/PlayerProfile.vue";
