@@ -1,45 +1,43 @@
-# ahoy
+# Ahoy!
 
-## Project setup
-```
-yarn install
-```
+[▶ Jouer / Play](https://ahoy.florianleux.fr) · [Page du projet / Project page](https://florianleux.fr/dev/ahoy)
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+![Ahoy! – écran d'accueil](https://florianleux.fr/ahoy/ahoy-accueil.webp)
 
-### Compiles and minifies for production
-```
-yarn build
-```
+## 🇫🇷 En français
 
-### Lints and fixes files
-```
-yarn lint
-```
+Une bataille navale pirate qui se joue dans le navigateur.
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Tu places ta flotte, puis tu affrontes l'un après l'autre 5 capitaines ennemis. Chacun a sa propre façon de tirer et ses propres pouvoirs. Il faut donc changer de tactique à chaque combat.
 
-## Netlify Deployment
+J'ai imaginé, conçu et développé le jeu seul. Je l'ai commencé en 2020 pour apprendre Vue.js, puis je l'ai migré vers Vue 3 et TypeScript.
 
-### Certificate Issues
-If you encounter "certificate has expired" errors during deployment:
+- 5 adversaires, chacun avec sa stratégie de tir
+- Placement de la flotte à la souris (clic droit pour pivoter un bateau)
+- Disponible en français et en anglais
+- Musique et effets sonores
 
-1. **Node.js Version**: The project uses Node.js 16 (specified in `.nvmrc`) - compatible with Vue CLI 4.4.0
-2. **Build Configuration**: See `netlify.toml` for build settings
-3. **Environment Variables**: In Netlify dashboard, add:
-   - `NODE_VERSION`: `16`
-   - `NPM_VERSION`: `8`
+## 🇬🇧 In English
 
-### Build Command
+A pirate battleship game you play in your browser.
+
+You place your fleet, then face 5 enemy captains one after another. Each one shoots in their own way and has their own powers, so you need a new tactic for every fight.
+
+I came up with, designed and built the game on my own. I started it in 2020 to learn Vue.js, then moved it to Vue 3 and TypeScript.
+
+- 5 opponents, each with their own shooting strategy
+- Mouse-based fleet placement (right-click to rotate a ship)
+- Available in French and English
+- Music and sound effects
+
+## Stack
+
+Vue 3 · TypeScript · Vite · vue-i18n · Vitest · Netlify
+
+## Lancer en local / Run locally
+
 ```bash
-npm run build
-```
-
-### Publish Directory
-```
-dist
+npm install
+npm run dev    # http://localhost:5173
+npm test
 ```
